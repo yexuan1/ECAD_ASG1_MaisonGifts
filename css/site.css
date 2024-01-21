@@ -1,0 +1,20 @@
+body {
+    font-family : Arial;
+    font-size : 14px;
+}
+
+.page-title {
+    font-size:24px; 
+	font-weight:bold;
+}
+
+.cart-header {
+	/*background-color: #0040FF;*/
+	background-color: #017CA7;
+	color: white;
+}
+
+.button[type="submit"]{
+	background-color: blue;
+	color: blue;
+}
