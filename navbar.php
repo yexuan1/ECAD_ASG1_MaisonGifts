@@ -22,42 +22,46 @@ if (isset($_SESSION["ShopperName"])) {
 
 }
 ?>
-<!-- To Do 3 (Practical 1) - 
-     Display a navbar which is visible before or after collapsing -->
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+<nav class="navbar navbar-expand-md navbar-light" style="background-color: #f5f5dc; padding-top: 1px; padding-bottom: 1px; border-radius: 35px;">
     <div class="container-fluid">
-        <!--Dynamic Text Display-->
-        <span class="navbar-text ms-md-2" style="color:#F7BE81; max-width: 80%;">
-            <?php echo $content1; ?>
-        </span>
-        <!--Toggler/Collapsible Button-->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</nav>
-<!-- To Do 4 (Practical 1) - 
-     Define a collapsible navbar -->
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <div class="container-fluid">
-        <!-- Collapsible part of navbar -->
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <!-- Logo in the middle of the navbar -->
+        <div class="row w-100">
             <!-- Left-justified menu items -->
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="category.php">Product Categories</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="search.php">Product Search</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="shoppingCart.php">ShoppingCart</a>
-                </li>
-            </ul>
+            <div class="col-md-4 d-flex align-items-center" style="font-size: 15px;">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="" style="Text-Decoration:none;" ><strong>Product Categories</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="" ><strong>Product Search</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="" ><strong>ShoppingCart</strong></a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Logo in the middle -->
+            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                <a href="#" class="navbar-brand">
+                    <img src="Images/Logo.png" alt="Logo" class="img-fluid" style="height: 90px; width: auto;" />
+                </a>
+            </div>
+
             <!-- Right-justified menu items -->
-            <ul class="navbar-nav ms-auto">
-                <?php echo $content2; ?>
-            </ul>
+            <div class="col-md-4 d-flex align-items-center justify-content-end">
+                <ul class="navbar-nav" style="font-size: 15px;">
+                    <?php echo $content2; ?>
+                </ul>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Collapsible Navbar -->
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <!-- Additional menu items for collapsible navbar if needed -->
         </div>
     </div>
 </nav>

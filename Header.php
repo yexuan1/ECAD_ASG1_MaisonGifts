@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <a href="index.php">
-                    <img src="Images/mamayaebooks.jpg" alt="Logo" class="img-fluid" style="width: 100%" /></a>
+                    
             </div>
         </div>
         <!-- 2nd Row -->
@@ -32,4 +32,8 @@
         <div class="row">
             <div class="col-sm-12" : style="padding:15px;">
                 <!-- define customised content here -->
+            </div>
+        </div>
+</body>
+
       
