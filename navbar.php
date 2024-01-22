@@ -30,13 +30,13 @@ if (isset($_SESSION["ShopperName"])) {
             <div class="col-md-4 d-flex align-items-center" style="font-size: 15px;">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="" style="Text-Decoration:none;" ><strong>Product Categories</strong></a>
+                        <a class="nav-link" href="category.php" style="Text-Decoration:none;"><strong>Product Categories</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="" ><strong>Product Search</strong></a>
+                        <a class="nav-link" href=""><strong>Product Search</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="" ><strong>ShoppingCart</strong></a>
+                        <a class="nav-link" href=""><strong>ShoppingCart</strong></a>
                     </li>
                 </ul>
             </div>
