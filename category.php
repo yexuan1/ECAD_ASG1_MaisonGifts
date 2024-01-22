@@ -24,20 +24,20 @@ $result = $conn->query($qry);
 //fetch results and display each category in a row
 while ($row = $result->fetch_array()){
     echo "<div class='row' style='padding:5px'>"; //start new row
-    //left column displays a text link showing category name and desc
+
+    //left column displays category's image
+    $img = "./Images/Category/$row[CatImage]";
+    echo "<div class='col-6'>"; //50% of row width
+    echo "<img src='$img' />";
+    echo "</div>";
+
+    //right column displays a text link showing category name and desc
     $catname = urlencode($row["CatName"]);
     $catproduct = "catProduct.php?cid=$row[CategoryID]&catName=$catname";
     echo "<div class='col-6'>"; //50% of row width
     echo "<p><a href=$catproduct>$row[CatName]</a></p>";
     echo "$row[CatDesc]";
     echo "</div>";
-
-    //right column displays category's image
-    $img = "./Images/Category/$row[CatImage]";
-    echo "<div class='col-6'>"; //50% of row width
-    echo "<img src='$img' />";
-    echo "</div>";
-
 
     echo "</div>";
 }

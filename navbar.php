@@ -43,7 +43,7 @@ if (isset($_SESSION["ShopperName"])) {
 
             <!-- Logo in the middle -->
             <div class="col-md-4 d-flex align-items-center justify-content-center">
-                <a href="#" class="navbar-brand">
+                <a href="#" class="navbar-brand"> <!-- add link to index.php? -->
                     <img src="Images/Logo.png" alt="Logo" class="img-fluid" style="height: 90px; width: auto;" />
                 </a>
             </div>
