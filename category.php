@@ -18,12 +18,12 @@ include("Header.php"); //include header layout
 include_once("mysql_conn.php");
 
 //query to retrieve all categories
-$qry = "SELECT * FROM Category";
+$qry = "SELECT * FROM Category ORDER BY CatName ASC"; //in ascending order of category name
 $result = $conn->query($qry);
 
 //fetch results and display each category in a row
 while ($row = $result->fetch_array()){
-    echo "<div class='row' style='padding:5px'>"; //start new row
+    echo "<div class='row' style='padding:10px'>"; //start new row
 
     //left column displays category's image
     $img = "./Images/Category/$row[CatImage]";
