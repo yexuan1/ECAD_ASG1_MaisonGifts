@@ -28,12 +28,14 @@
                 <?php include("navbar.php"); ?>
             </div>
         </div>
-        <!-- 3rd Row -->
+
+        <!-- 2nd Row -->
         <div class="row">
-            <div class="col-sm-12" : style="padding:15px;">
-                <!-- define customised content here -->
+            <div class="col-sm-12">
+                
             </div>
         </div>
+        
 </body>
 
 
