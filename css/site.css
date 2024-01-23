@@ -1,5 +1,5 @@
-body {
-    font-family : Arial;
+body{
+    font-family : Arial, Helvetica, sans-serif;
     font-size : 14px;
 }
 
@@ -18,3 +18,100 @@ body {
 	background-color: blue;
 	color: blue;
 }
+
+/* --------------------- FOOTER ----------------------------- */
+
+.footer {
+	padding: 50px 0;
+	background-color: #696969;
+  }
+  
+.footer-col {
+	width: 25%;
+	padding: 0 15px;
+  }
+  
+.footer-col h4 {
+	font-size: 18px;
+	text-transform: capitalize;
+	margin-bottom: 35px;
+	font-weight: 500;
+	position: relative;
+	color: white;
+  }
+  
+.footer-col h4::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -10px;
+	height: 2px;
+	box-sizing: border-box;
+	background-color: white;
+	width: 50px;
+  }
+  
+.footer-col ul li:not(:last-child) {
+	margin-bottom: 10px;
+  }
+  
+.footer-col ul li a {
+	font-size: 16px;
+	text-transform: capitalize;
+	color: #ffffff;
+	text-decoration: none;
+	font-weight: 300;
+	color: #bbbbbb;
+	display: block;
+	transition: all 0.3s ease;
+  }
+  
+.footer-col ul li a:hover {
+	color: #ffffff;
+	padding-left: 10px;
+  }
+  
+.footer-col .social-links a {
+	display: inline-block;
+	height: 40px;
+	width: 40px;
+	background-color: #b7b9bb;
+	margin: 0 10px 10px 0;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 50%;
+	color: white;
+	transition: all 0.5s ease;
+  }
+  
+.footer-col .social-links a:hover {
+	color: #24262b;
+	background-color: #ffffff;
+  }
+  
+.copyright {
+	color: #bbbbbb;
+  }
+  
+.row_1 {
+	display: flex;
+	flex-wrap: wrap;
+  }
+
+/* --------------------- RESPONSIVE ----------------------------- */
+  @media only screen and (max-width: 767px) {
+	/*-----------------FOOTER----------------------*/
+	.footer-col {
+		width: 50%;
+		margin-bottom: 30px;
+	  }
+
+  }
+
+  @media only screen and (max-width: 400px) {
+	 /*-----------------FOOTER----------------------*/
+	 .footer-col {
+		width: 50%;
+		margin-bottom: 30px;
+	  }
+  }
