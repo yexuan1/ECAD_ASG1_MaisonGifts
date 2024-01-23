@@ -29,12 +29,6 @@
             </div>
         </div>
 
-        <!-- 2nd Row -->
-        <div class="row">
-            <div class="col-sm-12">
-                
-            </div>
-        </div>
         
 </body>
 

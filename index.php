@@ -7,11 +7,6 @@ session_start();
 include("header.php");
 ?>
 
-<?php
-
-include("slider.php");
-?>
-
 
 <?php
 // Include the Page Layout footer

@@ -1,54 +1,3 @@
-<?php
-include("mysql_conn.php");
-
-$sql = "SELECT * FROM product";
-
-$qry = mysqli_query($conn, $sql);
-
-if (!$qry) {
-    die("Error: " . mysqli_error($conn));
-}
-
-$li = "";
-$i = 0;
-$div = '';
-
-while ($row = mysqli_fetch_array($qry)) {
-    $productTitle = $row['ProductTitle'];
-    $productImage = $row['ProductImage'];
-
-
-    $imagePath = 'Images/Products/' . $productImage;
-
-    if ($i == 0) {
-        $li .= '<li data-target="#myCarousel" data-slide-to="' . $i . '" class="active"></li>';
-        $div .= '
-            <div class="item active">
-                <img src="' . $imagePath . '" alt="' . $productTitle . '" style="width:100%; height: 600px;">
-                <div class="carousel-caption">
-                    <h3>' . $productTitle . '</h3>
-
-                </div>
-            </div>
-        ';
-    } else {
-        $li .= '<li data-target="#myCarousel" data-slide-to="' . $i . '"></li>';
-        $div .= '
-            <div class="item">
-                <img src="' . $imagePath . '" alt="' . $productTitle . '"style="width:100%; height:600px;">
-                <div class="carousel-caption">
-                    <h3>' . $productTitle . '</h3>
-
-                </div>
-            </div>
-        ';
-    }
-    $i++;
-}
-
-$div .= '</div>'; // Move this line outside the loop
-
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -65,11 +14,23 @@ $div .= '</div>'; // Move this line outside the loop
 <div class="container">
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
-            <?php echo $li; ?>
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
         </ol>
 
         <div class="carousel-inner">
-            <?php echo $div; ?>
+            <div class="item active">
+                <img src="Images\Products\Blissful_Bundle.jpg" alt="Los Angeles" style="width:100%; height: 400px;">
+            </div>
+
+            <div class="item">
+                <img src="Images\Products\Blooms_of_Sunshine.jpg" alt="Chicago" style="width:100%; height: 400px;">
+            </div>
+            
+            <div class="item">
+                <img src="Images\Products\Blossoming_Health.jpg" alt="New york" style="width:100%; height: 400px;">
+            </div>
         </div>
 
         <a class="left carousel-control" href="#myCarousel" data-slide="prev">
