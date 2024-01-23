@@ -19,13 +19,21 @@ if (isset($_SESSION["ShopperName"])) {
 
     //To Do 2 (Practical 4) - 
     //Display number of item in cart
-
+    if (isset($_SESSION["NumCartItem"]))
+    {
+        $content1 .= ",$_SESSION[NumCartItem] item(s) in shopping cart";
+    }
 }
 ?>
 <nav class="navbar navbar-expand-md navbar-light" style="background-color: #f5f5dc; padding-top: 1px; padding-bottom: 1px; border-radius: 35px;">
     <div class="container-fluid">
+    <span class="navbar-text ms-md-2"
+          style="max-width: 80%;">
+             <?php echo $content1; ?>
+        </span>
         <!-- Logo in the middle of the navbar -->
         <div class="row w-100">
+
             <!-- Left-justified menu items -->
             <div class="col-md-4 d-flex align-items-center" style="font-size: 15px;">
                 <ul class="navbar-nav">
@@ -36,7 +44,7 @@ if (isset($_SESSION["ShopperName"])) {
                         <a class="nav-link" href=""><strong>Product Search</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""><strong>Shopping Cart</strong></a>
+                        <a class="nav-link" href="shoppingCart.php"><strong>Shopping Cart</strong></a>
                     </li>
                 </ul>
             </div>

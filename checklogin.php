@@ -18,10 +18,20 @@ $result = $conn->query($qry);
 
 if ($result->num_rows > 0) {
 	// Save user's info in session variables
-	while ($row = $result->fetch_array())
-	$_SESSION["ShopperName"] = $row["Name"];
-	$_SESSION["ShopperID"] = $row["ShopperID"];
-	
+	while ($row = $result->fetch_array()){
+		$_SESSION["ShopperName"] = $row["Name"];
+		$_SESSION["ShopperID"] = $row["ShopperID"];
+		$sid = $_SESSION["ShopperID"];
+			$qry = "SELECT sc.ShopCartID, COUNT(sci.ProductID) AS NumItems FROM ShopCart sc LEFT JOIN ShopCartItem sci ON sc.ShopCartID = sci.ShopCartID WHERE sc.ShopperID=$sid AND sc.OrderPlaced = 0";
+			$result = $conn->query($qry);
+
+			if ($result->num_rows > 0) {
+				while ($row = $result->fetch_array()){
+					$_SESSION["Cart"] = $row["ShopCartID"];
+					$_SESSION["NumCartItem"] = $row["NumItems"];
+				}
+	}
+}
 	// To Do 2 (Practical 4): Get active shopping cart
 	
 	// Redirect to home page
