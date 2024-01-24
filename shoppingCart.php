@@ -13,7 +13,7 @@ if (! isset($_SESSION["ShopperID"])) { // Check if user logged in
 echo "<div id='myShopCart' style='margin:auto'>"; // Start a container
 if (isset($_SESSION["Cart"])) {
 	include_once("mysql_conn.php");
-	// To Do 1 (Practical 4): 
+
 	// Retrieve from database and display shopping cart in a table
 	$qry = "SELECT *, (Price*Quantity) AS Total
 		FROM ShopCartItem WHERE ShopCartID=?";
@@ -25,7 +25,7 @@ if (isset($_SESSION["Cart"])) {
 
 	
 	if ($result->num_rows > 0) {
-		// To Do 2 (Practical 4): Format and display 
+
 		// the page header and header row of shopping cart page
 		echo "<p class='page-title' style='text-align:center'>Shopping Cart</p>"; 
 		echo "<div class='table-responsive' >"; // Bootstrap responsive table
@@ -40,12 +40,11 @@ if (isset($_SESSION["Cart"])) {
 		echo "</tr>"; 
 		echo "</thead>"; 
 		
-		
-		// To Do 5 (Practical 5):
+
 		// Declare an array to store the shopping cart items in session variable 
 		$_SESSION["Items"]=array();
 
-		// To Do 3 (Practical 4): 
+
 		// Display the shopping cart content
 		$subTotal = 0; // Declare a variable to compute subtotal before tax
 		echo "<tbody>"; // Start of table's body section
@@ -55,7 +54,7 @@ if (isset($_SESSION["Cart"])) {
 			echo "Product ID: $row[ProductID]</td>"; $formattedPrice = number_format($row["Price"], 2); 
 			echo "<td>$formattedPrice</td>"; 
 			echo "<td>"; // Column for update quantity of purchase 
-			echo "<form action = 'cart Functions.php' method='post'>"; 
+			echo "<form action = 'cartFunctions.php' method='post'>"; 
 			echo "<select name='quantity' onChange='this.form.submit()'>"; 
 			for ($i = 1; $i <= 10; $i++) { // To populate drop-down list from 1 to 10 
 				if($i== $row["Quantity"]) 
@@ -83,7 +82,6 @@ if (isset($_SESSION["Cart"])) {
 			echo "</tr>";
 
 			
-			// To Do 6 (Practical 5):
 		    // Store the shopping cart items in session variable as an associate array
 			$_SESSION["Items"][] = array("productId"=>$row["ProductID"],
 										"name"=>$row["Name"],
@@ -97,12 +95,22 @@ if (isset($_SESSION["Cart"])) {
 		echo "</table>"; // End of table
 		echo "</div>"; // End of Bootstrap responsive table
 				
-		// To Do 4 (Practical 4): 
+		
 		// Display the subtotal at the end of the shopping cart
-		echo "<p style'text-align:right; font-size:20px'>
-			Subtotal = S$". number_format($subTotal, 2);
-			$_SESSION["SubTotal"] = round($subTotal,2);
-		// To Do 7 (Practical 5):
+		echo "<p style='text-align:right; font-size:20px'>
+		Subtotal = S$". number_format($subTotal, 2) . "<br>";
+		$_SESSION["SubTotal"] = round($subTotal, 2);
+
+		$shipCharge = $_SESSION["ShipCharge"];
+
+		// Check if the subtotal is more than S$200 and adjust the delivery charge accordingly
+		if ($_SESSION["SubTotal"] > 200) {
+		$shipCharge = 0; // Waive the delivery charge
+		echo "Delivery Charge: S$0.00<br>";
+		} else {
+		echo "Delivery Charge: S$". number_format($shipCharge, 2). "<br>";
+		}
+		
 		// Add PayPal Checkout button on the shopping cart page
 		echo "<form method='post' action='checkoutProcess.php'>";
 		echo "<input type='image' style='float:right;'
