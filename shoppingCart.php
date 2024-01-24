@@ -101,7 +101,13 @@ if (isset($_SESSION["Cart"])) {
 		Subtotal = S$". number_format($subTotal, 2) . "<br>";
 		$_SESSION["SubTotal"] = round($subTotal, 2);
 
-		$shipCharge = $_SESSION["ShipCharge"];
+		if (isset($_SESSION["ShipCharge"])) {
+			$shipCharge = $_SESSION["ShipCharge"];
+			
+		} else {
+			
+			$shipCharge = 0; // Default value, change it accordingly
+		}
 
 		// Check if the subtotal is more than S$200 and adjust the delivery charge accordingly
 		if ($_SESSION["SubTotal"] > 200) {
