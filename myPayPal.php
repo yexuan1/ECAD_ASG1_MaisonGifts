@@ -1,13 +1,13 @@
 <?php
 $PayPalMode 		= 'sandbox'; // sandbox or live
-$PayPalApiUsername 	= 'sb-hsqce26655727_api1.business.example.com'; 		//PayPal API Username
-$PayPalApiPassword 	= 'W26LPTNC3DVDBJ7M'; 		//Paypal API password
-$PayPalApiSignature = 'AgUGxKs4vGiEqeit6IyHkIjDJVpeAdpK2INC5CipgledU94imb1tewyz'; 		//Paypal API Signature
+$PayPalApiUsername 	= 'sb-mhgy4726655511_api1.business.example.com'; 		//PayPal API Username
+$PayPalApiPassword 	= '43LRM83FC447FXBA'; 		//Paypal API password
+$PayPalApiSignature = 'Aw0WlTAvud71F3pXHI2jyKX2-h07ATfm.lyCT6CF0Ig82dKpxFkvl3ci'; 		//Paypal API Signature
 $PayPalCurrencyCode = 'SGD'; //Paypal Currency Code
 //URL to redirect to after PayPal has complete the online payment
-$PayPalReturnURL 	= 'http://localhost:8081/Mamaya_S10242599/checkoutProcess.php'; 
+$PayPalReturnURL 	= 'http://localhost:8081//MaisonGifts/ECAD_ASG1_MaisonGifts/checkoutProcess.php'; 
 //URL to redirect to if user clicks cancel                
-$PayPalCancelURL 	= 'http://localhost:8081/Mamaya_S10242599/shoppingCart.php'; 
+$PayPalCancelURL 	= 'http://localhost:8081//MaisonGifts/ECAD_ASG1_MaisonGifts/shoppingCart.php'; 
                 	
 function PPHttpPost($methodName_, $nvpStr_, $PayPalApiUsername, $PayPalApiPassword, 
                     $PayPalApiSignature, $PayPalMode) {

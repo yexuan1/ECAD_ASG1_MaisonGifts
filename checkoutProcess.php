@@ -8,20 +8,21 @@ if($_POST) //Post Data received from Shopping cart page.
 {
 	// To Do 6 (DIY): Check to ensure each product item saved in the associative
 	//                array is not out of stock
-	foreach($_SESSION["Items"] as $items){
-		$selectPID = $items["productId"];
+	
+	foreach($_SESSION["Items"] as $items) {
+		$selectPid = $items["productId"];
 		$qry = "SELECT Quantity FROM product WHERE ProductID = ?";
 		$stmt = $conn->prepare($qry);
-		$stmt ->bind_param("i", $selectPID);
-		$stmt ->execute();
+		$stmt -> bind_param("i", $selectPid);
+		$stmt -> execute();
 		$result = $stmt -> get_result();
 		$stmt ->close();
 		$row = $result->fetch_assoc();
 		$qty = $row["Quantity"];
-		$availQty=(int)$qty;
+		$availQty = (int)$qty;
 		if ($availQty < $items["quantity"])
 		{
-			echo "Product $item[productId] : $item[name] is out of stock!<br />";
+			echo "Product $items[productId] : $items[name] is out of stock!<br />";
 			echo "Please return to shopping cart to amend your purchase.<br />";
 			include("footer.php");
 			exit;
@@ -40,8 +41,7 @@ if($_POST) //Post Data received from Shopping cart page.
 	}
 	
 	// To Do 1A: Compute GST amount 7% for Singapore, round the figure to 2 decimal places
-	$_SESSION["Tax"] = round($_SESSION["SubTotal"]*0.08, 2);
-
+	$_SESSION["Tax"] = round($_SESSION["SubTotal"]*0.09,2);
 	
 	// To Do 1B: Compute Shipping charge - S$2.00 per trip
 	$_SESSION["ShipCharge"] = 2.00;
@@ -136,40 +136,36 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 		$qry = "SELECT * FROM shopcartitem WHERE ShopCartID = ?";
 		$stmt = $conn->prepare($qry);
 		$stmt ->bind_param("i", $_SESSION["Cart"]);
-		$stmt ->execute();
+		$stmt -> execute();
 		$result2 = $stmt->get_result();
 		$stmt->close();
-		//Reduce the stock quantity
-		if($result2->num_rows > 0)
-		{
+		if($result2->num_rows > 0){
 			while ($row = $result2->fetch_array()){
 				$cartItem = $row["ProductID"];
 				$cartQuantity = $row["Quantity"];
-				$qry = "UPDATE product SET Quantity = Quantity - ? 
+				$qry = "UPDATE product SET Quantity = Quantity - ?
 				WHERE ProductID = $cartItem";
 				$stmt = $conn->prepare($qry);
-				$stmt->bind_param("i", $row["Quantity"]);
+				$stmt-> bind_param("i", $row["Quantity"]);
 				$stmt->execute();
 				$stmt->close();
 			}
-			
 		}
 
-			
 		
 		// End of To Do 5
 	
 		// To Do 2: Update shopcart table, close the shopping cart (OrderPlaced=1)
-		$total = $_SESSION["SubTotal"] + $_SESSION["Tax"] + $_SESSION["ShipCharge"];
-		$qry = "UPDATE shopcart SET OrderPlaced=1, Quantity = ?,
-				SubTotal = ?, ShipCharge =?, Tax=?, Total=?
-				WHERE ShopCartID =?";
+		$total = $_SESSION["Subtotal"] + $_SESSION["Tax"] + $_SESSION["ShipCharge"];
+		$qry = "UPDATE shopcart SET OrderPlaced = 1, Quantity = ?,
+				SubTotal = ?, ShipCharge=?, Tax=?,Total=?
+				WHERE ShopCartID=?";
 		$stmt = $conn->prepare($qry);
-		$stmt->bind_param("iddddi", $_SESSION["NumCartItem"],
-						$_SESSION["SubTotal"], $_SESSION["ShipCharge"],
-						$_SESSION["Tax"], $total,
-						$_SESSION["Cart"]);
-		
+		// "i" - integer, "d" - double
+		$stmt-> bind_param("iddddi", $_SESSION["NumCartItem"],
+							$_SESSION["SubTotal"], $_SESSION["ShipCharge"],
+							$_SESSION["Tax"], $total,
+							$_SESSION["Cart"]);
 		$stmt->execute();
 		$stmt->close();
 
@@ -213,10 +209,9 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			$qry = "INSERT INTO orderdata (ShipName, ShipAddress, ShipCountry,
 											ShipEmail, ShopCartID)
 					VALUES (?, ?, ?, ?, ?)";
-
 			$stmt = $conn->prepare($qry);
-
-			$stmt->bind_param("ssssi", $ShipName, $ShipAddress, $ShipCountry,
+			// "i" - integer, "s" - string
+			$stmt -> bind_param("ssssi", $ShipName, $ShipAddress, $ShipCountry,
 								$ShipEmail, $_SESSION["Cart"]);
 			$stmt->execute();
 			$stmt->close();
@@ -224,17 +219,16 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			$result = $conn->query($qry);
 			$row = $result ->fetch_array();
 			$_SESSION["OrderID"] = $row["OrderID"];
+
 			// End of To Do 3
 				
 			$conn->close();
 				  
 			// To Do 4A: Reset the "Number of Items in Cart" session variable to zero.
 			$_SESSION["NumCartItem"] = 0;
-
-		  		
+	  		
 			// To Do 4B: Clear the session variable that contains Shopping Cart ID.
 			unset($_SESSION["Cart"]);
-
 			
 			// To Do 4C: Redirect shopper to the order confirmed page.
 			header("Location: orderConfirmed.php");

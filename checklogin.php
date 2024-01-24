@@ -10,7 +10,7 @@ $pwd = $_POST["password"];
 
 // validating login credentials with database
 include_once("mysql_conn.php"); // sql connection string php file
-$qry = "SELECT * FROM Shopper WHERE Email LIKE '%$email%' AND Password LIKE '%$pwd%'";
+$qry = "SELECT * FROM shopper WHERE Email LIKE '%$email%' AND Password LIKE '%$pwd%'";
 $result = $conn->query($qry);
 
 
