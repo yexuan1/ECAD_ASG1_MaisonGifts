@@ -114,7 +114,6 @@ function updateItem() {
 }
 
 
-
 function removeItem() {
     // Check if shopping cart exists 
     if (!isset($_SESSION["Cart"])) {
@@ -151,6 +150,46 @@ function removeItem() {
     exit;
 }
 
+function shippingRate() {
+	    // Check if shopping cart exists 
+	if (!isset($_SESSION["Cart"])) {
+        // redirect to login page if the session variable cart is not set
+        header("Location: login.php");
+        exit;
+    }
+
+	$shipOption = $_POST['deliveryOption'];
+
+	$cartid = $_SESSION["Cart"];
+	if ($_SESSION["SubTotal"] > 200) {
+		$shipCharge = 0; // Waive the delivery charge
+		$shipOption = "express";
+	} 
+
+	else if ($shipOption = 'express')
+	{
+		$shipCharge = 10;
+	}
+
+	else if ($shipOption = 'normal')
+	{
+		$shipCharge = 5;
+	}
+
+
+	include_once("mysql_conn.php"); // Establish database connection handle: $conn
+
+
+    $qry = "UPDATE ShopCart SET ShipCharge=? WHERE ShopCartID=?";
+    $stmt = $conn->prepare($qry);
+    $stmt->bind_param("di", $shipCharge, $cartid);
+    $stmt->execute();
+    $stmt->close();
+
+
+	header("Location: shoppingCart.php");
+    exit;
+}
 
 
 ?>
