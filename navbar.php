@@ -17,12 +17,6 @@ if (isset($_SESSION["ShopperName"])) {
     <li class='nav-item'>
     <a class = 'nav-link' href='logout.php'>Logout</a></li>";
 
-    //To Do 2 (Practical 4) - 
-    //Display number of item in cart
-    if (isset($_SESSION["NumCartItem"]))
-    {
-        $content1 .= ",$_SESSION[NumCartItem] item(s) in shopping cart";
-    }
 }
 ?>
 <nav class="navbar navbar-expand-md navbar-light" style="background-color: #f5f5dc; padding-top: 1px; padding-bottom: 1px; border-radius: 35px;">

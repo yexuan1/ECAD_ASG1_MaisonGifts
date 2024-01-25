@@ -68,6 +68,8 @@ function addItem() {
 		$stmt->close();
 		$addNewItem = 1;
 	}
+	
+	
   	$conn->close();
   	// Update session variable used for counting number of items in the shopping cart.
 	if (isset($_SESSION["NumCartItem"])) {
@@ -101,12 +103,17 @@ function updateItem() {
 	$stmt->execute();
 	$stmt->close();
 	$conn->close();
+
+
+
 	header ("Location: shoppingCart.php");
 	exit;
 
 
 
 }
+
+
 
 function removeItem() {
     // Check if shopping cart exists 

@@ -46,6 +46,8 @@ if (isset($_SESSION["Cart"])) {
 
 
 		// Display the shopping cart content
+
+		$totalItems = 0;// Declare a variable to store the total number of items in the cart
 		$subTotal = 0; // Declare a variable to compute subtotal before tax
 		echo "<tbody>"; // Start of table's body section
 		while ($row = $result->fetch_array()) {
@@ -63,7 +65,7 @@ if (isset($_SESSION["Cart"])) {
 			
 				else 
 					$selected = ""; // No specific item is selected 
-			echo "<option value='$i' $selected>$i</option>"; 
+				echo "<option value='$i' $selected>$i</option>"; 
 			}
 			echo "</select>";
 			echo "<input type='hidden' name='action' value='update' />"; 
@@ -90,11 +92,15 @@ if (isset($_SESSION["Cart"])) {
 			
 			// Accumulate the running sub-total
 			$subTotal += $row["Total"];
+			// Update the total quantity
+			$totalItems += $row["Quantity"];
+
 		}
 		echo "</tbody>"; // End of table's body section
 		echo "</table>"; // End of table
 		echo "</div>"; // End of Bootstrap responsive table
-				
+		// Display the total number of items in the cart
+		echo "<p style='text-align:right; font-size:20px'>Total Items in Cart: $totalItems</p>";		
 		
 		// Display the subtotal at the end of the shopping cart
 		echo "<p style='text-align:right; font-size:20px'>
