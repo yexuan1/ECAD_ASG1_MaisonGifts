@@ -13,7 +13,7 @@ include("header.php");
 </head>
 
 <body>
-    <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
+    <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel" style="margin-top:40px; ">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true"
                 aria-label="Slide 1"></button>
@@ -88,28 +88,28 @@ $stmt->execute();
 $result = $stmt->get_result();
 $stmt->close();
 
-// Display each product in a row 
+echo "<div class='container-fluid'>"; // Use container-fluid for a full-width container
 while ($row = $result->fetch_array()) {
-  echo "<div class='row' style='padding:5px'>"; //start a new row
+    echo "<div class='row' style='padding:5px; margin-top: 20px;'>"; // Start a new row
 
-  //Left column - display a text link showing the product's name,
-  //        display the selling price in red in a new paragraph
-  $product = "productDetails.php?pid=$row[ProductID]";
-  $formattedPrice = number_format($row["Price"], 2);
-  echo "<div class='col-8'>"; //67% of row width 
-  echo "<p><a href=$product>$row[ProductTitle]</a></p>";
-  echo "Price:<span style='font-weight: bold; color: red;'>
-    S$ $formattedPrice</span>";
-  echo "</div>";
+    // Left column - display a text link showing the product's name,
+    // display the selling price in red in a new paragraph
+    $product = "productDetails.php?pid=$row[ProductID]";
+    $formattedPrice = number_format($row["Price"], 2);
+    echo "<div class='col-md-8'>"; // Use col-md-8 for 67% of row width on medium and larger screens
+    echo "<p><a href=$product>$row[ProductTitle]</a></p>";
+    echo "Price:<span style='font-weight: bold; color: red;'>S$ $formattedPrice</span>";
+    echo "</div>";
 
-  //Right column - display the product's image
-  $img = "./Images/products/$row[ProductImage]";
-  echo "<div class = 'col-4'>"; //33% of row width
-  echo "<img src = '$img'/>";
-  echo "</div>";
+    // Right column - display the product's image
+    $img = "./Images/products/$row[ProductImage]";
+    echo "<div class='col-md-4'>"; // Use col-md-4 for 33% of row width on medium and larger screens
+    echo "<img src='$img' class='img-fluid'/>"; // Use img-fluid class for responsive images
+    echo "</div>";
 
-  echo "</div>"; //End of a row
+    echo "</div>"; // End of a row
 }
+echo "</div>"; // End of container
 
 
 // To Do:  Ending ....
