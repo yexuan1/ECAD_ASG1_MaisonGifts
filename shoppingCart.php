@@ -47,7 +47,7 @@ if (isset($_SESSION["Cart"])) {
 
 		// Display the shopping cart content
 
-		$totalItems = 0;// Declare a variable to store the total number of items in the cart
+		$totalItems = 0; // Declare a variable to store the total number of items in the cart
 		$subTotal = 0; // Declare a variable to compute subtotal before tax
 		echo "<tbody>"; // Start of table's body section
 		while ($row = $result->fetch_array()) {
@@ -65,7 +65,7 @@ if (isset($_SESSION["Cart"])) {
 					$selected = "selected";
 				else
 					$selected = ""; // No specific item is selected 
-					echo "<option value='$i' $selected>$i</option>";
+				echo "<option value='$i' $selected>$i</option>";
 			}
 			echo "</select>";
 			echo "<input type='hidden' name='action' value='update' />";
@@ -96,53 +96,53 @@ if (isset($_SESSION["Cart"])) {
 			$subTotal += $row["Total"];
 			// Update the total quantity
 			$totalItems += $row["Quantity"];
-
 		}
 		echo "</tbody>"; // End of table's body section
 		echo "</table>"; // End of table
 		echo "</div>"; // End of Bootstrap responsive table
 		// Display the total number of items in the cart
-		echo "<p style='text-align:right; font-size:20px'>Total Items in Cart: $totalItems</p>";		
-		
+		echo "<p style='text-align:right; font-size:20px'>Total Items in Cart: $totalItems</p>";
+
 
 		// Display the subtotal at the end of the shopping cart
 		echo "<p style='text-align:right; font-size:20px'>
 		Subtotal = S$" . number_format($subTotal, 2) . "<br>";
 		$_SESSION["SubTotal"] = round($subTotal, 2);
+		/*
+		if ($_SESSION["SubTotal"] > 200) {
 
-		if ($_SESSION["SubTotal"] > 200)
-		{
-			
-		}
 
-		echo "<form method='POST' action='shoppingCart.php'>";
-		echo "<input type='radio' name='deliveryOption' value='normal' /> ";
-		echo "<label for='normal'>Normal Delivery $5 (Delivered within 2 working days after an order is placed)</label> <br> ";
-		echo "<input type='radio' name='deliveryOption' value='express'/> ";
-		echo "<label for='express'>Express Delivery $10 (Delivered within 24 hours after an order is placed)</label><br>";
-		echo "<input type='submit' value='Confirm' name='Confirm'>";
-		echo "</form>";
-
-		$selectedDeliveryOption = "";
-
-		if (isset($_POST['deliveryOption'])) {
-			// Retrieve the selected delivery option
-			$selectedDeliveryOption =$_POST['deliveryOption'] ;
-	
-			
-			echo "<td>$selectedDeliveryOption</td>";
-	
-			// Add your additional processing logic here
 		} 
-		
-
 		else {
-			// Handle the case where deliveryOption is not set or empty
-			echo "Please select a delivery option.";
+			echo "<form method='POST' action='shoppingCart.php'>";
+			echo "<input type='radio' name='deliveryOption' value='normal' /> ";
+			echo "<label for='normal'>Normal Delivery $5 (Delivered within 2 working days after an order is placed)</label> <br> ";
+			echo "<input type='radio' name='deliveryOption' value='express'/> ";
+			echo "<label for='express'>Express Delivery $10 (Delivered within 24 hours after an order is placed)</label><br>";
+			echo "<input type='submit' value='Confirm' name='Confirm'>";
+			echo "</form>";
+
+			$selectedDeliveryOption = "";
+
+			if (isset($_POST['deliveryOption'])) {
+				// Retrieve the selected delivery option
+				$selectedDeliveryOption = $_POST['deliveryOption'];
+				$_SESSION['deliveryOption'] = $selectedDeliveryOption;
+
+
+				echo "<td>$selectedDeliveryOption</td>";
+
+				// Add your additional processing logic here
+			} 
+			else {
+				// Handle the case where deliveryOption is not set or empty
+				echo "Please select a delivery option.";
+			}
+			
 		}
+		*/
 
 
-	   
 
 		include_once("mysql_conn.php");
 
@@ -153,7 +153,7 @@ if (isset($_SESSION["Cart"])) {
 		$stmt->execute();
 		$result = $stmt->get_result();
 		$stmt->close();
-	
+
 		if ($result->num_rows > 0) {
 			echo "Delivery Charge: S$" . $row["ShipCharge"] . "<br>";
 		}
@@ -181,20 +181,22 @@ if (isset($_SESSION["Cart"])) {
 			echo "Delivery Charge: S$" . number_format($shipCharge ,2 ) . "<br>";
 		}
 		*/
-
+		/*
 		// Add PayPal Checkout button on the shopping cart page
 		echo "<form method='post' action='checkoutProcess.php'>";
 		echo "<input type='image' style='float:right;'
 					src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>";
 		echo "</form></p>";
+		*/
+		echo "<form method='post' action='checkoutDetails.php'>";
+		echo "<input type='submit' value='Confirm' name='Confirm'>";
+		echo "</form></p>";
 	} else {
 		echo "<h3 style='text-align:center; color:red;'>Empty shopping cart!</h3>";
 	}
 	$conn->close(); // Close database connection
-} 
-else {
+} else {
 	echo "<h3 style='text-align:center; color:red;'>Empty shopping cart!</h3>";
 }
 echo "</div>"; // End of container
 include("footer.php"); // Include the Page Layout footer
-?>
