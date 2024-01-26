@@ -44,7 +44,7 @@ if (isset($_SESSION["ShopperName"])) {
                     <a class="nav-link" href="category.php"><strong>Product Categories</strong></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href=""><strong>Product Search</strong></a>
+                    <a class="nav-link" href="search.php"><strong>Product Search</strong></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="shoppingCart.php"><strong>Shopping Cart</strong></a>
