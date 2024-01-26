@@ -20,51 +20,43 @@ if (isset($_SESSION["ShopperName"])) {
 }
 ?>
 <nav class="navbar navbar-expand-md navbar-light" style="background-color: #f5f5dc; padding-top: 1px; padding-bottom: 1px; border-radius: 35px;">
-    <div class="container-fluid">
-    <span class="navbar-text ms-md-2"
-          style="max-width: 80%;">
-             <?php echo $content1; ?>
+    <div class="container">
+
+        <a href="index.php" class="navbar-brand d-flex align-items-center">
+            <img src="Images/Logo.png" alt="Logo" class="img-fluid" style="height: 90px; width: auto;" />
+        </a>
+        <span class="navbar-text ms-md-2" style="max-width: 80%;">
+            <?php echo $content1; ?>
         </span>
-        <!-- Logo in the middle of the navbar -->
-        <div class="row w-100">
 
-            <!-- Left-justified menu items -->
-            <div class="col-md-4 d-flex align-items-center" style="font-size: 15px;">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="category.php" style="Text-Decoration:none;"><strong>Product Categories</strong></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href=""><strong>Product Search</strong></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="shoppingCart.php"><strong>Shopping Cart</strong></a>
-                    </li>
-                </ul>
-            </div>
+        
+       
 
-            <!-- Logo in the middle -->
-            <div class="col-md-4 d-flex align-items-center justify-content-center">
-                <a href="index.php" class="navbar-brand"> <!-- add link to index.php? -->
-                    <img src="Images/Logo.png" alt="Logo" class="img-fluid" style="height: 90px; width: auto;" />
-                </a>
-            </div>
-
-            <!-- Right-justified menu items -->
-            <div class="col-md-4 d-flex align-items-center justify-content-end">
-                <ul class="navbar-nav" style="font-size: 15px;">
-                    <?php echo $content2; ?>
-                </ul>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-        </div>
-
+        <!-- Toggler Button for Small Screens -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <!-- Collapsible Navbar -->
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <!-- Additional menu items for collapsible navbar if needed -->
+            <!-- Centered menu items -->
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="category.php"><strong>Product Categories</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="search.php"><strong>Product Search</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="shoppingCart.php"><strong>Shopping Cart</strong></a>
+                </li>
+            </ul>
+
+            <!-- Right-justified menu items -->
+            <ul class="navbar-nav">
+                <?php echo $content2; ?>
+            </ul>
         </div>
+
+    
     </div>
 </nav>
-
