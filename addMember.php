@@ -11,6 +11,15 @@ $password = $_POST["password"];
 $selectedQuestion = $_POST["security-question"];
 $selectAnswer = $_POST["answer"];
 
+$questionList = array(
+    "what is your shopper name",
+    "when was your last purchase date",
+    "what is your email",
+    "when was your last login"
+);
+
+$questionIndex = $questionList[$selectedQuestion];
+
 // Include the PHP file that establishes database connection handle: $conn
 include_once("mysql_conn.php");
 
@@ -19,7 +28,7 @@ $qry = "INSERT INTO Shopper (Name, Address, Country, Phone, Email, Password, Pwd
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; //??? are placeholders
 $stmt = $conn->prepare($qry);
 // "ssssss" - 6 string parameters
-$stmt->bind_param("ssssssss", $name, $address, $country, $phone, $email, $password, $selectedQuestion, $selectAnswer);
+$stmt->bind_param("ssssssss", $name, $address, $country, $phone, $email, $password, $questionIndex, $selectAnswer);
 
 if ($stmt->execute()) { // SQL statement executed successfully
     // Retrieve the Shopper ID assigned to the new shopper
@@ -34,9 +43,7 @@ if ($stmt->execute()) { // SQL statement executed successfully
     Your ShopperID is $_SESSION[ShopperID]<br />";
     //Save the Shopper name in a session variable
     $_SESSION["ShopperName"] = $name;
-
-}
-else { //Error message
+} else { //Error message
     $Message = "<h3 style='color:red'>Error in inserting record</h3>";
 }
 
@@ -51,4 +58,3 @@ include("header.php");
 echo $Message;
 //Display Page Layout footer
 include("footer.php");
-?>
