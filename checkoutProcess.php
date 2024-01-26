@@ -41,7 +41,7 @@ if($_POST) //Post Data received from Shopping cart page.
 	}
 	
 	// To Do 1A: Compute GST amount 7% for Singapore, round the figure to 2 decimal places
-	$_SESSION["Tax"] = round($_SESSION["SubTotal"]*0.09,2);
+	
 
 	//Data to be sent to PayPal
 	$padata = '&CURRENCYCODE='.urlencode($PayPalCurrencyCode).

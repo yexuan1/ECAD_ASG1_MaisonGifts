@@ -143,22 +143,6 @@ if (isset($_SESSION["Cart"])) {
 		*/
 
 
-
-		include_once("mysql_conn.php");
-
-		// Retrieve from database and display shopping cart in a table
-		$qry = "SELECT * FROM ShopCart WHERE ShopCartID=?";
-		$stmt = $conn->prepare($qry);
-		$stmt->bind_param("i", $_SESSION["Cart"]);
-		$stmt->execute();
-		$result = $stmt->get_result();
-		$stmt->close();
-
-		if ($result->num_rows > 0) {
-			echo "Delivery Charge: S$" . $row["ShipCharge"] . "<br>";
-		}
-
-
 		// Check if the subtotal is more than S$200 and adjust the delivery charge accordingly
 		/*
 		$selectedDeliveryOption = $_POST['deliveryOption'];
