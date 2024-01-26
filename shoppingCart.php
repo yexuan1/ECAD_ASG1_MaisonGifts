@@ -15,8 +15,9 @@ if (isset($_SESSION["Cart"])) {
 	include_once("mysql_conn.php");
 
 	// Retrieve from database and display shopping cart in a table
-	$qry = "SELECT *, (Price*Quantity) AS Total
-		FROM ShopCartItem WHERE ShopCartID=?";
+	$qry = "SELECT p.ProductID,  p.Offered, p.OfferedPrice, p.OfferStartDate, p.OfferEndDate , sci.ShopCartID, sci.ProductID, sci.Price, sci.Name, sci.Quantity, (sci.Price*sci.Quantity) AS Total
+		FROM ShopCartItem sci INNER JOIN product p  on sci.ProductID=p.ProductID
+		WHERE ShopCartID=?";
 	$stmt = $conn->prepare($qry);
 	$stmt->bind_param("i", $_SESSION["Cart"]);
 	$stmt->execute();
@@ -51,38 +52,80 @@ if (isset($_SESSION["Cart"])) {
 		$subTotal = 0; // Declare a variable to compute subtotal before tax
 		echo "<tbody>"; // Start of table's body section
 		while ($row = $result->fetch_array()) {
-			echo "<tr>";
-			echo "<td style='width:50%'>$row[Name]<br/>";
-			echo "Product ID: $row[ProductID]</td>";
-			$formattedPrice = number_format($row["Price"], 2);
-			echo "<td>$formattedPrice</td>";
-			echo "<td>"; // Column for update quantity of purchase 
-			echo "<form action = 'cartFunctions.php' method='post'>";
-			echo "<select name='quantity' onChange='this.form.submit()'>";
-			for ($i = 1; $i <= 10; $i++) { // To populate drop-down list from 1 to 10 
-				if ($i == $row["Quantity"])
-					// Select drop-down list item with value same as the quantity of purchase
-					$selected = "selected";
-				else
-					$selected = ""; // No specific item is selected 
-				echo "<option value='$i' $selected>$i</option>";
-			}
-			echo "</select>";
-			echo "<input type='hidden' name='action' value='update' />";
-			echo "<input type='hidden' name='product_id' value='$row[ProductID]' />";
-			echo "</form>";
-			echo "</td>";
-			$formattedTotal = number_format($row["Total"], 2);
-			echo "<td>$formattedTotal</td>";
-			echo "<td>"; // Column for remove item from shopping cart 
-			echo "<form action = 'cartFunctions.php' method='post'>";
-			echo "<input type='hidden' name='action' value='remove' />";
-			echo "<input type='hidden' name='product_id' value='$row[ProductID]' />";
-			echo "<input type='image' src='images/trash-can.png' title='Remove Item'/>";
-			echo "</form>";
-			echo "</td>";
-			echo "</tr>";
 
+			$onOffer = $row["Offered"];
+			if ($onOffer == 1 && (date("Y-m-d") >= $row["OfferStartDate"]) && (date("Y-m-d") <= $row["OfferEndDate"])) {
+				$row["Total"] = $row["OfferedPrice"] * $row["Quantity"];
+				echo "<tr>";
+				echo "<td style='width:50%'>$row[Name]<br/>";
+				echo "Product ID: $row[ProductID]</td>";
+				$formattedPrice = number_format($row["OfferedPrice"], 2);
+				echo "<td>$formattedPrice</td>";
+
+				echo "<td>"; // Column for update quantity of purchase 
+				echo "<form action = 'cartFunctions.php' method='post'>";
+				echo "<select name='quantity' onChange='this.form.submit()'>";
+				for ($i = 1; $i <= 10; $i++) { // To populate drop-down list from 1 to 10 
+					if ($i == $row["Quantity"])
+						// Select drop-down list item with value same as the quantity of purchase
+						$selected = "selected";
+					else
+						$selected = ""; // No specific item is selected 
+					echo "<option value='$i' $selected>$i</option>";
+				}
+				echo "</select>";
+				echo "<input type='hidden' name='action' value='update' />";
+				echo "<input type='hidden' name='product_id' value='$row[ProductID]' />";
+				echo "</form>";
+				echo "</td>";
+				$formattedTotal = number_format($row["Total"], 2);
+				echo "<td>$formattedTotal</td>";
+				echo "<td>"; // Column for remove item from shopping cart 
+				echo "<form action = 'cartFunctions.php' method='post'>";
+				echo "<input type='hidden' name='action' value='remove' />";
+				echo "<input type='hidden' name='product_id' value='$row[ProductID]' />";
+				echo "<input type='image' src='images/trash-can.png' title='Remove Item'/>";
+				echo "</form>";
+				echo "</td>";
+				echo "</tr>";
+				
+			}
+			 else {
+				// Calculate the total without the discount
+				$row["Total"] = $row["Price"] * $row["Quantity"];
+				echo "<tr>";
+				echo "<td style='width:50%'>$row[Name]<br/>";
+				echo "Product ID: $row[ProductID]</td>";
+				$formattedPrice = number_format($row["Price"], 2);
+				echo "<td>$formattedPrice</td>";
+
+				echo "<td>"; // Column for update quantity of purchase 
+				echo "<form action = 'cartFunctions.php' method='post'>";
+				echo "<select name='quantity' onChange='this.form.submit()'>";
+				for ($i = 1; $i <= 10; $i++) { // To populate drop-down list from 1 to 10 
+					if ($i == $row["Quantity"])
+						// Select drop-down list item with value same as the quantity of purchase
+						$selected = "selected";
+					else
+						$selected = ""; // No specific item is selected 
+					echo "<option value='$i' $selected>$i</option>";
+				}
+				echo "</select>";
+				echo "<input type='hidden' name='action' value='update' />";
+				echo "<input type='hidden' name='product_id' value='$row[ProductID]' />";
+				echo "</form>";
+				echo "</td>";
+				$formattedTotal = number_format($row["Total"], 2);
+				echo "<td>$formattedTotal</td>";
+				echo "<td>"; // Column for remove item from shopping cart 
+				echo "<form action = 'cartFunctions.php' method='post'>";
+				echo "<input type='hidden' name='action' value='remove' />";
+				echo "<input type='hidden' name='product_id' value='$row[ProductID]' />";
+				echo "<input type='image' src='images/trash-can.png' title='Remove Item'/>";
+				echo "</form>";
+				echo "</td>";
+				echo "</tr>";
+			}
 
 			// Store the shopping cart items in session variable as an associate array
 			$_SESSION["Items"][] = array(
@@ -92,7 +135,8 @@ if (isset($_SESSION["Cart"])) {
 				"quantity" => $row["Quantity"]
 			);
 
-			// Accumulate the running sub-total
+
+
 			$subTotal += $row["Total"];
 			// Update the total quantity
 			$totalItems += $row["Quantity"];
