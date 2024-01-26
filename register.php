@@ -92,6 +92,19 @@ function validateForm()
                    type="password" required /> (required)
         </div>
     </div>
+    <hr>
+    <div class="col-sm-9 offset-sm-3">
+        <h1>Security Question</h1>
+            <label for="security">Select a question: </label>
+            
+           <select class='security' name='security-question'>
+                    <option value="what is your shopper name">what is your shopper name</option>
+                    <option value="when was your last purchase date">when was your last purchase date</option>
+                    <option value="what is your email">what is your email</option>
+                    <option value="when was your last login">when was your last login</option>
+            </select>
+            <input class="security" name="answer" type="text" required>
+    </div>
     <div class="mb-3 row">       
         <div class="col-sm-9 offset-sm-3">
             <button type="submit">Register</button>
@@ -99,6 +112,7 @@ function validateForm()
     </div>
 </form>
 </div>
+
 <?php 
 // Include the Page Layout footer
 include("footer.php"); 

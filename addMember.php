@@ -8,16 +8,18 @@ $country = $_POST["country"];
 $phone = $_POST["phone"];
 $email = $_POST["email"];
 $password = $_POST["password"];
+$selectedQuestion = $_POST["security-question"];
+$selectAnswer = $_POST["answer"];
 
 // Include the PHP file that establishes database connection handle: $conn
 include_once("mysql_conn.php");
 
 //Define the INSERT SQL statement
-$qry = "INSERT INTO Shopper (Name, Address, Country, Phone, Email, Password) 
-        VALUES (?, ?, ?, ?, ?, ?)"; //??? are placeholders
+$qry = "INSERT INTO Shopper (Name, Address, Country, Phone, Email, Password, PwdQuestion, PwdAnswer) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; //??? are placeholders
 $stmt = $conn->prepare($qry);
 // "ssssss" - 6 string parameters
-$stmt->bind_param("ssssss", $name, $address, $country, $phone, $email, $password);
+$stmt->bind_param("ssssssss", $name, $address, $country, $phone, $email, $password, $selectedQuestion, $selectAnswer);
 
 if ($stmt->execute()) { // SQL statement executed successfully
     // Retrieve the Shopper ID assigned to the new shopper
