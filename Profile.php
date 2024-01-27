@@ -1,9 +1,8 @@
 <?php
-// Detect the current session
 session_start();
-// Include the Page Layout header
 include("Header.php");
 ?>
+
 <script type="text/javascript">
     function validateForm() {
         // To Do 1 - Check if password matched
@@ -31,42 +30,31 @@ include("Header.php");
     }
 </script>
 
+
 <div style="width:80%; margin:auto;">
-    <form name="register" action="addMember.php" method="post" onsubmit="return validateForm()">
-        <div class="mb-3 row">
-            <div class="col-sm-9 offset-sm-3">
-                <span class="page-title">Membership Registration</span>
-            </div>
-        </div>
-        <div class="mb-3 row">
+    <form name="register" action="updateProfile.php" method="post" onsubmit="return validateForm()">
+        <div class="mb-3 row mt-5">
             <label class="col-sm-3 col-form-label" for="name">Name:</label>
             <div class="col-sm-9">
-                <input class="form-control" name="name" id="name" type="text" required />
+                <input class="form-control" name="name" id="name" type="text" required /> 
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-3 col-form-label" for="address">Address:</label>
             <div class="col-sm-9">
-                <textarea class="form-control" name="address" id="address" cols="25" rows="4"></textarea>
+                <textarea class="form-control" name="address" id="address" cols="25" rows="4" required></textarea>
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-3 col-form-label" for="country">Country:</label>
             <div class="col-sm-9">
-                <input class="form-control" name="country" id="country" type="text" />
-            </div>
-        </div>
-        <div class="mb-3 row">
-            <label class="col-sm-3 col-form-label" for="birthDate">Birth Date:</label>
-            <div class="col-sm-9">
-                <input class="form-control" name="birthDate" id="birthDate" type="text" onfocus="(this.type='date')"
-                onblur="(this.type='text')">
+                <input class="form-control" name="country" id="country" type="text" required/>
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-3 col-form-label" for="phone">Phone:</label>
             <div class="col-sm-9">
-                <input class="form-control" name="phone" id="phone" type="tel"/>
+                <input class="form-control" name="phone" id="phone" type="tel" required/>
             </div>
         </div>
         <div class="mb-3 row">
@@ -87,26 +75,12 @@ include("Header.php");
             <label class="col-sm-3 col-form-label" for="password2">
                 Retype Password:</label>
             <div class="col-sm-9">
-                <input class="form-control" name="password2" id="password2" type="password" required />
+                <input class="form-control" name="password2" id="password2" type="password" required /> 
             </div>
-        </div>
-
-        <div class="mb-3 row">
-            <label class="col-sm-3 col-form-label"for="security">Security Question: </label>
-            <div class="col-sm-9 mt-2">
-                <select name='security-question' class="col-sm-12" style="padding:5px 10px;border-radius:10px;">
-                    <option value="0">what is your shopper name</option>
-                    <option value="1">when was your last purchase date</option>
-                    <option value="2">what is your email</option>
-                    <option value="3">when was your last login</option>
-                </select>
-                <input class="form-control mt-3" name="answer" type="text" style="height: 30px;" required>
-            </div>
-
         </div>
         <div class="mb-3 row">
             <div class="col-sm-9 offset-sm-3">
-                <button type="submit" style="border-radius: 5px;">Register</button>
+                <button type="submit">Update</button>
             </div>
         </div>
     </form>

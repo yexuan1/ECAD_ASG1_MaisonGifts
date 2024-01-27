@@ -15,6 +15,8 @@ if (isset($_SESSION["ShopperName"])) {
     $content2 = "<li class='nav-item'>
     <a class = 'nav-link' href='changePassword.php'>Change Password</a></li>
     <li class='nav-item'>
+    <a class='nav-link' href='Profile.php'>My Profile</a></li>
+    <li class='nav-item'>
     <a class = 'nav-link' href='logout.php'>Logout</a></li>";
 
 }
