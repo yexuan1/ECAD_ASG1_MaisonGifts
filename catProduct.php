@@ -8,7 +8,7 @@ include("Header.php"); //include page layout header
     <!-- Page header, Cat's name is read from query string from prev page -->
     <div class="row" style="padding: 5px;">
         <div class="col-12">
-            <span class="page-title"><?php echo "$_GET[catName]";?></span>
+            <span class="page-title"><?php echo "$_GET[catName]"; ?></span>
         </div>
     </div>
 
@@ -17,7 +17,7 @@ include("Header.php"); //include page layout header
 
     $cid = $_GET["cid"]; //read cat id from query string
     //sql query to retrieve products associated to the category
-    $qry = "SELECT p.ProductID, p.ProductTitle, p.ProductImage, p.Price, p.Quantity
+    $qry = "SELECT p.ProductID, p.ProductTitle, p.ProductImage, p.Price, p.Quantity, p.Offered, p.OfferedPrice, p.OfferStartDate, p.OfferEndDate
             FROM CatProduct cp INNER JOIN product p on cp.ProductID=p.ProductID
             WHERE cp.CategoryID=?";
     $stmt = $conn->prepare($qry);
@@ -27,18 +27,44 @@ include("Header.php"); //include page layout header
     $stmt->close();
 
     //display each product in a row
-    while ($row = $result->fetch_array()){
+    while ($row = $result->fetch_array()) {
         echo "<div class='row' style='padding: 10px'>"; //new row
 
         //left column displays text link showing product's name
-        //displays selling price in black
-        $product = "productDetails.php?pid=$row[ProductID]";
-        $formattedPrice = number_format($row["Price"], 2);
-        echo "<div class='col-6'>"; //50% of row width
-        echo "<p><a href=$product>$row[ProductTitle]</a></p>";
-		echo "Price:<span style='font-weight:bold; color: salmon;'>
+        //displays selling price in salmon
+        //logic: Product on sale--> display the IF. Not on sale --> display the else
+        //onOffer must be == 1 and current date must be between offerStart and offerEnd date, i.e. more than or equal to start date, but less than or equal to end date
+        $onOffer = $row["Offered"];
+        if ($onOffer == 1 && (date("Y-m-d") >= $row["OfferStartDate"]) && (date("Y-m-d") <= $row["OfferEndDate"])){
+            echo "<p style='font-size: 15px';>$row[ProductTitle] is on offer!</p>";
+            $product = "productDetails.php?pid=$row[ProductID]";
+            $formattedPrice = number_format($row["Price"], 2);
+            echo "<div class='col-6'>"; //50% of row width
+            $offerPrice = $row["OfferedPrice"];
+            echo "<p><a href=$product>$row[ProductTitle]</a></p>";
+            echo "Price:<span style='font-weight:bold; color: salmon; text-decoration: line-through;'>
+			  S$ $formattedPrice</span>"; //OG Price
+            echo "<br />";
+            echo "Offer Price:<span style='font-weight:bold; color: salmon;'>
+			  S$ $offerPrice</span>"; //Discounted Price
+        }
+        else{
+            $product = "productDetails.php?pid=$row[ProductID]";
+            $formattedPrice = number_format($row["Price"], 2);
+            echo "<div class='col-6'>"; //50% of row width
+            echo "<p><a href=$product>$row[ProductTitle]</a></p>";
+            echo "Price:<span style='font-weight:bold; color: salmon;'>
 			  S$ $formattedPrice</span>";
-		echo "</div>";
+        }
+
+        //stock indicator
+        $quantity = $row["Quantity"];
+        if ($quantity > 0) {
+            echo "<p style='color:darkgreen;'>In Stock!</p>"; //maybe add green color to the wording?
+        } else {
+            echo "<p style='color: red;'>Out of Stock!</p>"; //red color
+        }
+        echo "</div>";
 
         //right column displays product's image
         $img = "./Images/Products/$row[ProductImage]";
@@ -53,4 +79,3 @@ include("Header.php"); //include page layout header
     echo "</div>"; //close container
     include("footer.php"); //include footer layout
     ?>
-

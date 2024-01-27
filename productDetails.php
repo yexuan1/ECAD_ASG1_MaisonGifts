@@ -19,13 +19,16 @@ include("Header.php"); // header layout
     $stmt->close();
 
     //display product info
-    while($row = $result->fetch_array()){
+    while ($row = $result->fetch_array()) {
         //display product title
         echo "<div class='row'>";
         echo "<div class='col-sm-12' style='padding:10px'>";
         echo "<span class='page-title'>$row[ProductTitle]</span>";
         echo "</div>";
         echo "</div>";
+
+        //quantity
+        $quantity = $row["Quantity"];
 
         echo "<div class='row'>"; //start new row
         //left column displays product's desc
@@ -37,42 +40,66 @@ include("Header.php"); // header layout
                 INNER JOIN specification s on ps.SpecID=s.SpecID
                 WHERE ps.ProductID=? ORDER BY ps.priority";
         $stmt = $conn->prepare($qry);
-        $stmt->bind_param("i",$pid); //i is int for pid
+        $stmt->bind_param("i", $pid); //i is int for pid
         $stmt->execute();
         $result2 = $stmt->get_result();
         $stmt->close();
-        while ($row2 = $result2->fetch_array()){
+        while ($row2 = $result2->fetch_array()) {
             echo $row2["SpecName"] . ": " . $row2["SpecVal"] . "<br />";
-
         }
         echo "</div>"; //end of left col
-        
+
         //right column displays product's image
         $img = "./Images/Products/$row[ProductImage]";
         echo "<div class='col-sm-3' style='vertical-align: top; padding: 10px'>";
         echo "<img src='$img' width='300' height='300' />";
 
         //display product price
-        $formattedPrice = number_format($row["Price"], 2);
-        echo "Price: <span style='font-weight:bold; color: salmon;'>
+        $formattedPrice = number_format($row["Price"], 2); //OG Price
+
+        $onOffer = $row["Offered"];
+        if ($onOffer == 1){
+            $offerPrice = $row["OfferedPrice"];
+            echo "Price: <span style='font-weight:bold; color: salmon; text-decoration: line-through;'>
                 S$ $formattedPrice</span>";
+            echo "<span style='font-weight:bold; color: salmon;'>
+			  S$ $offerPrice</span>"; //Discounted Price
+        }
+        else{
+            echo "Price:<span style='font-weight:bold; color: salmon;'>
+			  S$ $formattedPrice</span>";
+        }
     }
 
-    //button for adding product to shopping cart
-    echo "<form action='cartFunctions.php' method='post'>"; //for Checkout process to implement
-    echo "<input type='hidden' name='action' value='add' />";
-    echo "<input type='hidden' name='product_id' value='$pid' />";
-    echo "Quantity: <input type='number' name='quantity' value='1'
+    if ($quantity > 0) {
+        //button for adding product to shopping cart
+        echo "<form action='cartFunctions.php' method='post'>"; //for Checkout process to implement
+        echo "<input type='hidden' name='action' value='add' />";
+        echo "<input type='hidden' name='product_id' value='$pid' />";
+        echo "Quantity: <input type='number' name='quantity' value='1'
                     min='1' max='10' style='width:40px' required />";
-    echo "<button type='submit' style='background: #0066A2; color: white;
-    border-style: outset; border-color: #0066A2; margin-left: 10px'>Add to Cart</button>";
-    echo "</form>";
-    echo "</div>"; //end of right column
-    echo "</div>"; //end of row
+        echo "<button type='submit' style='background: #0066A2; color: white;
+        border-style: outset; border-color: #0066A2; margin-left: 10px'>Add to Cart</button>";
+        echo "</form>";
+        echo "</div>"; //end of right column
+        echo "</div>"; //end of row
+    } else {
+        //button for adding product to shopping cart
+        //make button GRAY; unclickable 
+        echo "<form action='cartFunctions.php' method='post'>"; //for Checkout process to implement
+        echo "<input type='hidden' name='action' value='add' />";
+        echo "<input type='hidden' name='product_id' value='$pid' />";
+        echo "Quantity: <input type='number' name='quantity' value='1'
+                    min='1' max='10' style='width:40px' required />";
+        echo "<button disabled type='submit' style='background: gray; color: white;
+        border-style: outset; border-color: #0066A2; margin-left: 10px'>Add to Cart</button>";
+        echo "<p style='color:red';>Out of stock!</p>";
+        echo "</form>";
+        echo "</div>"; //end of right column
+        echo "</div>"; //end of row
+    }
 
     $conn->close(); // Close database connnection
     echo "</div>"; // End of container
     include("footer.php"); // footer layout
     ?>
-
-
