@@ -10,6 +10,7 @@ $email = $_POST["email"];
 $password = $_POST["password"];
 $selectedQuestion = $_POST["security-question"];
 $selectAnswer = $_POST["answer"];
+$birthDate = $_POST["birthDate"];
 //when user select a question to fulfill, this is define by index to based on the selected question 
 $questionList = array(
     "what is your shopper name",
@@ -39,11 +40,11 @@ if($row = $result->fetch_assoc()){
 }
 
     //Define the INSERT SQL statement
-$qry = "INSERT INTO Shopper (Name, Address, Country, Phone, Email, Password, PwdQuestion, PwdAnswer) 
-VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; //??? are placeholders
+$qry = "INSERT INTO Shopper (Name, BirthDate,Address, Country, Phone, Email, Password, PwdQuestion, PwdAnswer) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)"; //??? are placeholders
 $stmt = $conn->prepare($qry);
 // "ssssss" - 6 string parameters
-$stmt->bind_param("ssssssss", $name, $address, $country, $phone, $email, $password, $questionIndex, $selectAnswer);
+$stmt->bind_param("sssssssss", $name, $birthDate,$address, $country, $phone, $email, $password, $questionIndex, $selectAnswer);
 
 if ($stmt->execute()) { // SQL statement executed successfully
     // Retrieve the Shopper ID assigned to the new shopper

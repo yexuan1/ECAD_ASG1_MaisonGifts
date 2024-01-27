@@ -32,6 +32,14 @@ if ($result->num_rows > 0) {
 				}
 	}
 }
+//update status to active of shopper when login based on shopper id
+$ActiveStatus = 1;
+$qry = "UPDATE Shopper set ActiveStatus=? where ShopperID=?";
+$stmt = $conn->prepare($qry);
+$stmt->bind_param("ii", $ActiveStatus,$_SESSION["ShopperID"]);
+$stmt->execute();
+$stmt->close();
+
 	// To Do 2 (Practical 4): Get active shopping cart
 	
 	// Redirect to home page
