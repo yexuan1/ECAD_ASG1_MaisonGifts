@@ -1,6 +1,6 @@
 <?php
 //Connection Parameters
-$servername = 'localhost';
+$servername = 'localhost:3307'; //:3307
 $username = 'root';
 $userpwd = '';
 $dbname = 'maisongifts';

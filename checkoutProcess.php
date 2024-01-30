@@ -198,9 +198,6 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			
 			$billEmail = urldecode($httpParsedResponseAr["EMAIL"]);			
 			
-			
-			// To Do 3: Insert an Order record with shipping information
-			//          Get the Order ID and save it in session variable.
 
 
 
@@ -211,44 +208,55 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 				$shipAddress = $item["shipAddress"];
 				$shipCountry = $item["shipCountry"];
 				$shipEmail = $item["shipEmail"];
-			}
-			echo $shipName;
-			echo $shipPhone;
-			echo $shipAddress;
-			echo $shipCountry;
-			echo $shipEmail;
+				$message = $item["message"];
 
+				$shippingDetails[] = array(
+					"Name" => $shipName,
+					"Phone" => $shipPhone,
+					"Address" => $shipAddress,
+					"Country" => $shipCountry,
+					"Email" => $shipEmail,
+					"Message" => $message,
+				);
+			}
+			foreach ($shippingDetails as $detail) {
+				echo "Name: " . $detail["Name"] . "<br>";
+				echo "Phone: " . $detail["Phone"] . "<br>";
+				echo "Address: " . $detail["Address"] . "<br>";
+				echo "Country: " . $detail["Country"] . "<br>";
+				echo "Email: " . $detail["Email"] . "<br>";
+			}
 			$cartId = $_SESSION["Cart"];
-			
+		
+			$deliveryMode = $_SESSION["DeliveryMode"];
+			$deliveryTime = $_SESSION["DeliveryTime"];
 			$todayDate = new DateTime();
 			$dateTimeString = $todayDate->format('Y-m-d H:i:s');
 			$qry = "INSERT INTO orderdata (ShipName, ShipAddress, ShipCountry,
 											ShipEmail, ShipPhone, BillName, 
-											BillAddress, BillCountry, BillPhone, BillEmail, ShopCartID)
-					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+											BillAddress, BillCountry, BillPhone, BillEmail, DeliveryMode, DeliveryTime, Message, ShopCartID)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			$stmt = $conn->prepare($qry);
 			// "i" - integer, "s" - string
-			$stmt -> bind_param("ssssssssssi", $shipName, $shipAddress, $shipCountry,
+			$stmt -> bind_param("sssssssssssssi", $shipName, $shipAddress, $shipCountry,
 								$shipEmail, $shipPhone, $billName, 
-								$billAddress, $billCountry, $billPhone, $shipEmail, $cartId);
+								$billAddress, $billCountry, $shipPhone, $billEmail, $deliveryMode, $deliveryTime , $message, $cartId);
 			$stmt->execute();
 			$stmt->close();
 			$qry = "SELECT LAST_INSERT_ID() AS OrderID";
 			$result = $conn->query($qry);
 			$row = $result ->fetch_array();
 			$_SESSION["OrderID"] = $row["OrderID"];
-
-			// End of To Do 3
-				
+			
 			$conn->close();
 				  
-			// To Do 4A: Reset the "Number of Items in Cart" session variable to zero.
+			//Reset the "Number of Items in Cart" session variable to zero.
 			$_SESSION["NumCartItem"] = 0;
 	  		
-			// To Do 4B: Clear the session variable that contains Shopping Cart ID.
+			//Clear the session variable that contains Shopping Cart ID.
 			unset($_SESSION["Cart"]);
 			
-			// To Do 4C: Redirect shopper to the order confirmed page.
+			//Redirect shopper to the order confirmed page.
 			header("Location: orderConfirmed.php");
 			exit;
 		} 
