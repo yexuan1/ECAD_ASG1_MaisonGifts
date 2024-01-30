@@ -33,7 +33,7 @@ include("header.php");
                 </div>
             </div>
             <div class="carousel-item">
-                <img class="bd-placeholder-img" width="100%" height="100%" src="Images\carousel2.png" aria-hidden="true"
+                <img class="bd-placeholder-img" width="100%" height="100%" src="Images\carousel2.jpg" aria-hidden="true"
                     preserveAspectRatio="xMidYMid slice" focusable="false">
                 <rect width="100%" height="100%" fill="var(--bs-secondary-color)" />
                 </svg>
@@ -46,7 +46,7 @@ include("header.php");
                 </div>
             </div>
             <div class="carousel-item">
-                <img class="bd-placeholder-img" width="100%" height="100%" src="Images\carousel2.png" aria-hidden="true"
+                <img class="bd-placeholder-img" width="100%" height="100%" src="Images\carousel2.jpg" aria-hidden="true"
                     preserveAspectRatio="xMidYMid slice" focusable="false">
                 <rect width="100%" height="100%" fill="var(--bs-secondary-color)" />
                 </svg>

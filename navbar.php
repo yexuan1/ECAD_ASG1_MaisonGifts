@@ -51,6 +51,9 @@ if (isset($_SESSION["ShopperName"])) {
                 <li class="nav-item">
                     <a class="nav-link" href="shoppingCart.php"><strong>Shopping Cart</strong></a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Reviews.php"><strong>Reviews</strong></a>
+                </li>
             </ul>
 
             <!-- Right-justified menu items -->

@@ -21,6 +21,156 @@ body{
 
 /*Registration*/
 
+/*feedback*/
+
+
+.star{
+    display: inline-block;
+    text-align: center;
+}
+
+.star label{
+    margin: 10px;
+    font-size: 40px;
+    color: #1D9286;
+    transition: all .2s ease;
+    float: right;
+}
+
+.ranking-star{
+    display: none;
+}
+
+input:not(:checked) ~ label:hover,
+input:not(:checked) ~ label:hover ~ label
+{
+    color: #ffc227;
+    font-size: 43px;
+}
+
+input:checked ~ label{
+    color: #ffc227;
+}
+
+input#rate-5:checked ~ label{
+    color: #ffc227;
+    text-shadow: 0 0 20px #ffff00;
+    float: left;
+}
+
+#rate-1:checked ~ header::before{
+    content:"😤😤😤😤😤";
+}
+
+#rate-2:checked ~ header::before{
+    content:"😒😒😒😒😒";
+}
+
+#rate-3:checked ~ header::before{
+    content:"😀😀😀😀😀";
+}
+
+#rate-4:checked ~ header::before{
+    content:"😘😘😘😘😘";
+}
+
+#rate-5:checked ~ header::before{
+    content:"😍😍😍😍😍";
+}
+
+.customer-feedback{
+    height: 150px;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #1D9286;
+    margin-block: 1rem;
+    text-align: left;
+    cursor:text;
+    overflow: hidden;
+}
+
+.form{
+    width: 100%;
+    margin: auto;
+    display: none;
+	position: relative;
+	margin-top: 3rem;
+}
+
+input:checked ~ .form{
+    display: block;
+}
+
+textarea{
+    resize: none;
+    background-color: #1D9286;
+    outline: none;
+    border: 1px solid #1D9286;
+    color: white;
+    font-size: 1rem;
+    padding: 5px;
+    height: 100%;
+    width: 100%;
+}
+
+textarea::placeholder{
+    color: white;
+}
+
+.subject{
+	position: absolute;
+	margin-top: -3rem;
+	width: 100%;
+	border-radius: 10px;
+	padding-left: 10px;
+	font-size: 1rem;
+}
+
+.btn{
+    width: 100%;
+}
+
+.btn button{
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    outline: none;
+    border: #1D9286;
+    color: white;
+    background-color: #1D9286;
+    text-transform: uppercase;
+    font-size: 1rem;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all .2s ease;
+}
+
+button:hover{
+    background: #034b43;
+    font-size: 1.2rem;
+}
+/*feedback*/
+/*Review*/
+table{
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+
+
+.feedback-body tr{
+  width: 100%;
+}
+
+.feedback-body td{
+  width: 100px;
+}
+
+
+td:nth-child(4){
+  padding-left: 4rem;
+}
+/*Review*/
+
 
 
 /* --------------------- FOOTER ----------------------------- */
