@@ -88,6 +88,13 @@ if (isset($_SESSION["Cart"])) {
 				echo "</form>";
 				echo "</td>";
 				echo "</tr>";
+
+				$_SESSION["Items"][] = array(
+					"productId" => $row["ProductID"],
+					"name" => $row["Name"],
+					"price" => $row["OfferedPrice"],
+					"quantity" => $row["Quantity"]
+				);
 				
 			}
 			 else {
@@ -125,15 +132,17 @@ if (isset($_SESSION["Cart"])) {
 				echo "</form>";
 				echo "</td>";
 				echo "</tr>";
+
+				$_SESSION["Items"][] = array(
+					"productId" => $row["ProductID"],
+					"name" => $row["Name"],
+					"price" => $row["Price"],
+					"quantity" => $row["Quantity"]
+				);
 			}
 
 			// Store the shopping cart items in session variable as an associate array
-			$_SESSION["Items"][] = array(
-				"productId" => $row["ProductID"],
-				"name" => $row["Name"],
-				"price" => $row["Price"],
-				"quantity" => $row["Quantity"]
-			);
+
 
 
 

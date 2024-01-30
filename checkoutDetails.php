@@ -16,6 +16,7 @@ if (isset($_SESSION["Cart"])) {
     $_SESSION["ShipCharge"] = 0;
     $_SESSION["DeliveryMode"] = "";
     $shipCharge = 0;
+    $_SESSION["shippingItems"] = array();
 
     include_once("mysql_conn.php");
 
@@ -31,7 +32,7 @@ if (isset($_SESSION["Cart"])) {
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_array()) {
             echo "<p>Shipping Details</p>";
-            echo "<form action = 'checkoutDetails.php' method='post'>";
+            echo "<form method='POST' action = 'checkoutDetails.php'>";
             echo "<label for='name'> Name: </label>";
             echo "<input type='text' name='name' value='$row[Name]' /><br></br>";
             echo "<label for='address'> Address: </label>";
@@ -42,20 +43,46 @@ if (isset($_SESSION["Cart"])) {
             echo "<input type='text' name='phone' value='$row[Phone]' /><br></br>";
             echo "<label for='email'> Email: </label>";
             echo "<input type='text' name='email' value='$row[Email]' /><br></br>";
+            echo "<input type='submit' value='Confirm' name='Confirm'>";
             echo "</form>";
+
         }
-
-
-
+       
     }
+
+    if (
+        isset($_POST["name"]) &&
+        isset($_POST["phone"]) &&
+        isset($_POST["address"]) &&
+        isset($_POST["country"]) &&
+        isset($_POST["email"])
+    ) {
+        // Add shipping information to the shippingItems array
+        $_SESSION["shippingItems"][] = array(
+            "shipName"    => $_POST["name"],
+            "shipPhone"   => $_POST["phone"],
+            "shipAddress" => $_POST["address"],
+            "shipCountry" => $_POST["country"],
+            "shipEmail"   => $_POST["email"]
+        );
+
+        echo $_SESSION["shippingItems"]["shipName"];
+    } else {
+        // Handle the case where some POST variables are not set
+        echo "Error: Some required fields are missing.";
+    }
+
+  
+
+    echo implode("", $_SESSION["shippingItems"]);
+
+
     if ($_SESSION["SubTotal"] > 200) {
 
         echo "<p> Your Order Total is over $200. You are Eligible for FREE Express Shipping</p>";
         $_SESSION["ShipCharge"] = 0;
         $_SESSION["DeliveryMode"] = "Express";
-    }
-    
-    else {
+    } else {
         echo "<form method='POST' action='checkoutDetails.php'>";
         echo "<input type='radio' name='deliveryOption' value='Normal' /> ";
         echo "<label for='normal'>Normal Delivery $5 (Delivered within 2 working days after an order is placed)</label> <br> ";
@@ -89,17 +116,15 @@ if (isset($_SESSION["Cart"])) {
             $_SESSION["ShipCharge"] = $shipCharge;
 
             // Add your additional processing logic here
-        } 
-        
-        else {
+        } else {
             // Handle the case where deliveryOption is not set or empty
             echo "Please Select a Delivery Option!";
         }
-        
+
     }
 
     //calculate taxes 
-        //retrieve taxes    
+    //retrieve taxes    
     $currentDate = date("Y-m-d");
     $_SESSION["Tax"] = 0;
 
@@ -107,10 +132,10 @@ if (isset($_SESSION["Cart"])) {
     $stmt = $conn->prepare($qry);
     $stmt->execute();
     $result = $stmt->get_result();
-    
+
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        $_SESSION["Tax"] = ($row["TaxRate"]/100)*$_SESSION["SubTotal"];
+        $_SESSION["Tax"] = ($row["TaxRate"] / 100) * $_SESSION["SubTotal"];
     }
 
     $finalTotal = $_SESSION["Tax"] + $_SESSION["SubTotal"] + $_SESSION["ShipCharge"];
@@ -128,13 +153,11 @@ if (isset($_SESSION["Cart"])) {
 
     if ($_SESSION["DeliveryMode"] != "") {
 
-    echo "<form method='post' action='checkoutProcess.php'>";
-    echo "<input type='image' style='float:right;'
+        echo "<form method='post' action='checkoutProcess.php'>";
+        echo "<input type='image' style='float:right;'
                     src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>";
-    echo "</form></p>";
-    }
-
-    else {
+        echo "</form></p>";
+    } else {
         echo "<h3 style='text-align:center; color:red;'>Please Select a Delivery Mode!</h3>";
     }
 

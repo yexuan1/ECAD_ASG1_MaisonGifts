@@ -6,8 +6,6 @@ include_once("mysql_conn.php");
 
 if($_POST) //Post Data received from Shopping cart page.
 {
-	// To Do 6 (DIY): Check to ensure each product item saved in the associative
-	//                array is not out of stock
 	
 	foreach($_SESSION["Items"] as $items) {
 		$selectPid = $items["productId"];
@@ -28,7 +26,7 @@ if($_POST) //Post Data received from Shopping cart page.
 			exit;
 		}
 	}
-	// End of To Do 6
+
 	
 	$paypal_data = '';
 	// Get all items from the shopping cart, concatenate to the variable $paypal_data
@@ -39,8 +37,7 @@ if($_POST) //Post Data received from Shopping cart page.
 	  	$paypal_data .= '&L_PAYMENTREQUEST_0_NAME'.$key.'='.urlencode($item["name"]);
 		$paypal_data .= '&L_PAYMENTREQUEST_0_NUMBER'.$key.'='.urlencode($item["productId"]);
 	}
-	
-	// To Do 1A: Compute GST amount 7% for Singapore, round the figure to 2 decimal places
+
 	
 
 	//Data to be sent to PayPal
@@ -54,9 +51,9 @@ if($_POST) //Post Data received from Shopping cart page.
 			  '&PAYMENTREQUEST_0_ITEMAMT='.urlencode($_SESSION["SubTotal"]). 
 			  '&PAYMENTREQUEST_0_SHIPPINGAMT='.urlencode($_SESSION["ShipCharge"]). 
 			  '&PAYMENTREQUEST_0_TAXAMT='.urlencode($_SESSION["Tax"]). 	
-			  '&BRANDNAME='.urlencode("Mamaya e-BookStore").
+			  '&BRANDNAME='.urlencode("Maison Gifts").
 			  $paypal_data.				
-			  '&RETURNURL='.urlencode($PayPalReturnURL ).
+			  '&RETURNURL='.urlencode($PayPalReturnURL).
 			  '&CANCELURL='.urlencode($PayPalCancelURL);	
 		
 	//We need to execute the "SetExpressCheckOut" method to obtain paypal token
@@ -153,7 +150,7 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 		// End of To Do 5
 	
 		// To Do 2: Update shopcart table, close the shopping cart (OrderPlaced=1)
-		$total = $_SESSION["Subtotal"] + $_SESSION["Tax"] + $_SESSION["ShipCharge"];
+		$total = $_SESSION["SubTotal"] + $_SESSION["Tax"] + $_SESSION["ShipCharge"];
 		$qry = "UPDATE shopcart SET OrderPlaced = 1, Quantity = ?,
 				SubTotal = ?, ShipCharge=?, Tax=?,Total=?
 				WHERE ShopCartID=?";
@@ -184,32 +181,56 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			//You may have more information for the generated order entry 
 			//if you set those information in the PayPal test accounts.
 			
-			$ShipName = addslashes(urldecode($httpParsedResponseAr["SHIPTONAME"]));
+			$billName = addslashes(urldecode($httpParsedResponseAr["SHIPTONAME"]));
 			
-			$ShipAddress = urldecode($httpParsedResponseAr["SHIPTOSTREET"]);
+			$billAddress = urldecode($httpParsedResponseAr["SHIPTOSTREET"]);
 			if (isset($httpParsedResponseAr["SHIPTOSTREET2"]))
-				$ShipAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOSTREET2"]);
+				$billAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOSTREET2"]);
 			if (isset($httpParsedResponseAr["SHIPTOCITY"]))
-			    $ShipAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOCITY"]);
+			    $billAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOCITY"]);
 			if (isset($httpParsedResponseAr["SHIPTOSTATE"]))
-			    $ShipAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOSTATE"]);
-			$ShipAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOCOUNTRYNAME"]). 
+			    $billAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOSTATE"]);
+			$billAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOCOUNTRYNAME"]). 
 			                ' '.urldecode($httpParsedResponseAr["SHIPTOZIP"]);
 				
-			$ShipCountry = urldecode(
+			$billCountry = urldecode(
 			               $httpParsedResponseAr["SHIPTOCOUNTRYNAME"]);
 			
-			$ShipEmail = urldecode($httpParsedResponseAr["EMAIL"]);			
+			$billEmail = urldecode($httpParsedResponseAr["EMAIL"]);			
+			
 			
 			// To Do 3: Insert an Order record with shipping information
 			//          Get the Order ID and save it in session variable.
+
+
+
+			foreach($_SESSION['shippingItems'] as $key=>$item) 
+			{
+				$shipName = $item["shipName"];
+				$shipPhone = $item["shipPhone"];
+				$shipAddress = $item["shipAddress"];
+				$shipCountry = $item["shipCountry"];
+				$shipEmail = $item["shipEmail"];
+			}
+			echo $shipName;
+			echo $shipPhone;
+			echo $shipAddress;
+			echo $shipCountry;
+			echo $shipEmail;
+
+			$cartId = $_SESSION["Cart"];
+			
+			$todayDate = new DateTime();
+			$dateTimeString = $todayDate->format('Y-m-d H:i:s');
 			$qry = "INSERT INTO orderdata (ShipName, ShipAddress, ShipCountry,
-											ShipEmail, ShopCartID)
-					VALUES (?, ?, ?, ?, ?)";
+											ShipEmail, ShipPhone, BillName, 
+											BillAddress, BillCountry, BillPhone, BillEmail, ShopCartID)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			$stmt = $conn->prepare($qry);
 			// "i" - integer, "s" - string
-			$stmt -> bind_param("ssssi", $ShipName, $ShipAddress, $ShipCountry,
-								$ShipEmail, $_SESSION["Cart"]);
+			$stmt -> bind_param("ssssssssssi", $shipName, $shipAddress, $shipCountry,
+								$shipEmail, $shipPhone, $billName, 
+								$billAddress, $billCountry, $billPhone, $shipEmail, $cartId);
 			$stmt->execute();
 			$stmt->close();
 			$qry = "SELECT LAST_INSERT_ID() AS OrderID";
