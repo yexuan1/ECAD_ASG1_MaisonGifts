@@ -209,6 +209,7 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 				$shipCountry = $item["shipCountry"];
 				$shipEmail = $item["shipEmail"];
 				$message = $item["message"];
+				$deliveryDate = $item["deliveryDate"];
 
 				$shippingDetails[] = array(
 					"Name" => $shipName,
@@ -217,6 +218,7 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 					"Country" => $shipCountry,
 					"Email" => $shipEmail,
 					"Message" => $message,
+					"DeliveryDate" => $deliveryDate,
 				);
 			}
 			foreach ($shippingDetails as $detail) {
@@ -230,17 +232,16 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 		
 			$deliveryMode = $_SESSION["DeliveryMode"];
 			$deliveryTime = $_SESSION["DeliveryTime"];
-			$todayDate = new DateTime();
-			$dateTimeString = $todayDate->format('Y-m-d H:i:s');
+	
 			$qry = "INSERT INTO orderdata (ShipName, ShipAddress, ShipCountry,
 											ShipEmail, ShipPhone, BillName, 
-											BillAddress, BillCountry, BillPhone, BillEmail, DeliveryMode, DeliveryTime, Message, ShopCartID)
-					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+											BillAddress, BillCountry, BillPhone, BillEmail, DeliveryMode, DeliveryTime, Message, DeliveryDate, ShopCartID)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
 			$stmt = $conn->prepare($qry);
 			// "i" - integer, "s" - string
-			$stmt -> bind_param("sssssssssssssi", $shipName, $shipAddress, $shipCountry,
+			$stmt -> bind_param("ssssssssssssssi", $shipName, $shipAddress, $shipCountry,
 								$shipEmail, $shipPhone, $billName, 
-								$billAddress, $billCountry, $shipPhone, $billEmail, $deliveryMode, $deliveryTime , $message, $cartId);
+								$billAddress, $billCountry, $shipPhone, $billEmail, $deliveryMode, $deliveryTime , $message, $deliveryDate, $cartId);
 			$stmt->execute();
 			$stmt->close();
 			$qry = "SELECT LAST_INSERT_ID() AS OrderID";

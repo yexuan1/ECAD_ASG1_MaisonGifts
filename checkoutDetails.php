@@ -50,14 +50,7 @@ if (isset($_SESSION["Cart"])) {
             echo "<label for='message'> Message: </label>";
             echo "<input type='text' name='message' value='' /><br></br>";
 
-            //delivery time
-            
-            echo "<label for='3pm-6pm'>3pm - 6pm </label> ";
-            echo "<input type='radio' name='deliveryTime' value='9am-12pm'/> <br></br>";
-            echo "<label for='12pm-3pm'>12pm - 3pm </label> ";
-            echo "<input type='radio' name='deliveryTime' value='12pm-3pm'/><br></br> ";
-            echo "<label for='3pm-6pm'>3pm - 6pm </label> " ;
-            echo "<input type='radio' name='deliveryTime' value='3pm-6pm'/> <br></br>";
+            //delivery option
 
             if ($_SESSION["SubTotal"] > 200) {
 
@@ -72,6 +65,39 @@ if (isset($_SESSION["Cart"])) {
                 echo "<input type='radio' name='deliveryOption' value='Express'/> <br></br>";
             
             }
+
+            //delivery date
+            echo "<select name='dateDropdown'>";
+
+            $today = new DateTime('tomorrow');
+            $endDate = new DateTime();
+            $endDate->add(new DateInterval('P14D')); // Add 14 days to today's date
+
+            while ($today <= $endDate) {
+                $dateString = $today->format('Y-m-d');
+        
+                if ($dateString == $selectedDate) {
+                    $selected = "selected";
+                } else {
+                    $selected = "";
+                }
+
+            echo "<option value='$dateString' $selected>$dateString</option>";
+
+            $today->add(new DateInterval('P1D')); // Move to the next day
+            }
+
+            echo "</select><br></br>";
+
+            //delivery time
+            
+            echo "<label for='3pm-6pm'>3pm - 6pm </label> ";
+            echo "<input type='radio' name='deliveryTime' value='9am-12pm'/> <br></br>";
+            echo "<label for='12pm-3pm'>12pm - 3pm </label> ";
+            echo "<input type='radio' name='deliveryTime' value='12pm-3pm'/><br></br> ";
+            echo "<label for='3pm-6pm'>3pm - 6pm </label> " ;
+            echo "<input type='radio' name='deliveryTime' value='3pm-6pm'/> <br></br>";
+
             echo "<input type='submit' value='Confirm' name='Confirm'>";
             echo "</form>";
 
@@ -85,7 +111,8 @@ if (isset($_SESSION["Cart"])) {
         isset($_POST["address"]) &&
         isset($_POST["country"]) &&
         isset($_POST["email"])&&
-        isset($_POST["message"])
+        isset($_POST["message"])&&
+        isset($_POST["dateDropdown"])
     ) {
         // Add shipping information to the shippingItems array
         $_SESSION["shippingItems"][] = array(
@@ -94,7 +121,8 @@ if (isset($_SESSION["Cart"])) {
             "shipAddress" => $_POST["address"],
             "shipCountry" => $_POST["country"],
             "shipEmail" => $_POST["email"],
-            "message" => $_POST["message"]
+            "message" => $_POST["message"],
+            "deliveryDate" => $_POST["dateDropdown"],
         );
 
         foreach ($_SESSION["shippingItems"] as $shippingItem) {
