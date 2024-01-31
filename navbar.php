@@ -1,3 +1,7 @@
+
+<head>
+    <script src="https://kit.fontawesome.com/fc8e0fb32a.js" crossorigin="anonymous"></script>
+</head>
 <?php
 //Display guest welcome message, Login and Registration links
 //when shopper has yet to login,
@@ -15,9 +19,9 @@ if (isset($_SESSION["ShopperName"])) {
     $content2 = "<li class='nav-item'>
     <a class = 'nav-link' href='changePassword.php'>Change Password</a></li>
     <li class='nav-item'>
-    <a class='nav-link' href='Profile.php'>My Profile</a></li>
+    <a class='nav-link' href='Profile.php'><i class='fa-solid fa-user'></i></a></li>
     <li class='nav-item'>
-    <a class = 'nav-link' href='logout.php'>Logout</a></li>";
+    <a class = 'nav-link' href='logout.php'><i class='fa-solid fa-right-from-bracket'></i></a></li>";
 
 }
 ?>
