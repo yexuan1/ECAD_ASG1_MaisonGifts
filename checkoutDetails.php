@@ -37,17 +37,17 @@ if (isset($_SESSION["Cart"])) {
         while ($row = $result->fetch_array()) {
             echo "<p>Shipping Details</p>";
             echo "<form method='POST' action = 'checkoutDetails.php'>";
-            echo "<label for='name'> Name: </label>";
+            echo "<label for='name'> Name: </label>&nbsp";
             echo "<input type='text' name='name' value='$row[Name]' required /><br></br>";
-            echo "<label for='address'> Address: </label>";
+            echo "<label for='address'> Address: </label>&nbsp";
             echo "<input type='text' name='address' value='$row[Address]' required /><br></br>";
-            echo "<label for='country'> Country: </label>";
+            echo "<label for='country'> Country: </label>&nbsp";
             echo "<input type='text' name='country' value='$row[Country]' required  /><br></br>";
-            echo "<label for='phone'> Phone: </label>";
+            echo "<label for='phone'> Phone: </label>&nbsp";
             echo "<input type='text' name='phone' value='$row[Phone]' required /><br></br>";
-            echo "<label for='email'> Email: </label>";
+            echo "<label for='email'> Email: </label>&nbsp";
             echo "<input type='text' name='email' value='$row[Email]' required /><br></br>";
-            echo "<label for='message'> Message: </label>";
+            echo "<label for='message'> Message: </label>&nbsp";
             echo "<input type='text' name='message' value='' /><br></br>";
 
             //delivery option
@@ -58,15 +58,17 @@ if (isset($_SESSION["Cart"])) {
                 $_SESSION["ShipCharge"] = 0;
                 $_SESSION["DeliveryMode"] = "Express";
             } else {
+                echo "<p>Select Preferred Delivery Mode:</p><br>";
                 echo "<form method='POST' action='checkoutDetails.php'>";
-                echo "<label for='normal'>Normal Delivery $5 (Delivered within 2 working days after an order is placed)</label> ";
+                echo "<label for='normal'>Normal Delivery $5 (Delivered within 2 working days after an order is placed)</label>&nbsp";
                 echo "<input type='radio' name='deliveryOption' value='Normal' /> <br></br>";
-                echo "<label for='express'>Express Delivery $10 (Delivered within 24 hours after an order is placed)</label>";
+                echo "<label for='express'>Express Delivery $10 (Delivered within 24 hours after an order is placed)</label>&nbsp";
                 echo "<input type='radio' name='deliveryOption' value='Express'/> <br></br>";
-            
+
             }
 
             //delivery date
+            echo "<label for='dateDropdown'>Preferred Delivery Time:</label>&nbsp";
             echo "<select name='dateDropdown'>";
 
             $today = new DateTime('tomorrow');
@@ -75,27 +77,27 @@ if (isset($_SESSION["Cart"])) {
 
             while ($today <= $endDate) {
                 $dateString = $today->format('Y-m-d');
-        
+
                 if ($dateString == $selectedDate) {
                     $selected = "selected";
                 } else {
                     $selected = "";
                 }
 
-            echo "<option value='$dateString' $selected>$dateString</option>";
+                echo "<option value='$dateString' $selected>$dateString</option>";
 
-            $today->add(new DateInterval('P1D')); // Move to the next day
+                $today->add(new DateInterval('P1D')); // Move to the next day
             }
 
             echo "</select><br></br>";
 
             //delivery time
-            
+
             echo "<label for='3pm-6pm'>3pm - 6pm </label> ";
             echo "<input type='radio' name='deliveryTime' value='9am-12pm'/> <br></br>";
             echo "<label for='12pm-3pm'>12pm - 3pm </label> ";
             echo "<input type='radio' name='deliveryTime' value='12pm-3pm'/><br></br> ";
-            echo "<label for='3pm-6pm'>3pm - 6pm </label> " ;
+            echo "<label for='3pm-6pm'>3pm - 6pm </label> ";
             echo "<input type='radio' name='deliveryTime' value='3pm-6pm'/> <br></br>";
 
             echo "<input type='submit' value='Confirm' name='Confirm'>";
@@ -110,8 +112,8 @@ if (isset($_SESSION["Cart"])) {
         isset($_POST["phone"]) &&
         isset($_POST["address"]) &&
         isset($_POST["country"]) &&
-        isset($_POST["email"])&&
-        isset($_POST["message"])&&
+        isset($_POST["email"]) &&
+        isset($_POST["message"]) &&
         isset($_POST["dateDropdown"])
     ) {
         // Add shipping information to the shippingItems array
@@ -160,15 +162,12 @@ if (isset($_SESSION["Cart"])) {
 
         if ($selectedDeliveryTime == '9am-12pm') {
             $_SESSION["DeliveryTime"] = "9am-12pm";
-        } 
-        else if ($selectedDeliveryTime == '12pm-3pm') {
+        } else if ($selectedDeliveryTime == '12pm-3pm') {
             $_SESSION["DeliveryTime"] = "12pm-3pm";
-        }
-        else if ($selectedDeliveryTime == "3pm-6pm")
-        {
+        } else if ($selectedDeliveryTime == "3pm-6pm") {
             $_SESSION["DeliveryTime"] = "3pm-6pm";
         }
-        
+
     }
 
     if (isset($_POST['deliveryOption'])) {
@@ -229,7 +228,10 @@ if (isset($_SESSION["Cart"])) {
     echo "<p style='text-align:right; font-size:20px'>
     Final Amount = S$" . number_format($finalTotal, 2) . "<br>";
 
-    if ($_SESSION["DeliveryMode"] != "" && $_SESSION["DeliveryTime"] != "") {
+
+
+
+    if ($_SESSION["DeliveryMode"] != "" && $_SESSION["DeliveryTime"] != "" && isset($_POST['deliveryTime'])) {
 
         echo "<form method='post' action='checkoutProcess.php'>";
         echo "<input type='image' style='float:right;'
@@ -239,6 +241,11 @@ if (isset($_SESSION["Cart"])) {
     } else {
         echo "<h3 style='text-align:center; color:red;'>Please Select a Delivery Mode and Time!</h3>";
     }
+    echo "<form method='post' action='shoppingCart.php'>";
+    echo "<input type='submit' style='float:left;'
+            value='Return To Shopping Cart' name='return'";
+    echo "</form></p>";
+    echo "<br></br>";
 
 } else {
     header("Location: shoppingCart.php");

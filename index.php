@@ -27,7 +27,7 @@ include("header.php");
                 </svg>
                 <div class="container">
                     <div class="carousel-caption text-start">
-                        <h1>Example headline.</h1>
+                        <h1>Celebrating a Special Occasion?</h1>
                         <p class="opacity-75">Find Your Perfect Gift With Us Today!</p>
                     </div>
                 </div>
@@ -39,9 +39,9 @@ include("header.php");
                 </svg>
                 <div class="container">
                     <div class="carousel-caption">
-                        <h1>Another example headline.</h1>
-                        <p>Some representative placeholder content for the second slide of the carousel.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+                        <h1>Unsure Of What To Gift?</h1>
+                        <p>Use our search feature to find the perfect gift!</p>
+                        <p><a class="btn btn-lg btn-primary" href="search.php">Search</a></p>
                     </div>
                 </div>
             </div>
@@ -52,9 +52,9 @@ include("header.php");
                 </svg>
                 <div class="container">
                     <div class="carousel-caption text-end">
-                        <h1>One more for good measure.</h1>
-                        <p>Some representative placeholder content for the third slide of this carousel.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+                        <h1>Purchase Over $200 to Receive Free Express Shipping of Your Order</h1>
+                        <p>Check Out Now!</p>
+                        <p><a class="btn btn-lg btn-primary" href="category.php">Browse Products</a></p>
                     </div>
                 </div>
             </div>
