@@ -19,26 +19,26 @@ $result = $stmt->get_result();
 if($result->num_rows > 0){
     echo"</br>
             <table class='table table-dark table-striped feedback-head'>
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Subject</th>
-                <th>Content</th>
-                <th>Rank</th>
-            </tr>
-            </thead>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Subject</th>
+                        <th>Content</th>
+                        <th>Rank</th>
+                    </tr>
+                </thead>
             </table>";
     while($row = $result->fetch_assoc()){
         echo "
-                <table class='table feedback-body'>
-                <tbody>
-                <tr>
-                    <td>$row[Name]</td>
-                    <td>$row[Subject]</td>
-                    <td>$row[Content]</td>
-                    <td>$row[Rank]</td>
-                </tr>
-                </tbody>
+                <table class='table col-sm-12 feedback-body'>
+                    <tbody>
+                        <tr>
+                            <td>$row[Name]</td>
+                            <td>$row[Subject]</td>
+                            <td>$row[Content]</td>
+                            <td>$row[Rank]</td>
+                        </tr>
+                    </tbody>
                </table>";
     };
 
