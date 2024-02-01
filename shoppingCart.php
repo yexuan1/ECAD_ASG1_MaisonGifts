@@ -26,17 +26,11 @@ if (isset($_SESSION["Cart"])) {
 
 
 	if ($result->num_rows > 0) {
-		echo "<div class='container'>";
-		echo "<div class='row'>";
-		echo "<div class='col-md-12'>";
-		
-		// Enclosing card div with border-radius
-		echo "<div class='card text-center' style='border-radius: 25px; margin-top: 40px; background-color: #f7f7f2;' >";
 
-		// Page header and header row of the shopping cart page
-		echo "<p class='page-title text-center'>Shopping Cart</p>";
-		echo "<div class='table-responsive'>"; 
-		echo "<table class='table table-hover'>";
+		// the page header and header row of shopping cart page
+		echo "<p class='page-title' style='text-align:center'>Shopping Cart</p>";
+		echo "<div class='table-responsive' >"; // Bootstrap responsive table
+		echo "<table class='table table-hover'>"; // Start of table
 		echo "<thead class='cart-header'>";
 		echo "<tr>";
 		echo "<th>Image</th>";

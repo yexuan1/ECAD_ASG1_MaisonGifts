@@ -58,8 +58,8 @@ include("Header.php"); // header layout
         $formattedPrice = number_format($row["Price"], 2); //OG Price
 
         $onOffer = $row["Offered"];
-        if ($onOffer == 1){
-            $offerPrice = $row["OfferedPrice"];
+        if ($onOffer == 1 && (date("Y-m-d") >= $row["OfferStartDate"]) && (date("Y-m-d") <= $row["OfferEndDate"])){
+            $offerPrice = number_format($row["OfferedPrice"], 2);
             echo "Price: <span style='font-weight:bold; color: salmon; text-decoration: line-through;'>
                 S$ $formattedPrice</span>";
             echo "<span style='font-weight:bold; color: salmon;'>
