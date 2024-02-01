@@ -28,7 +28,7 @@ if (isset($_SESSION["Cart"])) {
 	if ($result->num_rows > 0) {
 
 		// the page header and header row of shopping cart page
-		echo "<p class='page-title' style='text-align:center'>Shopping Cart</p>";
+		echo "<br><p class='page-title' style='text-align:center'>Shopping Cart</p>";
 		echo "<div class='table-responsive' >"; // Bootstrap responsive table
 		echo "<table class='table table-hover'>"; // Start of table
 		echo "<thead class='cart-header'>";

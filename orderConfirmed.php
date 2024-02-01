@@ -10,8 +10,8 @@ include("header.php"); // Include the Page Layout header
 
 if(isset($_SESSION["OrderID"])) {	
 	echo " </br> </br>";
-	echo "<h2 class='col-sm-7' style='margin-left:20%;'>Checkout successful. Your order number is $_SESSION[OrderID]</h2>";
 	echo "<h3 class='col-sm-7' style='margin-left:35%;'>Thank you for your purchase!&nbsp;&nbsp;</h3>";
+	echo "<h2 class='col-sm-7' style='margin-left:20%;'>Checkout successful. Your order number is $_SESSION[OrderID]</h2>";
 	echo "<h1 class='col-sm-7' style='margin-left:35%;'>Rate your experience</h1>";
 	echo "<form action='addFeedback.php' method='post'>
 			<div class='star' style='margin-left:33%;'>

@@ -10,7 +10,7 @@ include("header.php"); // Include the Page Layout header
 include_once("myPayPal.php"); // Include the file that contains PayPal settings
 
 echo "<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>";
-echo "<p class='page-title' style='text-align:center'>Checkout Details</p>";
+echo "<br><p class='page-title' style='text-align:center'>Checkout Details</p>";
 
 
 if (!isset($_SESSION["ShopperID"])) { // Check if user logged in 
@@ -42,91 +42,120 @@ if (isset($_SESSION["Cart"])) {
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_array()) {
             echo "
+            
         <div class='col-md-7 col-lg-8'>
-        <h4 class='mb-3'>Billing address</h4>
-        <form class='needs-validation' novalidate>
+        <form class='needs-validation' novalidate method='POST' action = 'checkoutDetails.php'>
             <div class='row g-3'>
                 <div class='col-sm-6'>
-                    <label for='firstName' class='form-label'>First name</label>
-                    <input type='text' class='form-control' id='firstName' placeholder='' value='' required>
+                    <label for='name' class='form-label'>Name</label>
+                    <input type='text' class='form-control' name='name' placeholder='' value='$row[Name]' required>
                     <div class='invalid-feedback'>
                         Valid first name is required.
                     </div>
                 </div>
         
                 <div class='col-sm-6'>
-                    <label for='lastName' class='form-label'>Last name</label>
-                    <input type='text' class='form-control' id='lastName' placeholder='' value='' required>
+                    <label for='phone' class='form-label'>Phone No.</label>
+                    <input type='text' class='form-control' name='phone' placeholder='' value='$row[Phone]' required>
                     <div class='invalid-feedback'>
                         Valid last name is required.
                     </div>
                 </div>
         
                 <div class='col-12'>
-                    <label for='username' class='form-label'>Username</label>
-                    <div class='input-group has-validation'>
-                        <span class='input-group-text'>@</span>
-                        <input type='text' class='form-control' id='username' placeholder='Username' required>
-                        <div class='invalid-feedback'>
-                            Your username is required.
-                        </div>
-                    </div>
-                </div>
-        
-                <div class='col-12'>
-                    <label for='email' class='form-label'>Email <span class='text-body-secondary'>(Optional)</span></label>
-                    <input type='email' class='form-control' id='email' placeholder='you@example.com'>
+                    <label for='email' class='form-label'>Email</label>
+                    <input type='email' class='form-control' name='email' value='$row[Email]' placeholder='you@example.com'>
                     <div class='invalid-feedback'>
-                        Please enter a valid email address for shipping updates.
+                        Please enter a valid email address.
                     </div>
                 </div>
         
                 <div class='col-12'>
                     <label for='address' class='form-label'>Address</label>
-                    <input type='text' class='form-control' id='address' placeholder='1234 Main St' required>
+                    <input type='text' class='form-control' name='address' value='$row[Address]' placeholder='1234 Main St' required>
                     <div class='invalid-feedback'>
                         Please enter your shipping address.
                     </div>
                 </div>
         
                 <div class='col-12'>
-                    <label for='address2' class='form-label'>Address 2 <span class='text-body-secondary'>(Optional)</span></label>
-                    <input type='text' class='form-control' id='address2' placeholder='Apartment or suite'>
+                    <label for='message' class='form-label'>Message <span class='text-body-secondary'>(Optional)</span></label>
+                    <input type='text' class='form-control' name='message' placeholder='Your Message Here:'>
                 </div>
         
                 <div class='col-md-5'>
                     <label for='country' class='form-label'>Country</label>
-                    <select class='form-select' id='country' required>
-                        <option value=''>Choose...</option>
-                        <option>United States</option>
-                    </select>
+                    <input type='text' class='form-control' name='country' value='$row[Country]'  placeholder='Singapore' required>
+
                     <div class='invalid-feedback'>
                         Please select a valid country.
                     </div>
-                </div>
-        
-                <div class='col-md-4'>
-                    <label for='state' class='form-label'>State</label>
-                    <select class='form-select' id='state' required>
-                        <option value=''>Choose...</option>
-                        <option>California</option>
+                </div>";
+
+                if ($_SESSION["SubTotal"] > 200) {
+
+                    echo "<p> Your Order Total is over $200. You are Eligible for FREE Express Shipping</p>";
+                    $_SESSION["ShipCharge"] = 0;
+                    $_SESSION["DeliveryMode"] = "Express";
+                } else {
+                    echo "<div class='col-12'>
+                    <label for='deliveryOption' class='form-label'>Select Preferred Delivery Mode:</label>
+                    <select class='form-select' name='deliveryOption' required>
+                        <option name='deliveryOption' value='Normal'>Normal Delivery $5 (Delivered within 2 working days after an order is placed)</option>
+                        <option name='deliveryOption' value='Express'>Express Delivery $10 (Delivered within 24 hours after an order is placed)</option>
                     </select>
                     <div class='invalid-feedback'>
                         Please provide a valid state.
                     </div>
-                </div>
+                </div>";
+    
+                }
         
-                <div class='col-md-3'>
-                    <label for='zip' class='form-label'>Zip</label>
-                    <input type='text' class='form-control' id='zip' placeholder='' required>
-                    <div class='invalid-feedback'>
-                        Zip code required.
-                    </div>
-                </div>
-            </div>
-        </form>
-        </div>";
+            echo "</div> <br> ";
 
+
+            echo "  <div class='col-sm-6'>
+                <label for='dateDropdown'>Preferred Delivery Date:</label>&nbsp
+                <select class='form-select' name='dateDropdown'>";
+
+            $today = new DateTime('tomorrow');
+            $endDate = new DateTime();
+            $endDate->add(new DateInterval('P14D')); // Add 14 days to today's date
+
+            while ($today <= $endDate) {
+                $dateString = $today->format('Y-m-d');
+
+                if ($dateString == $selectedDate) {
+                    $selected = "selected";
+                } else {
+                    $selected = "";
+                }
+
+                echo "<option name='dateDropdown' value='$dateString' $selected>$dateString</option>";
+
+                $today->add(new DateInterval('P1D')); // Move to the next day
+            } 
+            echo "</select> <br>
+            <div class='invalid-feedback'>Please provide a valid state.
+            </div>
+
+            <div class='col-sm-6'>
+                    <label for='deliveryTime' class='form-label'>Select Preferred Delivery Time:</label>
+                    <select class='form-select' name='deliveryTime' required>
+                        <option name='deliveryTime' value='9am-12pm'>9am - 12pm </option>
+                        <option name='deliveryTime' value='12pm-3pm'>12pm - 3pm </option>
+                        <option name='deliveryTime' value='3pm-6pm'>3pm - 6pm </option>
+                    </select>
+                    <div class='invalid-feedback'>
+                        Please provide a valid state.
+                    </div>
+                </div> <br> </br>";
+
+            echo "<button class='w-100 btn btn-primary btn-lg' type='submit'>Confirm</button>";
+            echo "</form>";
+            echo "</div> </div>";
+
+            /*
             echo "<p>Shipping Details</p>";
             echo "<form method='POST' action = 'checkoutDetails.php'>";
             echo "<label for='name'> Name: </label>&nbsp";
@@ -142,6 +171,7 @@ if (isset($_SESSION["Cart"])) {
             echo "<label for='message'> Message: </label>&nbsp";
             echo "<input type='text' name='message' value='' /><br></br>";
 
+            
             //delivery option
 
             if ($_SESSION["SubTotal"] > 200) {
@@ -194,7 +224,7 @@ if (isset($_SESSION["Cart"])) {
             echo "<input type='radio' name='deliveryTime' value='3pm-6pm'/> <br></br>";
 
             echo "<input type='submit' value='Confirm' name='Confirm'>";
-            echo "</form>";
+            echo "</form>"; */
 
         }
 
@@ -206,8 +236,7 @@ if (isset($_SESSION["Cart"])) {
         isset($_POST["address"]) &&
         isset($_POST["country"]) &&
         isset($_POST["email"]) &&
-        isset($_POST["message"]) &&
-        isset($_POST["dateDropdown"])
+        isset($_POST["message"]) 
     ) {
         // Add shipping information to the shippingItems array
         $_SESSION["shippingItems"][] = array(
@@ -219,10 +248,6 @@ if (isset($_SESSION["Cart"])) {
             "message" => $_POST["message"],
             "deliveryDate" => $_POST["dateDropdown"],
         );
-
-        foreach ($_SESSION["shippingItems"] as $shippingItem) {
-            echo $shippingItem["shipName"];
-        }
 
     } else {
         // Handle the case where some POST variables are not set
@@ -308,7 +333,7 @@ if (isset($_SESSION["Cart"])) {
 
     $finalTotal = $_SESSION["Tax"] + $_SESSION["SubTotal"] + $_SESSION["ShipCharge"];
 
-    echo "<p style='text-align:right; font-size:15px'>
+    echo "<br><p style='text-align:right; font-size:15px'>
     Delivery Mode : " . $_SESSION["DeliveryMode"] . "<br>";
     echo "<p style='text-align:right; font-size:15px'>
     Delivery Time : " . $_SESSION["DeliveryTime"] . "<br>";
