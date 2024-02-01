@@ -21,8 +21,7 @@ include("header.php");
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="bd-placeholder-img" width="100%" height="100%" src="Images\carousel1.jpg" aria-hidden="true"
-                    preserveAspectRatio="xMidYMid slice" focusable="false">
+                <img class="bd-placeholder-img" width="100%" height="100%" src="Images\carousel1.jpg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
                 <rect width="100%" height="100%" fill="var(--bs-secondary-color)" />
                 </svg>
                 <div class="container">
@@ -33,8 +32,7 @@ include("header.php");
                 </div>
             </div>
             <div class="carousel-item">
-                <img class="bd-placeholder-img" width="100%" height="100%" src="Images\carousel2.jpg" aria-hidden="true"
-                    preserveAspectRatio="xMidYMid slice" focusable="false">
+                <img class="bd-placeholder-img" width="100%" height="100%" src="Images\carousel2.jpg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
                 <rect width="100%" height="100%" fill="var(--bs-secondary-color)" />
                 </svg>
                 <div class="container">
@@ -46,8 +44,7 @@ include("header.php");
                 </div>
             </div>
             <div class="carousel-item">
-                <img class="bd-placeholder-img" width="100%" height="100%" src="Images\carousel2.jpg" aria-hidden="true"
-                    preserveAspectRatio="xMidYMid slice" focusable="false">
+                <img class="bd-placeholder-img" width="100%" height="100%" src="Images\carousel2.jpg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
                 <rect width="100%" height="100%" fill="var(--bs-secondary-color)" />
                 </svg>
                 <div class="container">
@@ -78,8 +75,8 @@ include_once("mysql_conn.php");
 
 // To Do:  Starting ....
 // Form SQL to retrieve list of products associated to the Category ID
-$qry = "SELECT p.ProductID, p.ProductTitle, p.ProductImage, p.Price, p.Quantity
-  FROM CatProduct cp INNER JOIN product p ON cp.ProductID=p.ProductID";
+$qry = "SELECT p.ProductID, p.ProductTitle, p.ProductImage, p.Price, p.Quantity, p.Offered, p.OfferedPrice, p.OfferStartDate, p.OfferEndDate
+        FROM CatProduct cp INNER JOIN product p on cp.ProductID=p.ProductID";
 $stmt = $conn->prepare($qry);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -89,13 +86,35 @@ echo "<div class='container-fluid'>"; // Use container-fluid for a full-width co
 while ($row = $result->fetch_array()) {
     echo "<div class='row' style='padding:5px; margin-top: 20px;'>"; // Start a new row
 
-    // Left column - display a text link showing the product's name,
-    // display the selling price in red in a new paragraph
-    $product = "productDetails.php?pid=$row[ProductID]";
-    $formattedPrice = number_format($row["Price"], 2);
-    echo "<div class='col-md-8'>"; // Use col-md-8 for 67% of row width on medium and larger screens
-    echo "<p><a href=$product>$row[ProductTitle]</a></p>";
-    echo "Price:<span style='font-weight: bold; color: red;'>S$ $formattedPrice</span>";
+    $onOffer = $row["Offered"];
+    if ($onOffer == 1 && (date("Y-m-d") >= $row["OfferStartDate"]) && (date("Y-m-d") <= $row["OfferEndDate"])) {
+        echo "<p style='font-size: 15px';>$row[ProductTitle] is on offer!</p>";
+        $product = "productDetails.php?pid=$row[ProductID]";
+        $formattedPrice = number_format($row["Price"], 2);
+        echo "<div class='col-6'>"; //50% of row width
+        $offerPrice = number_format($row["OfferedPrice"], 2);
+        echo "<p><a href=$product>$row[ProductTitle]</a></p>";
+        echo "Price:<span style='font-weight:bold; color: salmon; text-decoration: line-through;'>
+			  S$ $formattedPrice</span>"; //OG Price
+        echo "<br />";
+        echo "Offer Price:<span style='font-weight:bold; color: salmon;'>
+			  S$ $offerPrice</span>"; //Discounted Price
+    } else {
+        $product = "productDetails.php?pid=$row[ProductID]";
+        $formattedPrice = number_format($row["Price"], 2);
+        echo "<div class='col-6'>"; //50% of row width
+        echo "<p><a href=$product>$row[ProductTitle]</a></p>";
+        echo "Price:<span style='font-weight:bold; color: salmon;'>
+			  S$ $formattedPrice</span>";
+    }
+
+    //stock indicator
+    $quantity = $row["Quantity"];
+    if ($quantity > 0) {
+        echo "<p style='color:darkgreen;'>In Stock!</p>"; //maybe add green color to the wording?
+    } else {
+        echo "<p style='color: red;'>Out of Stock!</p>"; //red color
+    }
     echo "</div>";
 
     // Right column - display the product's image
