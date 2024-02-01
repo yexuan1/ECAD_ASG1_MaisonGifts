@@ -68,7 +68,7 @@ if (isset($_SESSION["Cart"])) {
             }
 
             //delivery date
-            echo "<label for='dateDropdown'>Preferred Delivery Time:</label>&nbsp";
+            echo "<label for='dateDropdown'>Preferred Delivery Date:</label>&nbsp";
             echo "<select name='dateDropdown'>";
 
             $today = new DateTime('tomorrow');
@@ -93,10 +93,11 @@ if (isset($_SESSION["Cart"])) {
 
             //delivery time
 
+            echo "<p>Preferred Delivery Time:</p>";
             echo "<label for='3pm-6pm'>3pm - 6pm </label> ";
-            echo "<input type='radio' name='deliveryTime' value='9am-12pm'/> <br></br>";
+            echo "<input type='radio' name='deliveryTime' value='9am-12pm'/> &nbsp&nbsp";
             echo "<label for='12pm-3pm'>12pm - 3pm </label> ";
-            echo "<input type='radio' name='deliveryTime' value='12pm-3pm'/><br></br> ";
+            echo "<input type='radio' name='deliveryTime' value='12pm-3pm'/> &nbsp&nbsp ";
             echo "<label for='3pm-6pm'>3pm - 6pm </label> ";
             echo "<input type='radio' name='deliveryTime' value='3pm-6pm'/> <br></br>";
 

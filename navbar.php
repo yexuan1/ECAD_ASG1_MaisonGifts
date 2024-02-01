@@ -9,7 +9,7 @@ $content1 = "Welcome Guest<br />";
 $content2 = "<li class='nav-item'>
 		     <a class='nav-link' href='register.php'>Sign Up</a></li>
 			 <li class='nav-item'>
-		     <a class='nav-link' href='login.php'>Login</a></li>";
+		     <a class='nav-link' href='login.php'><i class='fa-solid fa-right-to-bracket'></i></a></li>";
 
 if (isset($_SESSION["ShopperName"])) {
     //To Do 1 (Practical 2) - 
