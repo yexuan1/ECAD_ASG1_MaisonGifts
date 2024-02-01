@@ -15,7 +15,7 @@ if (isset($_SESSION["Cart"])) {
 	include_once("mysql_conn.php");
 
 	// Retrieve from database and display shopping cart in a table
-	$qry = "SELECT p.ProductID,  p.Offered, p.OfferedPrice, p.OfferStartDate, p.OfferEndDate , sci.ShopCartID, sci.ProductID, sci.Price, sci.Name, sci.Quantity, (sci.Price*sci.Quantity) AS Total
+	$qry = "SELECT p.ProductID, p.ProductImage, p.Offered, p.OfferedPrice, p.OfferStartDate, p.OfferEndDate , sci.ShopCartID, sci.ProductID, sci.Price, sci.Name, sci.Quantity, (sci.Price*sci.Quantity) AS Total
 		FROM ShopCartItem sci INNER JOIN product p  on sci.ProductID=p.ProductID
 		WHERE ShopCartID=?";
 	$stmt = $conn->prepare($qry);
@@ -26,28 +26,29 @@ if (isset($_SESSION["Cart"])) {
 
 
 	if ($result->num_rows > 0) {
+		echo "<div class='container'>";
+		echo "<div class='row'>";
+		echo "<div class='col-md-12'>";
+		
+		// Enclosing card div with border-radius
+		echo "<div class='card text-center' style='border-radius: 25px; margin-top: 40px; background-color: #f7f7f2;' >";
 
-		// the page header and header row of shopping cart page
-		echo "<p class='page-title' style='text-align:center'>Shopping Cart</p>";
-		echo "<div class='table-responsive' >"; // Bootstrap responsive table
-		echo "<table class='table table-hover'>"; // Start of table
+		// Page header and header row of the shopping cart page
+		echo "<p class='page-title text-center'>Shopping Cart</p>";
+		echo "<div class='table-responsive'>"; 
+		echo "<table class='table table-hover'>";
 		echo "<thead class='cart-header'>";
 		echo "<tr>";
+		echo "<th>Image</th>";
 		echo "<th width='250px'>Item</th>";
 		echo "<th width='90px'>Price (S$)</th>";
-		echo "<th width='60px'>Quantity</th>";
+		echo "<th width='60px' style='text-align: right;'>Qty</th>";
 		echo "<th width='120px'>Total (S$)</th>";
 		echo "<th>&nbsp;</th>";
 		echo "</tr>";
 		echo "</thead>";
-
-
-		// Declare an array to store the shopping cart items in session variable 
-		$_SESSION["Items"] = array();
-
-
+		
 		// Display the shopping cart content
-
 		$totalItems = 0; // Declare a variable to store the total number of items in the cart
 		$subTotal = 0; // Declare a variable to compute subtotal before tax
 		echo "<tbody>"; // Start of table's body section
@@ -57,6 +58,7 @@ if (isset($_SESSION["Cart"])) {
 			if ($onOffer == 1 && (date("Y-m-d") >= $row["OfferStartDate"]) && (date("Y-m-d") <= $row["OfferEndDate"])) {
 				$row["Total"] = $row["OfferedPrice"] * $row["Quantity"];
 				echo "<tr>";
+				echo "<td><img src='./Images/Category/{$row['ProductImage']}' alt='Product Image' style='max-width: 100px;'></td>";
 				echo "<td style='width:50%'>$row[Name]<br/>";
 				echo "Product ID: $row[ProductID]</td>";
 				$formattedPrice = number_format($row["OfferedPrice"], 2);
@@ -101,6 +103,7 @@ if (isset($_SESSION["Cart"])) {
 				// Calculate the total without the discount
 				$row["Total"] = $row["Price"] * $row["Quantity"];
 				echo "<tr>";
+				echo "<td><img src='./Images/products/$row[ProductImage]' alt='Product Image' style='max-width: 100px;'></td>";
 				echo "<td style='width:50%'>$row[Name]<br/>";
 				echo "Product ID: $row[ProductID]</td>";
 				$formattedPrice = number_format($row["Price"], 2);
@@ -144,8 +147,6 @@ if (isset($_SESSION["Cart"])) {
 			// Store the shopping cart items in session variable as an associate array
 
 
-
-
 			$subTotal += $row["Total"];
 			// Update the total quantity
 			$totalItems += $row["Quantity"];
@@ -154,80 +155,21 @@ if (isset($_SESSION["Cart"])) {
 		echo "</table>"; // End of table
 		echo "</div>"; // End of Bootstrap responsive table
 		// Display the total number of items in the cart
-		echo "<p style='text-align:right; font-size:20px'>Total Items in Cart: $totalItems</p>";
-
-
+		echo "<p style=' text-align:right; font-size:20px; margin-right:15px;'>Total Items in Cart: $totalItems</p>";
+    
 		// Display the subtotal at the end of the shopping cart
-		echo "<p style='text-align:right; font-size:20px'>
-		Subtotal = S$" . number_format($subTotal, 2) . "<br>";
+		echo "<p style=' text-align:right; font-size:20px; margin-right:15px;'>Subtotal = S$" . number_format($subTotal, 2) . "<br>";
 		$_SESSION["SubTotal"] = round($subTotal, 2);
-		/*
-		if ($_SESSION["SubTotal"] > 200) {
-
-
-		} 
-		else {
-			echo "<form method='POST' action='shoppingCart.php'>";
-			echo "<input type='radio' name='deliveryOption' value='normal' /> ";
-			echo "<label for='normal'>Normal Delivery $5 (Delivered within 2 working days after an order is placed)</label> <br> ";
-			echo "<input type='radio' name='deliveryOption' value='express'/> ";
-			echo "<label for='express'>Express Delivery $10 (Delivered within 24 hours after an order is placed)</label><br>";
-			echo "<input type='submit' value='Confirm' name='Confirm'>";
-			echo "</form>";
-
-			$selectedDeliveryOption = "";
-
-			if (isset($_POST['deliveryOption'])) {
-				// Retrieve the selected delivery option
-				$selectedDeliveryOption = $_POST['deliveryOption'];
-				$_SESSION['deliveryOption'] = $selectedDeliveryOption;
-
-
-				echo "<td>$selectedDeliveryOption</td>";
-
-				// Add your additional processing logic here
-			} 
-			else {
-				// Handle the case where deliveryOption is not set or empty
-				echo "Please select a delivery option.";
-			}
-			
-		}
-		*/
-
-
-		// Check if the subtotal is more than S$200 and adjust the delivery charge accordingly
-		/*
-		$selectedDeliveryOption = $_POST['deliveryOption'];
-		if (isset($_POST['deliveryOption']))
-		{
-			if ($selectedDeliveryOption == 'normal') {
-				$shipCharge = 5;
-			}
-	
-			else {
-				$shipCharge = 10;
-			}
-	
-		}
 		
-		 if ($_SESSION["SubTotal"] > 200) {
-			$shipCharge = 0; // Waive the delivery charge
-			echo "Delivery Charge: S$0.00<br>";
-		} else {
-			echo "Delivery Charge: S$" . number_format($shipCharge ,2 ) . "<br>";
-		}
-		*/
-		/*
-		// Add PayPal Checkout button on the shopping cart page
-		echo "<form method='post' action='checkoutProcess.php'>";
-		echo "<input type='image' style='float:right;'
-					src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>";
-		echo "</form></p>";
-		*/
+		// Checkout form
 		echo "<form method='post' action='checkoutDetails.php'>";
-		echo "<input type='submit' value='Confirm' name='Confirm'>";
-		echo "</form></p>";
+		echo "<input type='submit' value='Confirm' name='Confirm' class='btn btn-primary btn-sm' style='width: 100%;'>";
+		echo "</form>";
+	
+		echo "</div>"; // End of card div
+		echo "</div>"; // End of single column
+		echo "</div>"; // End of row
+		echo "</div>"; // End of container
 	} else {
 		echo "<h3 style='text-align:center; color:red;'>Empty shopping cart!</h3>";
 	}

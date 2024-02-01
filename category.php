@@ -27,14 +27,14 @@ while ($row = $result->fetch_array()){
 
     //left column displays category's image
     $img = "./Images/Category/$row[CatImage]";
-    echo "<div class='col-6'>"; //50% of row width
+    echo "<div class='col-4'>"; //50% of row width
     echo "<img src='$img' />";
     echo "</div>";
 
     //right column displays a text link showing category name and desc
     $catname = urlencode($row["CatName"]);
     $catproduct = "catProduct.php?cid=$row[CategoryID]&catName=$catname";
-    echo "<div class='col-6'>"; //50% of row width
+    echo "<div class='col-4'>"; //50% of row width
     echo "<p><a href=$catproduct>$row[CatName]</a></p>";
     echo "$row[CatDesc]";
     echo "</div>";
