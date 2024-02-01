@@ -24,8 +24,9 @@ $questionIndex = $questionList[$selectedQuestion];
 // Include the PHP file that establishes database connection handle: $conn
 include_once("mysql_conn.php");
 //Define the select statement for email where the email in the database record matches the email enterd by the shopper
-$qry = "SELECT Email From Shopper";
+$qry = "SELECT Email From Shopper where Email=?";
 $stmt = $conn->prepare($qry);
+$stmt->bind_param("s",$email);
 $stmt->execute();
 $result = $stmt->get_result();
 if($row = $result->fetch_assoc()){
@@ -34,46 +35,47 @@ if($row = $result->fetch_assoc()){
         //where the error occured appropriate error response to existing email and redirect user to register page
         echo "<script>
         alert('email must be unique');
-        window.location.href='/ECAD_ASG1_MaisonGifts-1/register.php';
+        window.location.href='/Maison_Gifts/ECAD_ASG1_MaisonGifts/register.php';
         </script>";
     }
 }
+else{
+        //Define the INSERT SQL statement
+        $qry = "INSERT INTO Shopper (Name, BirthDate,Address, Country, Phone, Email, Password, PwdQuestion, PwdAnswer) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)"; //??? are placeholders
+        $stmt = $conn->prepare($qry);
+        // "ssssss" - 6 string parameters
+        $stmt->bind_param("sssssssss", $name, $birthDate,$address, $country, $phone, $email, $password, $questionIndex, $selectAnswer);
 
-    //Define the INSERT SQL statement
-$qry = "INSERT INTO Shopper (Name, BirthDate,Address, Country, Phone, Email, Password, PwdQuestion, PwdAnswer) 
-VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)"; //??? are placeholders
-$stmt = $conn->prepare($qry);
-// "ssssss" - 6 string parameters
-$stmt->bind_param("sssssssss", $name, $birthDate,$address, $country, $phone, $email, $password, $questionIndex, $selectAnswer);
+        if ($stmt->execute()) { // SQL statement executed successfully
+            // Retrieve the Shopper ID assigned to the new shopper
+            $qry = "SELECT LAST_INSERT_ID() AS ShopperID";
+            $result = $conn->query($qry); //Execute the SQL and get the returned result
+            while ($row = $result->fetch_array()) {
+            $_SESSION["ShopperID"] = $row["ShopperID"];
+            }
+            
+            //successful message and Shopper ID
+            $Message = "Registration succesful!<br />
+            Your ShopperID is $_SESSION[ShopperID]<br />";
+            //Save the Shopper name in a session variable
+            $_SESSION["ShopperName"] = $name;
 
-if ($stmt->execute()) { // SQL statement executed successfully
-    // Retrieve the Shopper ID assigned to the new shopper
-    $qry = "SELECT LAST_INSERT_ID() AS ShopperID";
-    $result = $conn->query($qry); //Execute the SQL and get the returned result
-    while ($row = $result->fetch_array()) {
-    $_SESSION["ShopperID"] = $row["ShopperID"];
-    }
-    
-    //successful message and Shopper ID
-    $Message = "Registration succesful!<br />
-    Your ShopperID is $_SESSION[ShopperID]<br />";
-    //Save the Shopper name in a session variable
-    $_SESSION["ShopperName"] = $name;
+            //Release the resource allocated for prepared statement 
+            $stmt->close();
+            //close database connection
+            $conn->close();
+            } else { //Error message
+            $Message = "<h3 style='color:red'>Error in inserting record</h3>";
+            }
 
-    //Release the resource allocated for prepared statement 
-    $stmt->close();
-    //close database connection
-    $conn->close();
-    } else { //Error message
-    $Message = "<h3 style='color:red'>Error in inserting record</h3>";
-    }
-
-//Display Page Layout header with updated session state and links 
-include("header.php");
-//Display message
-echo $Message;
-//Display Page Layout footer
-include("footer.php");
+        //Display Page Layout header with updated session state and links 
+        include("header.php");
+        //Display message
+        echo $Message;
+        //Display Page Layout footer
+        include("footer.php");
+}
 
 
 ?>
