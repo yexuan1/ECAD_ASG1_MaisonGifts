@@ -31,7 +31,7 @@ if (isset($_SESSION["ShopperName"])) {
         <a href="index.php" class="navbar-brand d-flex align-items-center">
             <img src="Images/Logo.png" alt="Logo" class="img-fluid" style="height: 90px; width: auto;" />
         </a>
-        <span class="navbar-text ms-md-2" style="max-width: 80%;">
+        <span class="navbar-text ms-md-2" style="max-width: 80%; font-size:20px;">
             <?php echo $content1; ?>
         </span>
 
@@ -45,7 +45,7 @@ if (isset($_SESSION["ShopperName"])) {
         <!-- Collapsible Navbar -->
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <!-- Centered menu items -->
-            <ul class="navbar-nav mx-auto">
+            <ul class="navbar-nav mx-auto"  style=" font-size:15px;">
                 <li class="nav-item">
                     <a class="nav-link" href="category.php"><strong>Product Categories</strong></a>
                 </li>

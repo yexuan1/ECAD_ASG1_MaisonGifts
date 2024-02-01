@@ -163,7 +163,7 @@ if (isset($_SESSION["Cart"])) {
 		
 		// Checkout form
 		echo "<form method='post' action='checkoutDetails.php'>";
-		echo "<input type='submit' value='Confirm' name='Confirm' class='btn btn-primary btn-sm' style='width: 100%;'>";
+		echo "<input type='submit' value='Confirm' name='Confirm' class='btn btn-outline-primary btn-sm' style='width: 100%;'>";
 		echo "</form>";
 	
 		echo "</div>"; // End of card div
@@ -171,11 +171,11 @@ if (isset($_SESSION["Cart"])) {
 		echo "</div>"; // End of row
 		echo "</div>"; // End of container
 	} else {
-		echo "<h3 style='text-align:center; color:red;'>Empty shopping cart!</h3>";
+		echo "<h3 style='text-align:center; color:red; margin-top: 20px;'>Empty shopping cart!</h3>";
 	}
 	$conn->close(); // Close database connection
 } else {
-	echo "<h3 style='text-align:center; color:red;'>Empty shopping cart!</h3>";
+	echo "<h3 style='text-align:center; color:red; margin-top: 20px;'>Empty shopping cart!</h3>";
 }
 echo "</div>"; // End of container
 include("footer.php"); // Include the Page Layout footer
