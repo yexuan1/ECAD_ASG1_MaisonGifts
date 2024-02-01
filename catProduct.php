@@ -40,7 +40,7 @@ include("Header.php"); //include page layout header
             $product = "productDetails.php?pid=$row[ProductID]";
             $formattedPrice = number_format($row["Price"], 2);
             echo "<div class='col-6'>"; //50% of row width
-            $offerPrice = $row["OfferedPrice"];
+            $offerPrice = number_format($row["OfferedPrice"], 2);
             echo "<p><a href=$product>$row[ProductTitle]</a></p>";
             echo "Price:<span style='font-weight:bold; color: salmon; text-decoration: line-through;'>
 			  S$ $formattedPrice</span>"; //OG Price
