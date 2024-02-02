@@ -198,17 +198,34 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			
 			$ShipEmail = urldecode($httpParsedResponseAr["EMAIL"]);		
 			
-
+			$_SESSION["deliveryDate"] = "";
 			$deliveryDate = "";
 
 			$message = $_SESSION['Message'];
 
 			$cartId = $_SESSION["Cart"];
 		
-			$deliveryMode = $_SESSION["DeliveryMode"];
+
 			$deliveryTime = $_SESSION["DeliveryTime"];
 
-			if ($deliveryMode = "Express")
+			function addWorkingDays($date, $days) {
+				$currentDate = new DateTime($date);
+			
+				// Iterate through the days to add
+				for ($i = 0; $i < $days; $i++) {
+					// Check if the day is a weekend (Saturday or Sunday)
+					while (in_array($currentDate->format('N'), [6, 7])) {
+						$currentDate->modify('+1 day'); // Skip weekends
+					}
+			
+					$currentDate->modify('+1 day'); // Move to the next day
+				}
+			
+				return $currentDate->format('Y-m-d');
+			}
+			
+
+			if ($_SESSION["DeliveryMode"] == 'Express')
 			{
 				$today = new DateTime();
 
@@ -221,28 +238,17 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 
 			else 
 			{
-				function addWorkingDays($date, $days) {
-					$currentDate = new DateTime($date);
-				
-					// Iterate through the days to add
-					for ($i = 0; $i < $days; $i++) {
-						// Check if the day is a weekend (Saturday or Sunday)
-						while (in_array($currentDate->format('N'), [6, 7])) {
-							$currentDate->modify('+1 day'); // Skip weekends
-						}
-				
-						$currentDate->modify('+1 day'); // Move to the next day
-					}
-				
-					return $currentDate->format('Y-m-d');
-				}
-				
+
 				// Get the date 2 working days from today
 				$today = date('Y-m-d');
 				$deliveryDate = addWorkingDays($today, 2);
 			}
 
-			$_SESSION["deliveryDate"] = $deliveryDate;
+			if ($deliveryDate != '')
+			{
+				$_SESSION["deliveryDate"] = $deliveryDate;
+			}
+			
 	
 			$qry = "INSERT INTO orderdata (ShipName, ShipAddress, ShipCountry,
 											ShipEmail, Message, DeliveryMode, DeliveryTime , DeliveryDate ,ShopCartID)
@@ -250,7 +256,7 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			$stmt = $conn->prepare($qry);
 			// "i" - integer, "s" - string
 			$stmt -> bind_param("ssssssssi", $ShipName, $ShipAddress, $ShipCountry,
-								$ShipEmail, $message, $deliveryMode ,$deliveryTime, $deliveryDate, $_SESSION["Cart"]);
+								$ShipEmail, $message, $_SESSION["DeliveryMode"] ,$deliveryTime, $deliveryDate, $_SESSION["Cart"]);
 			$stmt->execute();
 			$stmt->close();
 			$qry = "SELECT LAST_INSERT_ID() AS OrderID";

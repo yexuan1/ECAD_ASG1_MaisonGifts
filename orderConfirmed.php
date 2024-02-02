@@ -11,10 +11,10 @@ include("header.php"); // Include the Page Layout header
 
 if (isset($_SESSION["OrderID"])) {
 	echo " </br> </br>";
-	echo "<div class='container-fluid title'>";
-	echo "<h3 class='col-sm-7' >Thank you for your purchase!&nbsp;&nbsp;</h3>";
-	echo "<h2 class='col-sm-8'>Checkout successful. Your order number is $_SESSION[OrderID]</h2>";
-	echo "</div>";
+	//echo "<div class='container-fluid title'>";
+	echo "<h2 style='text-align:center;'><strong>Thank You For Your Purchase!</strong></h2>";
+	echo "<h3 style='text-align:center;'>Checkout Successful. Your Order Number is $_SESSION[OrderID]</h3>";
+	//echo "</div>";
 
 
 	echo "<div class='container mt-4'>
@@ -45,11 +45,11 @@ if (isset($_SESSION["OrderID"])) {
     </table>";
 	}
 	$finalTotal = $_SESSION["SubTotal"] + $_SESSION["Tax"] +$_SESSION["ShipCharge"];
-	echo "<br><p style='text-align:right; font-size:15px'>
+	echo "<br><p style='text-align:left; font-size:20px'>
     Delivery Mode : " . $_SESSION["DeliveryMode"] . "<br>";
-	echo "<p style='text-align:right; font-size:15px'>
+	echo "<p style='text-align:left; font-size:20px'>
     Delivery Date : " . $_SESSION["deliveryDate"] . "<br>";
-    echo "<p style='text-align:right; font-size:15px'>
+    echo "<p style='text-align:left; font-size:20px'>
     Delivery Time : " . $_SESSION["DeliveryTime"] . "<br>";
     echo "<p style='text-align:right; font-size:15px'>
     Subtotal = S$" . number_format($_SESSION["SubTotal"], 2) . "<br>";
@@ -57,8 +57,11 @@ if (isset($_SESSION["OrderID"])) {
     Total Tax Amount = S$" . number_format($_SESSION["Tax"], 2) . "<br>";
     echo "<p style='text-align:right; font-size:15px'>
     Shipping Charges = S$" . number_format($_SESSION["ShipCharge"], 2) . "<br>";
-    echo "<p style='text-align:right; font-size:20px'>
-    Final Amount = S$" . number_format($finalTotal, 2) . "<br>";
+    echo "<p style='text-align:right; font-size:20px'><strong>
+    Final Amount = S$" . number_format($finalTotal, 2) . "</strong><br>";
+
+	echo "<p style='text-align:center; color:red; font-size:15px;'>
+	For Order Enquiries: maisongiftshelp@gmail.com". "<br>";
 
 	echo "<div>
 			<a id='cont-shop' href='feedbackPage.php'>Send Feeback</a>

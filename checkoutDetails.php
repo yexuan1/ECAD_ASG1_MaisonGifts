@@ -19,13 +19,16 @@ if (!isset($_SESSION["ShopperID"])) { // Check if user logged in
     exit;
 }
 
+
+
 if (isset($_SESSION["Cart"])) {
+
     $selectedDeliveryOption = "";
     $_SESSION["ShipCharge"] = 0;
     $_SESSION["DeliveryMode"] = "";
     $_SESSION["DeliveryTime"] = "";
-    $shipCharge = 0;
     $_SESSION["Message"] = "";
+    $shipCharge = 0;
 
     include_once("mysql_conn.php");
 
@@ -44,13 +47,13 @@ if (isset($_SESSION["Cart"])) {
             echo "
             
         <div class='col-md-7 col-lg-8'>
-        <form class='' method='POST' action = 'checkoutDetails.php'>
+        <form method='POST' action='checkoutDetails.php'>
             <div class='row g-3'>
               
         
                 <div class='col-12'>
                     <label for='message' class='form-label'>Message <span class='text-body-secondary'>(Optional)</span></label>
-                    <input type='text' class='form-control' name='message' placeholder='Your Message Here:'>
+                    <input type='text' class='form-control' name='message' placeholder='Your Message Here:' value=''>
                 </div>";
 
                 if ($_SESSION["SubTotal"] > 200) {
@@ -86,19 +89,17 @@ if (isset($_SESSION["Cart"])) {
                     </div>
                 </div> <br> </br>";
 
-            echo "<button class='w-100 btn btn-primary btn-lg' name='Confirm'value='Confirm'>Confirm</button>";
+            echo "<button class='w-100 btn btn-primary btn-lg' name='Confirm' value='Confirm'>Confirm</button>";
             echo "</form>";
             echo "</div> ";
 
         }
 
     }
-
-
-        // Add shipping information to the shippingItems array
-        if (isset($_POST['Message'])) 
+ 
+        if (isset($_POST['message'])) 
         {
-            $_SESSION['Message'] = $_POST['Message'];
+            $_SESSION['Message'] = $_POST['message'];
         }
 
 
@@ -162,6 +163,7 @@ if (isset($_SESSION["Cart"])) {
 
     $finalTotal = $_SESSION["Tax"] + $_SESSION["SubTotal"] + $_SESSION["ShipCharge"];
 
+    echo "<br><p style='text-align:right; font-size:15px'>Message : " . $_SESSION["Message"] ;
     echo "<br><p style='text-align:right; font-size:15px'>
     Delivery Mode : " . $_SESSION["DeliveryMode"] . "<br>";
     echo "<p style='text-align:right; font-size:15px'>
@@ -189,8 +191,7 @@ if (isset($_SESSION["Cart"])) {
         echo "<h3 style='text-align:center; color:red;'>Please Select a Delivery Mode and Time!</h3>";
     }
     echo "<form method='post' action='shoppingCart.php'>";
-    echo "<input type='submit' style='float:left;'
-            value='Return To Shopping Cart' name='return'";
+    echo "<input type='submit' style='float:left;' value='Return To Shopping Cart' name='return'>";
     echo "</form></p>";
     echo "<br></br>";
 

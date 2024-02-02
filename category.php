@@ -22,8 +22,8 @@ include("Header.php"); //include header layout
 
 </head>
 
-<!-- create container that's 60% width of viewport -->
-<div style="width:60%; margin:auto;">
+<!-- create container that's 80% width of viewport -->
+<div style="width:80%; margin:auto;">
 
     <div class="row" style="padding:5px"> <!-- header row -->
         <div class="col-12">
