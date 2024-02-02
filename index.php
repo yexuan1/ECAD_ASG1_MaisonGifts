@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 // Detect the current session
 session_start();
@@ -14,13 +14,13 @@ include("header.php");
 </head>
 
 <body>
-    <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel" style="margin-top:40px; ">
+    <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel" style="margin-top:40px; border-radius:20px;">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
-        <div class="carousel-inner">
+        <div class="carousel-inner ">
             <div class="carousel-item active">
                 <img class="bd-placeholder-img" width="100%" height="100%" src="Images\carousel1.jpg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
                 <rect width="100%" height="100%" fill="var(--bs-secondary-color)" />
@@ -70,29 +70,30 @@ include("header.php");
     <?php
     // Include the PHP file that establishes database connection handle: $conn
     include_once("mysql_conn.php");
-
+ 
+    $today = date("Y-m-d");
     // To Do:  Starting ....
     // Form SQL to retrieve list of products associated to the Category ID
-    $qry = "SELECT p.ProductID, p.ProductTitle, p.ProductImage, p.Price, p.Quantity
-    FROM CatProduct cp INNER JOIN product p ON cp.ProductID=p.ProductID";
+    $qry = "SELECT p.ProductID, p.ProductTitle, p.ProductImage, p.Price, p.Quantity, p.OfferedPrice
+    FROM CatProduct cp INNER JOIN product p ON cp.ProductID=p.ProductID WHERE p.Offered='1' AND p.OfferStartDate <= '$today' AND p.OfferEndDate >= '$today'";
     $stmt = $conn->prepare($qry);
     $stmt->execute();
     $result = $stmt->get_result();
     $stmt->close();
 
     echo "<div class='row' style='padding:5px; margin-top: 40px;'>"; // Start a new row
-
+    echo "<p class='page-title text-center' style='color:red;'>SALE</p>";
     while ($row = $result->fetch_array()) {
         // Display each product in a card
         $product = "productDetails.php?pid=$row[ProductID]";
-        $formattedPrice = number_format($row["Price"], 2);
+        $formattedPrice = number_format($row["OfferedPrice"], 2);
     
         echo "<div class='col-md-4' style='margin-bottom: 40px;'>";
         echo "<div class='card' style='border-radius: 35px; '>";
         echo "<img src='./Images/products/$row[ProductImage]' class='card-img-top img-fluid mx-auto' alt='Product Image' style='width: 80%;'>"; // Adjust the width as needed
         echo "<div class='card-body'>";
         echo "<h5 class='card-title'><a href='$product' style='text-decoration: none; font-weight: semi-bold; color: black; font-size: 25px;'>$row[ProductTitle]</a></h5>";
-        echo "<p class='card-text'> <span style='color: black; font-size: 20px;'>S$ $formattedPrice</span></p>";
+        echo "<p class='card-text'> <span style='color: red; font-size: 20px;'>S$ $formattedPrice</span></p>";
         echo "</div>";
         echo "</div>";
         echo "</div>";
