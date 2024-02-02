@@ -12,8 +12,53 @@ if (isset($_SESSION["OrderID"])) {
 	echo "<div class='container-fluid title'>";
 	echo "<h3 class='col-sm-7' >Thank you for your purchase!&nbsp;&nbsp;</h3>";
 	echo "<h2 class='col-sm-8'>Checkout successful. Your order number is $_SESSION[OrderID]</h2>";
-	echo "<h1 class='col-sm-7' >Rate your experience</h1>";
 	echo "</div>";
+
+
+	echo "<div class='container mt-4'>
+    <table class='table table-bordered'>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>";
+	foreach ($_SESSION['Items'] as $key => $item) {
+		$quantity = $item['quantity'];
+		$price = $item['price'];
+		$name = $item['name'];
+		$pid = $item['productId'];
+		$formattedPrice = number_format($price, 2);
+		$formattedTotal = number_format($price * $quantity, 2);
+		echo "<tr>
+    	<td>$name<br/>Product ID: $pid</td>
+        <td>S$$formattedPrice</td>
+        <td>$quantity</td>
+    	<td>S$$formattedTotal</td>
+        </tr>
+        </tbody>
+    </table>";
+	}
+	$finalTotal = $_SESSION["SubTotal"] + $_SESSION["Tax"] +$_SESSION["ShipCharge"];
+	echo "<br><p style='text-align:right; font-size:15px'>
+    Delivery Mode : " . $_SESSION["DeliveryMode"] . "<br>";
+	echo "<p style='text-align:right; font-size:15px'>
+    Delivery Date : " . $_SESSION["deliveryDate"] . "<br>";
+    echo "<p style='text-align:right; font-size:15px'>
+    Delivery Time : " . $_SESSION["DeliveryTime"] . "<br>";
+    echo "<p style='text-align:right; font-size:15px'>
+    Subtotal = S$" . number_format($_SESSION["SubTotal"], 2) . "<br>";
+    echo "<p style='text-align:right; font-size:15px'>
+    Total Tax Amount = S$" . number_format($_SESSION["Tax"], 2) . "<br>";
+    echo "<p style='text-align:right; font-size:15px'>
+    Shipping Charges = S$" . number_format($_SESSION["ShipCharge"], 2) . "<br>";
+    echo "<p style='text-align:right; font-size:20px'>
+    Final Amount = S$" . number_format($finalTotal, 2) . "<br>";
+
+	echo "<h1 class='col-sm-7' >Rate your experience</h1>";
 	echo "<form action='addFeedback.php' method='post'>
 			<div class='star'>
 					<input class='ranking-star' type='radio' name='radio' id='rate-5' value='5'>
@@ -39,9 +84,16 @@ if (isset($_SESSION["OrderID"])) {
 						</div>
 					</div>
 				</div>
-		</form>";
-	echo $_SESSION["deliveryDate"];
+		</form> </div>";
+
+
+
+
 }
+
+
+
+
 
 include("footer.php"); // Include the Page Layout footer
 ?>

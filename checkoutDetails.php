@@ -90,77 +90,6 @@ if (isset($_SESSION["Cart"])) {
             echo "</form>";
             echo "</div> ";
 
-            /*
-            echo "<p>Shipping Details</p>";
-            echo "<form method='POST' action = 'checkoutDetails.php'>";
-            echo "<label for='name'> Name: </label>&nbsp";
-            echo "<input type='text' name='name' value='$row[Name]' required /><br></br>";
-            echo "<label for='address'> Address: </label>&nbsp";
-            echo "<input type='text' name='address' value='$row[Address]' required /><br></br>";
-            echo "<label for='country'> Country: </label>&nbsp";
-            echo "<input type='text' name='country' value='$row[Country]' required  /><br></br>";
-            echo "<label for='phone'> Phone: </label>&nbsp";
-            echo "<input type='text' name='phone' value='$row[Phone]' required /><br></br>";
-            echo "<label for='email'> Email: </label>&nbsp";
-            echo "<input type='text' name='email' value='$row[Email]' required /><br></br>";
-            echo "<label for='message'> Message: </label>&nbsp";
-            echo "<input type='text' name='message' value='' /><br></br>";
-
-            
-            //delivery option
-
-            if ($_SESSION["SubTotal"] > 200) {
-
-                echo "<p> Your Order Total is over $200. You are Eligible for FREE Express Shipping</p>";
-                $_SESSION["ShipCharge"] = 0;
-                $_SESSION["DeliveryMode"] = "Express";
-            } else {
-                echo "<p>Select Preferred Delivery Mode:</p><br>";
-                echo "<form method='POST' action='checkoutDetails.php'>";
-                echo "<label for='normal'>Normal Delivery $5 (Delivered within 2 working days after an order is placed)</label>&nbsp";
-                echo "<input type='radio' name='deliveryOption' value='Normal' /> <br></br>";
-                echo "<label for='express'>Express Delivery $10 (Delivered within 24 hours after an order is placed)</label>&nbsp";
-                echo "<input type='radio' name='deliveryOption' value='Express'/> <br></br>";
-
-            }
-
-            //delivery date
-            echo "<label for='dateDropdown'>Preferred Delivery Date:</label>&nbsp";
-            echo "<select name='dateDropdown'>";
-
-            $today = new DateTime('tomorrow');
-            $endDate = new DateTime();
-            $endDate->add(new DateInterval('P14D')); // Add 14 days to today's date
-
-            while ($today <= $endDate) {
-                $dateString = $today->format('Y-m-d');
-
-                if ($dateString == $selectedDate) {
-                    $selected = "selected";
-                } else {
-                    $selected = "";
-                }
-
-                echo "<option value='$dateString' $selected>$dateString</option>";
-
-                $today->add(new DateInterval('P1D')); // Move to the next day
-            }
-
-            echo "</select><br></br>";
-
-            //delivery time
-
-            echo "<p>Preferred Delivery Time:</p>";
-            echo "<label for='3pm-6pm'>3pm - 6pm </label> ";
-            echo "<input type='radio' name='deliveryTime' value='9am-12pm'/> &nbsp&nbsp";
-            echo "<label for='12pm-3pm'>12pm - 3pm </label> ";
-            echo "<input type='radio' name='deliveryTime' value='12pm-3pm'/> &nbsp&nbsp ";
-            echo "<label for='3pm-6pm'>3pm - 6pm </label> ";
-            echo "<input type='radio' name='deliveryTime' value='3pm-6pm'/> <br></br>";
-
-            echo "<input type='submit' value='Confirm' name='Confirm'>";
-            echo "</form>"; */
-
         }
 
     }
@@ -172,26 +101,6 @@ if (isset($_SESSION["Cart"])) {
             $_SESSION['Message'] = $_POST['Message'];
         }
 
-
-
-
-
-
-
-    /* if ($_SESSION["SubTotal"] > 200) {
-
-         echo "<p> Your Order Total is over $200. You are Eligible for FREE Express Shipping</p>";
-         $_SESSION["ShipCharge"] = 0;
-         $_SESSION["DeliveryMode"] = "Express";
-     } else {
-         echo "<form method='POST' action='checkoutDetails.php'>";
-         echo "<input type='radio' name='deliveryOption' value='Normal' /> ";
-         echo "<label for='normal'>Normal Delivery $5 (Delivered within 2 working days after an order is placed)</label> <br> ";
-         echo "<input type='radio' name='deliveryOption' value='Express'/> ";
-         echo "<label for='express'>Express Delivery $10 (Delivered within 24 hours after an order is placed)</label><br>";
-         echo "<input type='submit' value='Confirm' name='Confirm'>";
-         echo "</form>";
- */
 
     if (isset($_POST['deliveryTime'])) {
         // Retrieve the selected delivery option

@@ -245,12 +245,12 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			$_SESSION["deliveryDate"] = $deliveryDate;
 	
 			$qry = "INSERT INTO orderdata (ShipName, ShipAddress, ShipCountry,
-											ShipEmail, Message, DeliveryMode, DeliveryTime ,ShopCartID)
-					VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+											ShipEmail, Message, DeliveryMode, DeliveryTime , DeliveryDate ,ShopCartID)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			$stmt = $conn->prepare($qry);
 			// "i" - integer, "s" - string
-			$stmt -> bind_param("sssssssi", $ShipName, $ShipAddress, $ShipCountry,
-								$ShipEmail, $message, $deliveryMode ,$deliveryTime, $_SESSION["Cart"]);
+			$stmt -> bind_param("ssssssssi", $ShipName, $ShipAddress, $ShipCountry,
+								$ShipEmail, $message, $deliveryMode ,$deliveryTime, $deliveryDate, $_SESSION["Cart"]);
 			$stmt->execute();
 			$stmt->close();
 			$qry = "SELECT LAST_INSERT_ID() AS OrderID";
