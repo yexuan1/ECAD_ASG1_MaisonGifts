@@ -15,7 +15,7 @@ include("header.php");
 <div style="width: 40%; margin: auto; margin-top: 5%;">
 
     <!-- Create an HTML form within the container -->
-    <div class="card" style="border-radius:25px; background-color: #f5f5dc;">
+    <div class="card" style="border-radius:25px; background-color: #f7f7f2;">
         <div class="card-body">
 
             <form action="checkLogin.php" method="post">
