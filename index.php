@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 // Detect the current session
 session_start();
@@ -70,11 +70,12 @@ include("header.php");
     <?php
     // Include the PHP file that establishes database connection handle: $conn
     include_once("mysql_conn.php");
-
+ 
+    $today = date("Y-m-d");
     // To Do:  Starting ....
     // Form SQL to retrieve list of products associated to the Category ID
     $qry = "SELECT p.ProductID, p.ProductTitle, p.ProductImage, p.Price, p.Quantity
-    FROM CatProduct cp INNER JOIN product p ON cp.ProductID=p.ProductID";
+    FROM CatProduct cp INNER JOIN product p ON cp.ProductID=p.ProductID WHERE p.Offered='1' AND p.OfferStartDate <= '$today' AND p.OfferEndDate >= '$today'";
     $stmt = $conn->prepare($qry);
     $stmt->execute();
     $result = $stmt->get_result();

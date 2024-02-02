@@ -44,27 +44,21 @@ if (isset($_SESSION["Cart"])) {
             echo "
             
         <div class='col-md-7 col-lg-8'>
-        <form class='needs-validation' novalidate method='POST' action = 'checkoutDetails.php'>
+        <form class='' method='POST' action = 'checkoutDetails.php'>
             <div class='row g-3'>
                 <div class='col-sm-6'>
                     <label for='name' class='form-label'>Name</label>
-                    <input type='text' class='form-control' name='name' placeholder='' value='$row[Name]' required>
-                    <div class='invalid-feedback'>
-                        Valid first name is required.
-                    </div>
+                    <input type='text' class='form-control' name='name' value='$row[Name]' placeholder='' required>
                 </div>
         
                 <div class='col-sm-6'>
                     <label for='phone' class='form-label'>Phone No.</label>
                     <input type='text' class='form-control' name='phone' placeholder='' value='$row[Phone]' required>
-                    <div class='invalid-feedback'>
-                        Valid last name is required.
-                    </div>
                 </div>
         
                 <div class='col-12'>
                     <label for='email' class='form-label'>Email</label>
-                    <input type='email' class='form-control' name='email' value='$row[Email]' placeholder='you@example.com'>
+                    <input type='email' class='form-control' name='email' placeholder='you@example.com' value='$row[Email]' required>
                     <div class='invalid-feedback'>
                         Please enter a valid email address.
                     </div>
@@ -87,9 +81,7 @@ if (isset($_SESSION["Cart"])) {
                     <label for='country' class='form-label'>Country</label>
                     <input type='text' class='form-control' name='country' value='$row[Country]'  placeholder='Singapore' required>
 
-                    <div class='invalid-feedback'>
-                        Please select a valid country.
-                    </div>
+
                 </div>";
 
                 if ($_SESSION["SubTotal"] > 200) {
@@ -151,7 +143,7 @@ if (isset($_SESSION["Cart"])) {
                     </div>
                 </div> <br> </br>";
 
-            echo "<button class='w-100 btn btn-primary btn-lg' type='submit'>Confirm</button>";
+            echo "<button class='w-100 btn btn-primary btn-lg' name='Confirm'value='Confirm'>Confirm</button>";
             echo "</form>";
             echo "</div> </div>";
 
