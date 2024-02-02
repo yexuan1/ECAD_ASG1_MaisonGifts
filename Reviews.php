@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <style>
-        <?php session_start(); include("css/site.css"); ?>
+        <?php session_start();
+        include("css/site.css"); ?>
     </style>
 </head>
-<body>
+
 
 <?php
 include("header.php");
@@ -16,36 +15,29 @@ $stmt = $conn->prepare($qry);
 $stmt->execute();
 $result = $stmt->get_result();
 
-if($result->num_rows > 0){
-    echo"</br>
-            <table class='table table-dark table-striped feedback-head'>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Subject</th>
-                        <th>Content</th>
-                        <th>Rank</th>
-                    </tr>
-                </thead>
-            </table>";
-    while($row = $result->fetch_assoc()){
+if ($result->num_rows > 0) {
+    echo "</br>
+            
+            
+            <div class='container-fluid review'>
+                <div><label>Name</label></div>
+                <div><label>Subject</label></div>
+                <div><label>Content</label></div>
+                <div><label>Rank</label></div>
+            </div>";
+    while ($row = $result->fetch_assoc()) {
         echo "
-                <table class='table col-sm-12 feedback-body'>
-                    <tbody>
-                        <tr>
-                            <td>$row[Name]</td>
-                            <td>$row[Subject]</td>
-                            <td>$row[Content]</td>
-                            <td>$row[Rank]</td>
-                        </tr>
-                    </tbody>
-               </table>";
-    };
+        
 
+               <div class='container-fluid review-content'>
+                    <div><p>$row[Name]</p></div>
+                    <div><p>$row[Subject]</p></div>
+                    <div><p>$row[Content]</p></div>
+                    <div><p>$row[Rank]</p></div>
+               </div>
+               ";
+    };
 };
 
 include("footer.php");
 ?>
-
-</body>
-</html>

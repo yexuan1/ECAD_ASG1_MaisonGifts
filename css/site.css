@@ -25,9 +25,14 @@ body{
 
 /*feedback*/
 
+.title{
+  margin-left: 30%
+}
+
 .star{
     display: inline-block;
     text-align: center;
+    margin-left: 33%;
 }
 
 .star label{
@@ -152,22 +157,38 @@ body{
 }
 /*feedback*/
 /*Review*/
-.feedback-head th{
-  padding-left: 2rem;
+.review{
+  display: flex;
+  justify-content: space-between;
+  background-color: black;
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
-.feedback-body{
-  width: 100%;
+
+.review-content{
+  display: flex;
+  justify-content: space-between;
+  background-color:#017CA7;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
-.feedback-body td{
-  width: 100px;
+
+
+.review-content div:nth-child(3){
+  width: 190px;
 }
 
 
-
-td:nth-child(4){
-  padding-left: 4rem;
+.review-content div:nth-child(4){
+  width: 20px;
 } 
 /*Review*/
 
@@ -259,6 +280,14 @@ td:nth-child(4){
 		width: 50%;
 		margin-bottom: 30px;
 	  }
+
+    .review-content div{
+      width: 150px;
+    }
+
+    .title h2{
+      width: 300px;
+    }
 
   }
 
