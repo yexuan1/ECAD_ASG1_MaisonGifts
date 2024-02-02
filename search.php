@@ -44,9 +44,9 @@ include_once("mysql_conn.php");
 
     if (isset($_GET["keywords"]) && trim($_GET["keywords"]) != "") {
         // if both min and max prices are set
+        echo "<div class='row' style='padding:5px; font-size:20px'>";
 
         if (trim($_GET["minPrice"]) != "" && trim($_GET["maxPrice"]) != "") {
-            echo "<p>Min and Max Set</p>";
             $qry = "SELECT p.ProductID, p.ProductTitle, p.ProductDesc, MAX(p.Price) AS MaxPrice,
                     CASE WHEN MAX(p.Offered) = 1 AND CURDATE() BETWEEN MAX(p.OfferStartDate) AND MAX(p.OfferEndDate)
                     THEN MAX(p.OfferedPrice) ELSE MAX(p.Price) END AS OfferedPrice, MAX(ps.SpecVal) AS SpecVal
@@ -56,6 +56,8 @@ include_once("mysql_conn.php");
                     GROUP BY p.ProductID
                     HAVING OfferedPrice BETWEEN $_GET[minPrice] AND $_GET[maxPrice]
                     ORDER BY ProductTitle ASC";
+
+            echo "<strong>Search results for $_GET[keywords] between $$_GET[minPrice] and $$_GET[maxPrice]: </strong>";
         }
         // if only min price is set
         else if (trim($_GET["minPrice"]) != "" && trim($_GET["maxPrice"]) == "") {
@@ -69,6 +71,8 @@ include_once("mysql_conn.php");
                     GROUP BY p.ProductID
                     HAVING OfferedPrice BETWEEN $_GET[minPrice] AND (SELECT MAX(Price) FROM Product)
                     ORDER BY ProductTitle ASC";
+
+            echo "<strong>Search results for $_GET[keywords] between $$_GET[minPrice] and the Maximum Price: </strong>";
         }
         // if only max price is set
         else if (trim($_GET["minPrice"]) == "" && trim($_GET["maxPrice"]) != "") {
@@ -82,6 +86,8 @@ include_once("mysql_conn.php");
                     GROUP BY p.ProductID
                     HAVING OfferedPrice BETWEEN 0 AND $_GET[maxPrice]
                     ORDER BY ProductTitle ASC";
+
+            echo "<strong>Search results for $_GET[keywords] between $0 and $_GET[maxPrice]: </strong>";
         }
         // if neither min or max prices are set
         else {
@@ -90,13 +96,10 @@ include_once("mysql_conn.php");
                 INNER JOIN ProductSpec ps ON p.ProductID = ps.ProductID
                 WHERE (ProductTitle LIKE '%$_GET[keywords]%' OR ProductDesc LIKE '%$_GET[keywords]%' OR SpecVal LIKE '%$_GET[keywords]%')  
                 ORDER BY ProductTitle ASC";
+            echo "<strong>Search results for $_GET[keywords]: </strong>";
         }
 
         $result = $conn->query($qry);
-
-
-        echo "<div class='row' style='padding:5px; font-size:20px'>";
-        echo "<strong>Search results: </strong>";
         echo "</div>";
 
         if ($result->num_rows > 0) {
@@ -122,7 +125,6 @@ include_once("mysql_conn.php");
 
     else if ((!isset($_GET["keywords"]) || trim($_GET["keywords"]) == "") && (isset($_GET["minPrice"]) != "" && trim($_GET["minPrice"]) != "") && (trim($_GET["maxPrice"]) == "")) {
         // if min price is set but max price is not
-        echo "<p>no keywords but min is set</p>";
         $qry = "SELECT DISTINCT p.ProductID, p.ProductTitle, p.ProductDesc, p.Price, 
                 CASE WHEN p.Offered = 1 AND CURDATE() BETWEEN p.OfferStartDate AND p.OfferEndDate
                      THEN p.OfferedPrice ELSE p.Price END AS DisplayPrice
@@ -134,7 +136,7 @@ include_once("mysql_conn.php");
         $result = $conn->query($qry);
 
         echo "<div class='row' style='padding:5px; font-size:20px'>";
-        echo "<strong>Search results: </strong>";
+        echo "<strong>Search results for price between $$_GET[minPrice] and Maximum Price: </strong>";
         echo "</div>";
 
         if ($result->num_rows > 0) {
@@ -155,7 +157,6 @@ include_once("mysql_conn.php");
         }
     } else if ((!isset($_GET["keywords"]) || trim($_GET["keywords"]) == "") && (isset($_GET["maxPrice"]) != "" && trim($_GET["maxPrice"]) != "") && (trim($_GET["minPrice"]) == "")) {
         // if max price is set but min price is not
-        echo "<p>no keywords but max is set</p>";
         $qry = "SELECT DISTINCT p.ProductID, p.ProductTitle, p.ProductDesc, p.Price, 
                 CASE WHEN p.Offered = 1 AND CURDATE() BETWEEN p.OfferStartDate AND p.OfferEndDate
                      THEN p.OfferedPrice ELSE p.Price END AS DisplayPrice
@@ -167,7 +168,7 @@ include_once("mysql_conn.php");
         $result = $conn->query($qry);
 
         echo "<div class='row' style='padding:5px; font-size:20px'>";
-        echo "<strong>Search results: </strong>";
+        echo "<strong>Search results for price between $0 and $$_GET[maxPrice]: </strong>";
         echo "</div>";
 
         if ($result->num_rows > 0) {
@@ -188,7 +189,6 @@ include_once("mysql_conn.php");
         }
     } else if ((!isset($_GET["keywords"]) || trim($_GET["keywords"]) == "") && (isset($_GET["maxPrice"]) != "" && trim($_GET["maxPrice"]) != "") && (isset($_GET["minPrice"]) != "" && trim($_GET["minPrice"]) != "")) {
         // if both are set
-        echo "<p>no keywords but both are set</p>";
         $qry = "SELECT DISTINCT p.ProductID, p.ProductTitle, p.ProductDesc, p.Price, 
                 CASE WHEN p.Offered = 1 AND CURDATE() BETWEEN p.OfferStartDate AND p.OfferEndDate
                      THEN p.OfferedPrice ELSE p.Price END AS DisplayPrice
@@ -200,7 +200,7 @@ include_once("mysql_conn.php");
         $result = $conn->query($qry);
 
         echo "<div class='row' style='padding:5px; font-size:20px'>";
-        echo "<strong>Search results: </strong>";
+        echo "<strong>Search results for price between $$_GET[minPrice] and $$_GET[maxPrice]: </strong>";
         echo "</div>";
 
         if ($result->num_rows > 0) {

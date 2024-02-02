@@ -58,14 +58,16 @@ include("Header.php"); // header layout
         $formattedPrice = number_format($row["Price"], 2); //OG Price
 
         $onOffer = $row["Offered"];
-        if ($onOffer == 1 && (date("Y-m-d") >= $row["OfferStartDate"]) && (date("Y-m-d") <= $row["OfferEndDate"])){
+        if ($onOffer == 1 && (date("Y-m-d") >= $row["OfferStartDate"]) && (date("Y-m-d") <= $row["OfferEndDate"])) {
             $offerPrice = number_format($row["OfferedPrice"], 2);
+            if ($quantity < 5 && $quantity != 0) {
+                echo "<p>Only $quantity left! Buy before it's out of stock!</p>";
+            }
             echo "Price: <span style='font-weight:bold; color: salmon; text-decoration: line-through;'>
                 S$ $formattedPrice</span>";
             echo "<span style='font-weight:bold; color: salmon;'>
 			  S$ $offerPrice</span>"; //Discounted Price
-        }
-        else{
+        } else {
             echo "Price:<span style='font-weight:bold; color: salmon;'>
 			  S$ $formattedPrice</span>";
         }
@@ -90,7 +92,7 @@ include("Header.php"); // header layout
         echo "<form action='cartFunctions.php' method='post'>"; //for Checkout process to implement
         echo "<input type='hidden' name='action' value='add' />";
         echo "<input type='hidden' name='product_id' value='$pid' />";
-        echo "Quantity: <input type='number' name='quantity' value='1'
+        echo "Quantity: <input disabled type='number' name='quantity' value='1'
                     min='1' max='10' style='width:40px; margin-bottom: 10px;' required />";
         echo "<button disabled type='submit' style='background: gray; color: white;
         border-style: outset; border-color: #0066A2; width: 100%;'>Add to Cart</button>";
