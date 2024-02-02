@@ -17,23 +17,13 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     echo "</br>
-            
-            
             <div class='container-fluid review'>
-                <div><label>Name</label></div>
-                <div><label>Subject</label></div>
-                <div><label>Content</label></div>
-                <div><label>Rank</label></div>
+                <div><h1>Feedback about Maison Gifts</h1></div>
             </div>";
     while ($row = $result->fetch_assoc()) {
-        echo "
-        
-
-               <div class='container-fluid review-content'>
-                    <div><p>$row[Name]</p></div>
-                    <div><p>$row[Subject]</p></div>
-                    <div><p>$row[Content]</p></div>
-                    <div><p>$row[Rank]</p></div>
+        echo "<div class='container-fluid review-content'>
+                    <div>Name: <span>$row[Name]</span></br> Subject: $row[Subject]: </br>Content: $row[Content]</div><hr>
+                    <div>Gives a ranking of <span>$row[Rank]</span> out of 5 stars</div>
                </div>
                ";
     };
