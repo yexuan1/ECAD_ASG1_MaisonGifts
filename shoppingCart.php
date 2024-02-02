@@ -145,8 +145,6 @@ if (isset($_SESSION["Cart"])) {
 			}
 
 			// Store the shopping cart items in session variable as an associate array
-
-
 			$subTotal += $row["Total"];
 			// Update the total quantity
 			$totalItems += $row["Quantity"];
@@ -165,7 +163,7 @@ if (isset($_SESSION["Cart"])) {
 		echo "<form method='post' action='checkoutDetails.php'>";
 		echo "<input type='submit' value='Confirm' name='Confirm' class='btn btn-primary btn-sm' >";
 		echo "</form>";
-	
+				
 		echo "</div>"; // End of card div
 		echo "</div>"; // End of single column
 		echo "</div>"; // End of row

@@ -24,11 +24,11 @@ if (!isset($_SESSION["ShopperID"])) { // Check if user logged in
 if (isset($_SESSION["Cart"])) {
 
     $selectedDeliveryOption = "";
-$_SESSION["ShipCharge"] = 0;
-$_SESSION["DeliveryMode"] = "";
-$_SESSION["DeliveryTime"] = "";
-$_SESSION["Message"] = "";
-$shipCharge = 0;
+    $_SESSION["ShipCharge"] = 0;
+    $_SESSION["DeliveryMode"] = "";
+    $_SESSION["DeliveryTime"] = "";
+    $_SESSION["Message"] = "";
+    $shipCharge = 0;
 
     include_once("mysql_conn.php");
 
@@ -191,8 +191,7 @@ $shipCharge = 0;
         echo "<h3 style='text-align:center; color:red;'>Please Select a Delivery Mode and Time!</h3>";
     }
     echo "<form method='post' action='shoppingCart.php'>";
-    echo "<input type='submit' style='float:left;'
-            value='Return To Shopping Cart' name='return'";
+    echo "<input type='submit' style='float:left;' value='Return To Shopping Cart' name='return'>";
     echo "</form></p>";
     echo "<br></br>";
 

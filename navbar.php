@@ -2,6 +2,7 @@
 <head>
     <script src="https://kit.fontawesome.com/fc8e0fb32a.js" crossorigin="anonymous"></script>
 </head>
+
 <?php
 //Display guest welcome message, Login and Registration links
 //when shopper has yet to login,
@@ -24,19 +25,16 @@ if (isset($_SESSION["ShopperName"])) {
     <a class = 'nav-link' href='logout.php'><i class='fa-solid fa-right-from-bracket'></i></a></li>";
 
 }
+
 ?>
 <nav class="navbar navbar-expand-md navbar-light" style="background-color: #f5f5dc; padding-top: 1px; padding-bottom: 1px; border-radius: 35px;">
     <div class="container">
-
         <a href="index.php" class="navbar-brand d-flex align-items-center">
             <img src="Images/Logo.png" alt="Logo" class="img-fluid" style="height: 90px; width: auto;" />
         </a>
         <span class="navbar-text ms-md-2" style="max-width: 80%; font-size:20px;">
             <?php echo $content1; ?>
         </span>
-
-        
-       
 
         <!-- Toggler Button for Small Screens -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
