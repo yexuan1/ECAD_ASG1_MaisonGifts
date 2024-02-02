@@ -58,7 +58,7 @@ if (isset($_SESSION["Cart"])) {
 			if ($onOffer == 1 && (date("Y-m-d") >= $row["OfferStartDate"]) && (date("Y-m-d") <= $row["OfferEndDate"])) {
 				$row["Total"] = $row["OfferedPrice"] * $row["Quantity"];
 				echo "<tr>";
-				echo "<td><img src='./Images/Category/{$row['ProductImage']}' alt='Product Image' style='max-width: 100px;'></td>";
+				echo "<td><img src='./Images/products/$row[ProductImage]' alt='Product Image' style='max-width: 100px;'></td>";
 				echo "<td style='width:50%'>$row[Name]<br/>";
 				echo "Product ID: $row[ProductID]</td>";
 				$formattedPrice = number_format($row["OfferedPrice"], 2);
@@ -163,7 +163,7 @@ if (isset($_SESSION["Cart"])) {
 		
 		// Checkout form
 		echo "<form method='post' action='checkoutDetails.php'>";
-		echo "<input type='submit' value='Confirm' name='Confirm' class='btn btn-outline-primary btn-sm' style='width: 100%;'>";
+		echo "<input type='submit' value='Confirm' name='Confirm' class='btn btn-primary btn-sm' >";
 		echo "</form>";
 	
 		echo "</div>"; // End of card div

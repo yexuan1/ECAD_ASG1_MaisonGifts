@@ -25,7 +25,7 @@ if (isset($_SESSION["Cart"])) {
     $_SESSION["DeliveryMode"] = "";
     $_SESSION["DeliveryTime"] = "";
     $shipCharge = 0;
-    $_SESSION["shippingItems"] = array();
+    $_SESSION["Message"] = "";
 
     include_once("mysql_conn.php");
 
@@ -46,42 +46,11 @@ if (isset($_SESSION["Cart"])) {
         <div class='col-md-7 col-lg-8'>
         <form class='' method='POST' action = 'checkoutDetails.php'>
             <div class='row g-3'>
-                <div class='col-sm-6'>
-                    <label for='name' class='form-label'>Name</label>
-                    <input type='text' class='form-control' name='name' value='$row[Name]' placeholder='' required>
-                </div>
-        
-                <div class='col-sm-6'>
-                    <label for='phone' class='form-label'>Phone No.</label>
-                    <input type='text' class='form-control' name='phone' placeholder='' value='$row[Phone]' required>
-                </div>
-        
-                <div class='col-12'>
-                    <label for='email' class='form-label'>Email</label>
-                    <input type='email' class='form-control' name='email' placeholder='you@example.com' value='$row[Email]' required>
-                    <div class='invalid-feedback'>
-                        Please enter a valid email address.
-                    </div>
-                </div>
-        
-                <div class='col-12'>
-                    <label for='address' class='form-label'>Address</label>
-                    <input type='text' class='form-control' name='address' value='$row[Address]' placeholder='1234 Main St' required>
-                    <div class='invalid-feedback'>
-                        Please enter your shipping address.
-                    </div>
-                </div>
+              
         
                 <div class='col-12'>
                     <label for='message' class='form-label'>Message <span class='text-body-secondary'>(Optional)</span></label>
                     <input type='text' class='form-control' name='message' placeholder='Your Message Here:'>
-                </div>
-        
-                <div class='col-md-5'>
-                    <label for='country' class='form-label'>Country</label>
-                    <input type='text' class='form-control' name='country' value='$row[Country]'  placeholder='Singapore' required>
-
-
                 </div>";
 
                 if ($_SESSION["SubTotal"] > 200) {
@@ -103,33 +72,7 @@ if (isset($_SESSION["Cart"])) {
     
                 }
         
-            echo "</div> <br> ";
-
-
-            echo "  <div class='col-sm-6'>
-                <label for='dateDropdown'>Preferred Delivery Date:</label>&nbsp
-                <select class='form-select' name='dateDropdown'>";
-
-            $today = new DateTime('tomorrow');
-            $endDate = new DateTime();
-            $endDate->add(new DateInterval('P14D')); // Add 14 days to today's date
-
-            while ($today <= $endDate) {
-                $dateString = $today->format('Y-m-d');
-
-                if ($dateString == $selectedDate) {
-                    $selected = "selected";
-                } else {
-                    $selected = "";
-                }
-
-                echo "<option name='dateDropdown' value='$dateString' $selected>$dateString</option>";
-
-                $today->add(new DateInterval('P1D')); // Move to the next day
-            } 
-            echo "</select> <br>
-            <div class='invalid-feedback'>Please provide a valid state.
-            </div>
+            echo "</div> <br> 
 
             <div class='col-sm-6'>
                     <label for='deliveryTime' class='form-label'>Select Preferred Delivery Time:</label>
@@ -145,7 +88,7 @@ if (isset($_SESSION["Cart"])) {
 
             echo "<button class='w-100 btn btn-primary btn-lg' name='Confirm'value='Confirm'>Confirm</button>";
             echo "</form>";
-            echo "</div> </div>";
+            echo "</div> ";
 
             /*
             echo "<p>Shipping Details</p>";
@@ -222,29 +165,14 @@ if (isset($_SESSION["Cart"])) {
 
     }
 
-    if (
-        isset($_POST["name"]) &&
-        isset($_POST["phone"]) &&
-        isset($_POST["address"]) &&
-        isset($_POST["country"]) &&
-        isset($_POST["email"]) &&
-        isset($_POST["message"]) 
-    ) {
-        // Add shipping information to the shippingItems array
-        $_SESSION["shippingItems"][] = array(
-            "shipName" => $_POST["name"],
-            "shipPhone" => $_POST["phone"],
-            "shipAddress" => $_POST["address"],
-            "shipCountry" => $_POST["country"],
-            "shipEmail" => $_POST["email"],
-            "message" => $_POST["message"],
-            "deliveryDate" => $_POST["dateDropdown"],
-        );
 
-    } else {
-        // Handle the case where some POST variables are not set
-        echo "Error: Some required fields are missing.</br>";
-    }
+        // Add shipping information to the shippingItems array
+        if (isset($_POST['Message'])) 
+        {
+            $_SESSION['Message'] = $_POST['Message'];
+        }
+
+
 
 
 
@@ -341,7 +269,7 @@ if (isset($_SESSION["Cart"])) {
 
 
 
-    if ($_SESSION["DeliveryMode"] != "" && $_SESSION["DeliveryTime"] != "" && isset($_POST['deliveryTime'])) {
+    if ($_SESSION["DeliveryMode"] != "" && $_SESSION["DeliveryTime"] != "") {
 
         echo "<form method='post' action='checkoutProcess.php'>";
         echo "<input type='image' style='float:right;'

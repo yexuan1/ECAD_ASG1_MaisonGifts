@@ -181,67 +181,76 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			//You may have more information for the generated order entry 
 			//if you set those information in the PayPal test accounts.
 			
-			$billName = addslashes(urldecode($httpParsedResponseAr["SHIPTONAME"]));
+			$ShipName = addslashes(urldecode($httpParsedResponseAr["SHIPTONAME"]));
 			
-			$billAddress = urldecode($httpParsedResponseAr["SHIPTOSTREET"]);
+			$ShipAddress = urldecode($httpParsedResponseAr["SHIPTOSTREET"]);
 			if (isset($httpParsedResponseAr["SHIPTOSTREET2"]))
-				$billAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOSTREET2"]);
+				$ShipAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOSTREET2"]);
 			if (isset($httpParsedResponseAr["SHIPTOCITY"]))
-			    $billAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOCITY"]);
+			    $ShipAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOCITY"]);
 			if (isset($httpParsedResponseAr["SHIPTOSTATE"]))
-			    $billAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOSTATE"]);
-			$billAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOCOUNTRYNAME"]). 
+			    $ShipAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOSTATE"]);
+			$ShipAddress .= ' '.urldecode($httpParsedResponseAr["SHIPTOCOUNTRYNAME"]). 
 			                ' '.urldecode($httpParsedResponseAr["SHIPTOZIP"]);
 				
-			$billCountry = urldecode(
+			$ShipCountry = urldecode(
 			               $httpParsedResponseAr["SHIPTOCOUNTRYNAME"]);
 			
-			$billEmail = urldecode($httpParsedResponseAr["EMAIL"]);			
+			$ShipEmail = urldecode($httpParsedResponseAr["EMAIL"]);		
 			
 
+			$deliveryDate = "";
 
+			$message = $_SESSION['Message'];
 
-			foreach($_SESSION['shippingItems'] as $key=>$item) 
-			{
-				$shipName = $item["shipName"];
-				$shipPhone = $item["shipPhone"];
-				$shipAddress = $item["shipAddress"];
-				$shipCountry = $item["shipCountry"];
-				$shipEmail = $item["shipEmail"];
-				$message = $item["message"];
-				$deliveryDate = $item["deliveryDate"];
-
-				$shippingDetails[] = array(
-					"Name" => $shipName,
-					"Phone" => $shipPhone,
-					"Address" => $shipAddress,
-					"Country" => $shipCountry,
-					"Email" => $shipEmail,
-					"Message" => $message,
-					"DeliveryDate" => $deliveryDate,
-				);
-			}
-			foreach ($shippingDetails as $detail) {
-				echo "Name: " . $detail["Name"] . "<br>";
-				echo "Phone: " . $detail["Phone"] . "<br>";
-				echo "Address: " . $detail["Address"] . "<br>";
-				echo "Country: " . $detail["Country"] . "<br>";
-				echo "Email: " . $detail["Email"] . "<br>";
-			}
 			$cartId = $_SESSION["Cart"];
 		
 			$deliveryMode = $_SESSION["DeliveryMode"];
 			$deliveryTime = $_SESSION["DeliveryTime"];
+
+			if ($deliveryMode = "Express")
+			{
+				$today = new DateTime();
+
+				// Modify the date to get tomorrow's date
+				$tomorrow = $today->modify('+1 day');
+
+				// Format the date as per your requirement
+				$deliveryDate = $tomorrow->format('Y-m-d');
+			}
+
+			else 
+			{
+				function addWorkingDays($date, $days) {
+					$currentDate = new DateTime($date);
+				
+					// Iterate through the days to add
+					for ($i = 0; $i < $days; $i++) {
+						// Check if the day is a weekend (Saturday or Sunday)
+						while (in_array($currentDate->format('N'), [6, 7])) {
+							$currentDate->modify('+1 day'); // Skip weekends
+						}
+				
+						$currentDate->modify('+1 day'); // Move to the next day
+					}
+				
+					return $currentDate->format('Y-m-d');
+				}
+				
+				// Get the date 2 working days from today
+				$today = date('Y-m-d');
+				$deliveryDate = addWorkingDays($today, 2);
+			}
+
+			$_SESSION["deliveryDate"] = $deliveryDate;
 	
 			$qry = "INSERT INTO orderdata (ShipName, ShipAddress, ShipCountry,
-											ShipEmail, ShipPhone, BillName, 
-											BillAddress, BillCountry, BillPhone, BillEmail, DeliveryMode, DeliveryTime, Message, DeliveryDate, ShopCartID)
-					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
+											ShipEmail, Message, DeliveryMode, DeliveryTime ,ShopCartID)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			$stmt = $conn->prepare($qry);
 			// "i" - integer, "s" - string
-			$stmt -> bind_param("ssssssssssssssi", $shipName, $shipAddress, $shipCountry,
-								$shipEmail, $shipPhone, $billName, 
-								$billAddress, $billCountry, $shipPhone, $billEmail, $deliveryMode, $deliveryTime , $message, $deliveryDate, $cartId);
+			$stmt -> bind_param("sssssssi", $ShipName, $ShipAddress, $ShipCountry,
+								$ShipEmail, $message, $deliveryMode ,$deliveryTime, $_SESSION["Cart"]);
 			$stmt->execute();
 			$stmt->close();
 			$qry = "SELECT LAST_INSERT_ID() AS OrderID";
