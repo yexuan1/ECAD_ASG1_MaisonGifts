@@ -39,6 +39,7 @@ if(isset($_SESSION["OrderID"])) {
 					</div>
 				</div>
 		</form>";
+	echo $_SESSION["deliveryDate"];
 } 
 
 include("footer.php"); // Include the Page Layout footer
