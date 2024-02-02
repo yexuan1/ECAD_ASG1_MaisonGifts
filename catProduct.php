@@ -35,20 +35,19 @@ include("Header.php"); //include page layout header
         //logic: Product on sale--> display the IF. Not on sale --> display the else
         //onOffer must be == 1 and current date must be between offerStart and offerEnd date, i.e. more than or equal to start date, but less than or equal to end date
         $onOffer = $row["Offered"];
-        if ($onOffer == 1 && (date("Y-m-d") >= $row["OfferStartDate"]) && (date("Y-m-d") <= $row["OfferEndDate"])){
-            echo "<p style='font-size: 15px';>$row[ProductTitle] is on offer!</p>";
+        if ($onOffer == 1 && (date("Y-m-d") >= $row["OfferStartDate"]) && (date("Y-m-d") <= $row["OfferEndDate"])) {
             $product = "productDetails.php?pid=$row[ProductID]";
             $formattedPrice = number_format($row["Price"], 2);
             echo "<div class='col-6'>"; //50% of row width
             $offerPrice = number_format($row["OfferedPrice"], 2);
             echo "<p><a href=$product>$row[ProductTitle]</a></p>";
+            echo "<p style='font-size: 15px';>$row[ProductTitle] is on offer!</p>";
             echo "Price:<span style='font-weight:bold; color: salmon; text-decoration: line-through;'>
 			  S$ $formattedPrice</span>"; //OG Price
             echo "<br />";
             echo "Offer Price:<span style='font-weight:bold; color: salmon;'>
 			  S$ $offerPrice</span>"; //Discounted Price
-        }
-        else{
+        } else {
             $product = "productDetails.php?pid=$row[ProductID]";
             $formattedPrice = number_format($row["Price"], 2);
             echo "<div class='col-6'>"; //50% of row width
