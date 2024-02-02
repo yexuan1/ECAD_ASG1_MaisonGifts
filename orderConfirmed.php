@@ -1,12 +1,13 @@
+<html>
 <head>
 	<style>
-        <?php session_start();
+        <?php session_start(); 
         include("css/site.css"); ?>
     </style>
 </head>
 
 <?php
-session_start(); // Detect the current session
+// Detect the current session
 include("header.php"); // Include the Page Layout header
 
 if (isset($_SESSION["OrderID"])) {
@@ -63,7 +64,7 @@ if (isset($_SESSION["OrderID"])) {
 	echo "<p style='text-align:center; color:red; font-size:15px;'>
 	For Order Enquiries: maisongiftshelp@gmail.com". "<br>";
 
-	echo "<div>
+	echo "<div class='cont-shop'>
 			<a id='cont-shop' href='feedbackPage.php'>Send Feeback</a>
 		 </div>";
 }
@@ -74,3 +75,5 @@ if (isset($_SESSION["OrderID"])) {
 
 include("footer.php"); // Include the Page Layout footer
 ?>
+
+</html>
