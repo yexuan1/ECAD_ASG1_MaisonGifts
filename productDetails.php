@@ -52,7 +52,7 @@ include("Header.php"); // header layout
         //right column displays product's image
         $img = "./Images/Products/$row[ProductImage]";
         echo "<div class='col-sm-3' style='vertical-align: top; padding: 10px'>";
-        echo "<img src='$img' width='300' height='300' />";
+        echo "<img src='$img' width='250' height='250' />";
 
         //display product price
         $formattedPrice = number_format($row["Price"], 2); //OG Price
@@ -77,9 +77,10 @@ include("Header.php"); // header layout
         echo "<input type='hidden' name='action' value='add' />";
         echo "<input type='hidden' name='product_id' value='$pid' />";
         echo "Quantity: <input type='number' name='quantity' value='1'
-                    min='1' max='10' style='width:40px' required />";
+                    min='1' max='10' style='width:40px; margin-bottom: 10px;' required />";
+        echo "<br />";
         echo "<button type='submit' style='background: #0066A2; color: white;
-        border-style: outset; border-color: #0066A2; margin-left: 10px'>Add to Cart</button>";
+        border-style: outset; border-color: #0066A2; width: 100%;'>Add to Cart</button>";
         echo "</form>";
         echo "</div>"; //end of right column
         echo "</div>"; //end of row
@@ -90,9 +91,9 @@ include("Header.php"); // header layout
         echo "<input type='hidden' name='action' value='add' />";
         echo "<input type='hidden' name='product_id' value='$pid' />";
         echo "Quantity: <input type='number' name='quantity' value='1'
-                    min='1' max='10' style='width:40px' required />";
+                    min='1' max='10' style='width:40px; margin-bottom: 10px;' required />";
         echo "<button disabled type='submit' style='background: gray; color: white;
-        border-style: outset; border-color: #0066A2; margin-left: 10px'>Add to Cart</button>";
+        border-style: outset; border-color: #0066A2; width: 100%;'>Add to Cart</button>";
         echo "<p style='color:red';>Out of stock!</p>";
         echo "</form>";
         echo "</div>"; //end of right column
