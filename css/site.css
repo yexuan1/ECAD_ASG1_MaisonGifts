@@ -25,6 +25,19 @@ body{
 
 /*feedback*/
 
+#cont-shop{
+  text-decoration: none;
+  background-color: #017CA7;
+  border-radius: 10px;
+  color: white;
+  font-size: 1rem;
+  padding: 15px;
+}
+
+#cont-shop:hover{
+  background-color:#2B60DE;
+}
+
 .title{
   margin-left: 30%
 }
@@ -32,7 +45,23 @@ body{
 .star{
     display: inline-block;
     text-align: center;
-    margin-left: 33%;
+}
+
+.rate{
+  margin-block: 1rem;
+  background-color: #034b43;
+  border-radius: 10px;
+  width: 450px;
+  min-height: auto;
+}
+
+.rate h1{
+  color:white;
+}
+
+.feedback-form{
+  display: flex;
+  justify-content: center;
 }
 
 .star label{
@@ -40,8 +69,8 @@ body{
     font-size: 40px;
     color: #1D9286;
     transition: all .2s ease;
-    float: right;
-}
+    float: right;  
+} 
 
 .ranking-star{
     display: none;
@@ -134,6 +163,16 @@ body{
 
 .btn{
     width: 100%;
+    margin-block: 1rem;
+}
+
+.wrapper{
+  display: none;
+}
+
+.wrapper.text{
+  color: white;
+  font-size: 25px;
 }
 
 .btn button{
@@ -288,6 +327,7 @@ body{
     .title h2{
       width: 300px;
     }
+
 
   }
 
