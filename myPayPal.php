@@ -1,8 +1,8 @@
 <?php
 $PayPalMode 		= 'sandbox'; // sandbox or live
-$PayPalApiUsername 	= 'sb-mhgy4726655511_api1.business.example.com'; 		//PayPal API Username
-$PayPalApiPassword 	= '43LRM83FC447FXBA'; 		//Paypal API password
-$PayPalApiSignature = 'Aw0WlTAvud71F3pXHI2jyKX2-h07ATfm.lyCT6CF0Ig82dKpxFkvl3ci'; 		//Paypal API Signature
+$PayPalApiUsername 	= 'sb-ndybh28498566_api1.business.example.com'; 		//PayPal API Username
+$PayPalApiPassword 	= 'MBEQB6U58EFN836L'; 		//Paypal API password
+$PayPalApiSignature = 'A4pjdpHZi6krOedAQhQBjccpo8g5AOZhXz2HycZYS-Q53lMAcLru.Gdv'; 		//Paypal API Signature
 $PayPalCurrencyCode = 'SGD'; //Paypal Currency Code
 //URL to redirect to after PayPal has complete the online payment
 $PayPalReturnURL 	= 'http://localhost:8081//Maison_Gifts/ECAD_ASG1_MaisonGifts/checkoutProcess.php'; 

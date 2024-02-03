@@ -20,8 +20,13 @@ if($_POST) //Post Data received from Shopping cart page.
 		$availQty = (int)$qty;
 		if ($availQty < $items["quantity"])
 		{
+			echo"<br></br>";
 			echo "Product $items[productId] : $items[name] is out of stock!<br />";
 			echo "Please return to shopping cart to amend your purchase.<br />";
+			echo "<form method='post' action='shoppingCart.php'>";
+			echo "<input type='submit' style='float:left;' value='Return To Shopping Cart' name='return'>";
+			echo "</form></p>";
+			echo "<br></br>";
 			include("footer.php");
 			exit;
 		}
@@ -85,6 +90,9 @@ if($_POST) //Post Data received from Shopping cart page.
 //Paypal redirects back to this page using ReturnURL, We should receive TOKEN and Payer ID
 if(isset($_GET["token"]) && isset($_GET["PayerID"])) 
 {	
+	$_SESSION["ShipName"] = "";
+	$_SESSION["ShipAddress"] = "";
+	$_SESSION["ShipEmail"] = "";
 	//we will be using these two variables to execute the "DoExpressCheckoutPayment"
 	//Note: we haven't received any payment yet.
 	$token = $_GET["token"];
@@ -174,6 +182,8 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 		                                   $PayPalApiUsername, $PayPalApiPassword, 
 										   $PayPalApiSignature, $PayPalMode);
 
+										   
+
 		if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || 
 		   "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) 
 		   {
@@ -249,6 +259,9 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 				$_SESSION["deliveryDate"] = $deliveryDate;
 			}
 			
+			$_SESSION["ShipName"] = $ShipName;
+			$_SESSION["ShipAddress"] = $ShipAddress;
+			$_SESSION["ShipEmail"] = $ShipEmail;
 	
 			$qry = "INSERT INTO orderdata (ShipName, ShipAddress, ShipCountry,
 											ShipEmail, Message, DeliveryMode, DeliveryTime , DeliveryDate ,ShopCartID)
