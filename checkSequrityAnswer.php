@@ -15,7 +15,7 @@
         $answer = $row["PwdAnswer"];
     }
     
-    $password = 'password123';
+    $password = 'password';
 
     if($answer === $_POST['answer']){
         $qry = "UPDATE Shopper set Password=? where Email=?";
