@@ -79,8 +79,8 @@ include("Header.php");
             </div>
         </div>
         <div class="mb-3 row">
-            <div class="col-sm-9 offset-sm-3">
-                <button type="submit">Update</button>
+            <div class="col-sm-1 offset-sm-3 p-1">
+                <button class='btn btn-primary' type="submit">Update</button>
             </div>
         </div>
     </form>

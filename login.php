@@ -49,11 +49,11 @@ include("header.php");
 
 
                 <!-- 4th row - Login button -->
-                <div class='mb-3 row'>
+                <div class='mb-3 forgetPassword'>
                     <div class='col-sm-12 text-center'>
                         <button type='submit' class='btn btn-primary'>Login</button>
                         <p style="font-size:15px; margin-top:20px;">Please sign up if you do not have an account.</p>
-                        <p><a href="forgetPassword.php">Forget Password</a></p>
+                        <a href="forgetPassword.php">Forget Password</a>
                     </div>
                 </div>
 

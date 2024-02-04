@@ -1,5 +1,10 @@
+<head>
+    <style>
+        <?php session_start(); include('css/site.css'); ?>
+    </style>
+</head>
+
 <?php
-session_start(); // Detect the current session
 
 //Read the data input from previous page
 $name = $_POST["name"];
@@ -23,7 +28,10 @@ $stmt->bind_param("ssssssi",$name,$address,$country, $phone,$email,$password,$sh
 if($stmt->execute()){
     include("header.php");
     echo "<br/>";
-    echo $Message = "Update succesful!<br />";
+    echo $Message = "<div id='update' class='col-sm-12'>Update succesful!<br />
+                    <div class='col-sm-1 update-btn'>
+                    <a class='btn btn-primary' href='index.php'>Back</a> 
+                    </div>";
     include("footer.php");
 }
 

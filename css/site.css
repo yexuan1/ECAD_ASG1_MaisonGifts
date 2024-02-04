@@ -225,15 +225,76 @@ body{
   color: red;
   font-weight: bold;
 }
+/*Review*/
+/*forgetpassword*/
+.forgetPassword a{
+  text-decoration: none;
+}
 
-.review div:nth-child(1){
+.email-input{
+  width: 350px;
+}
 
+.email-btn{
+  width: 100px;
+}
+
+.pass-reset a{
+  text-decoration: none;
+  background-color: #2B60DE;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  border-radius: 10px;
+  width:100px;
+}
+
+.pass-reset p{
+  font-size: 1rem;
+}
+
+.pass-reset span{
+  color: red;
+  font-weight: bold;
+}
+
+.pass-reset a:hover{
+  background-color:#017CA7;
 }
 
 
-/*Review*/
+.pass-reset-btn a{
+  padding: 9px;
+}
 
+#wrong-answer{
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: capitalize;
+}
 
+.question-btn{
+  width: 100px;
+}
+
+.wrong-btn{
+  width: 100px;
+}
+
+/*forgetpassword*/
+/*update*/
+#update{
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.update-btn{
+  width: 100px;
+}
+
+#update a{
+  text-decoration: none;
+}
 
 /* --------------------- FOOTER ----------------------------- */
 
