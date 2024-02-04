@@ -79,7 +79,7 @@ include("Header.php");
             </div>
         </div>
         <div class="mb-3 row">
-            <div class="col-sm-1 offset-sm-3 p-1">
+            <div class="col-sm-2 offset-sm-3 p-1">
                 <button class='btn btn-primary' type="submit">Update</button>
             </div>
         </div>
