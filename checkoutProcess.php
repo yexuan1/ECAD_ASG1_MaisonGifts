@@ -27,6 +27,8 @@ if($_POST) //Post Data received from Shopping cart page.
 			echo "<input type='submit' style='float:left;' value='Return To Shopping Cart' name='return'>";
 			echo "</form></p>";
 			echo "<br></br>";
+			// Unset quantity from the session
+			unset($_SESSION["Items"][$selectPid]["quantity"]);
 			include("footer.php");
 			exit;
 		}
