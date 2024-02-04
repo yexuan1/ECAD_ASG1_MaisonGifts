@@ -47,6 +47,9 @@ if (isset($_SESSION["Cart"])) {
 		echo "<th>&nbsp;</th>";
 		echo "</tr>";
 		echo "</thead>";
+		// To Do 5 (Practical 5):
+		// Declare an array to store the shopping cart items in session variable 
+		$_SESSION["Items"]=array();
 		
 		// Display the shopping cart content
 		$totalItems = 0; // Declare a variable to store the total number of items in the cart
