@@ -304,6 +304,16 @@ body{
   text-decoration: none;
 }
 
+.validate-email{
+  width: 350px;
+  font-size: 1rem;
+  text-transform: capitalize;
+}
+
+#validate-email-input{
+  width: 350px;
+}
+
 /* --------------------- FOOTER ----------------------------- */
 
 .footer {
