@@ -47,26 +47,26 @@ include("Header.php");
         <div class="mb-3 row">
             <label class="col-sm-3 col-form-label" for="address">Address:</label>
             <div class="col-sm-9">
-                <textarea class="form-control" name="address" id="address" cols="25" rows="4"></textarea>
+                <textarea class="form-control" name="address" id="address" cols="25" rows="4" required></textarea>
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-3 col-form-label" for="country">Country:</label>
             <div class="col-sm-9">
-                <input class="form-control" name="country" id="country" type="text" />
+                <input class="form-control" name="country" id="country" type="text" required/>
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-3 col-form-label" for="birthDate">Birth Date:</label>
             <div class="col-sm-9">
                 <input class="form-control" name="birthDate" id="birthDate" type="text" onfocus="(this.type='date')"
-                onblur="(this.type='text')">
+                onblur="(this.type='text')" required>
             </div>
         </div>
         <div class="mb-3 row">
             <label class="col-sm-3 col-form-label" for="phone">Phone:</label>
             <div class="col-sm-9">
-                <input class="form-control" name="phone" id="phone" type="tel"/>
+                <input class="form-control" name="phone" id="phone" type="tel" required/>
             </div>
         </div>
         <div class="mb-3 row">
