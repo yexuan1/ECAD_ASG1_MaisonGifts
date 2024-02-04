@@ -1,5 +1,10 @@
+<head>
+    <style>
+        <?php session_start(); include("css/site.css"); ?>
+    </style>
+</head>
+
 <?php 
-session_start();
 include("header.php");
 include_once('mysql_conn.php');
 
@@ -55,12 +60,12 @@ if($result->num_rows > 0){
 else{
     echo $emailInput = "<div class='col-sm-12' style='width:100%; margin-left:30%;'>
                         <form name='changePwd' method='post'>
-                            <div class='mb-3 row mt-5'>
+                            <div class='mb-3 row mt-5 inva-email'>
                                 invalid email address please try again
                             </div>
                             <div class='mb-3 row mt-5'>
-                                <div class='col-sm-9'>
-                                    <a href='forgetPassword.php' style='border-radius:10px;'>Back</button>
+                                <div class='col-sm-2 inva-btn'>
+                                    <a class='btn btn-primary' href='forgetPassword.php' style='border-radius:10px;'>Back</a>
                                 </div>
                             </div>
                         </form>

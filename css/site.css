@@ -230,6 +230,14 @@ body{
 .forgetPassword a{
   text-decoration: none;
 }
+.inva-email{
+  font-size: 1rem;
+  text-transform: capitalize;
+}
+
+.inva-btn a{
+  width: 100px;
+}
 
 .email-input{
   width: 350px;
