@@ -47,6 +47,7 @@ echo "</div>";
         </thead>
         <tbody>";
     foreach ($_SESSION['Items'] as $key => $item) {
+
         $quantity = $item['quantity'];
         $price = $item['price'];
         $name = $item['name'];
@@ -59,9 +60,10 @@ echo "</div>";
         <td>$quantity</td>
     	<td>S$$formattedTotal</td>
         </tr>
-        </tbody>
-    </table>";
+        ";
     }
+    echo "</tbody>
+    </table>";
     $finalTotal = $_SESSION["SubTotal"] + $_SESSION["Tax"] + $_SESSION["ShipCharge"];
     echo "<br><p style='text-align:left; font-size:20px'>
     Delivery Mode : " . $_SESSION["DeliveryMode"] . "<br>";
