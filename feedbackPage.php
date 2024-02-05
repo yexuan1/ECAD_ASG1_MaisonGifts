@@ -29,8 +29,8 @@
 
                         <div class='form'>
                             <div class='customer-feedback'>
-                                <input class='subject' name='subject' type='text' placeholder='subject title'> 
-                                <textarea cols='30' id='feedback-content' name='feedback-content' placeholder='Write your suggestions...'></textarea>
+                                <input class='subject' name='subject' type='text' placeholder='subject title' required> 
+                                <textarea cols='30' id='feedback-content' name='feedback-content' placeholder='Write your suggestions...'required></textarea>
                             </div>
                             <div class='btn'>
                                 <button type='submit'>Send</button>
